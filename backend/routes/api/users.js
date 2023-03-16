@@ -28,6 +28,7 @@ const validateSignup = [
 
 router.post(
     '',
+    validateSignup,
     async (req, res) => {
         const { email, password, username } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
@@ -49,7 +50,6 @@ router.post(
 
 router.post(
     '',
-    validateSignup,
     async (req, res) => {
         const { email, password, username } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
@@ -68,5 +68,7 @@ router.post(
         });
     }
 );
+
+
 
 module.exports = router;
