@@ -20,6 +20,8 @@ const validateLogin = [
     handleValidationErrors
 ];
 
+
+
 router.post(
     '/',
     validateLogin,
@@ -29,8 +31,6 @@ router.post(
         const user = await User.unscoped().findOne({
             where: {
                 [Op.or]: {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
                     username: credential,
                     email: credential
                 }
@@ -43,7 +43,7 @@ router.post(
             err.title = 'Login failed';
             err.errors = { credential: 'The provided credentials were invalid.' };
             return next(err);
-        };
+        }
 
         const safeUser = {
             id: user.id,
