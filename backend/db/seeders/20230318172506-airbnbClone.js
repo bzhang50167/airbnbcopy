@@ -1,0 +1,60 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+options.tableName = 'Spots'
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add seed commands here.
+     *
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+
+   await queryInterface.bulkInsert(options,[
+    {
+      address: '123 Disney Lane',
+      city: 'San Francisco',
+      state: 'California',
+      country: 'United States of America',
+      lat: 37.7645358,
+      lng: -122.4730327,
+      name: 'App Academy',
+      description: 'Place where web developers are created',
+      price: 123,
+      avgRating: 4.5,
+      previewImage: 'image url'
+    },
+    {
+      address: '1233 Disney Lane',
+      city: 'Brookyln',
+      state: 'New York',
+      country: 'United States of America',
+      lat: 37.7645358,
+      lng: -122.4730327,
+      name: 'App Academy',
+      description: 'Place where web developers are created',
+      price: 1234,
+      avgRating: 4.5,
+      previewImage: 'image url'
+    }
+   ])
+  },
+
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+  }
+};
