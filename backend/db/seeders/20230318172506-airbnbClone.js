@@ -21,6 +21,7 @@ module.exports = {
 
    await queryInterface.bulkInsert(options,[
     {
+      ownerId: 1,
       address: '123 Disney Lane',
       city: 'San Francisco',
       state: 'California',
@@ -34,6 +35,7 @@ module.exports = {
       previewImage: 'image url'
     },
     {
+      ownerId: 1,
       address: '1233 Disney Lane',
       city: 'Brookyln',
       state: 'New York',

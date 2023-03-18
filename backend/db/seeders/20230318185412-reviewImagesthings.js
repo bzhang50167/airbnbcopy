@@ -6,27 +6,19 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-options.tableName = 'Reviews'
+options.tableName = 'ReviewImage'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert(options,[
-      {
-        userId: 1,
-        spotId: 1,
-        review: 'This was an awesome spot!',
-        stars: 5,
-      }
-    ])
+   await queryInterface.bulkInsert(options,[
+    {
+      reviewId: 1,
+      url: 'img url'
+    }
+   ])
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     await queryInterface.bulkDelete(options)
   }
 };

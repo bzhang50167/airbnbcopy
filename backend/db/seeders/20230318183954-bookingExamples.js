@@ -6,16 +6,16 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-options.tableName = 'Reviews'
+options.tableName = 'Bookings'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(options,[
       {
-        userId: 1,
         spotId: 1,
-        review: 'This was an awesome spot!',
-        stars: 5,
+        userId: 1,
+        startDate: '2022-06-12',
+        endDate: '2022-08-12'
       }
     ])
   },
