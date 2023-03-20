@@ -16,7 +16,20 @@ module.exports = {
         userId: 1,
         startDate: '2022-06-12',
         endDate: '2022-08-12'
-      }
+      },
+      {
+        spotId: 1,
+        userId: 1,
+        startDate: '2022-06-22',
+        endDate: '2022-08-12'
+      },
+      {
+        spotId: 1,
+        userId: 1,
+        startDate: '2022-06-16',
+        endDate: '2022-08-12'
+      },
+
     ])
   },
 
@@ -27,6 +40,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete(options)
+    await queryInterface.bulkDelete(options, {
+      startDate: { [Op.in]: ['2022-06-12','2022-06-22','2022-06-16'] }
+    }, {});
   }
 };

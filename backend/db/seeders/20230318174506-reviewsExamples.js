@@ -14,10 +14,22 @@ module.exports = {
       {
         userId: 1,
         spotId: 1,
-        review: 'This was an awesome spot!',
+        review: 'Great view',
         stars: 5,
-      }
-    ])
+      },
+      {
+        userId: 1,
+        spotId: 1,
+        review: '10/10 GREAT',
+        stars: 5,
+      },
+      {
+        userId: 1,
+        spotId: 1,
+        review: 'Good food',
+        stars: 5,
+      },
+    ], {})
   },
 
   async down (queryInterface, Sequelize) {
@@ -27,6 +39,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete(options)
+    await queryInterface.bulkDelete(options, {
+      review: { [Op.in]: ['Good food','10/10 GREAT','Great view'] }
+    }, {});
   }
 };

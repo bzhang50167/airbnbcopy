@@ -43,9 +43,20 @@ module.exports = {
       name: 'App Academy',
       description: 'Place where web developers are created',
       price: 1234,
-
+    },
+    {
+      ownerId: 1,
+      address: '1234 Disney Lane',
+      city: 'Brookyln',
+      state: 'New York',
+      country: 'United States of America',
+      lat: 37.7645358,
+      lng: -122.4730327,
+      name: 'App Academy',
+      description: 'Place where web developers are created',
+      price: 1234,
     }
-   ])
+   ], {})
   },
 
   async down (queryInterface, Sequelize) {
@@ -55,5 +66,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete(options, {
+      address: { [Op.in]: ['123 Disney Lane','1233 Disney Lane','1234 Disney Lane'] }
+    }, {});
   }
 };

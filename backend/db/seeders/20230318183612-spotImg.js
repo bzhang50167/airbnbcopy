@@ -14,13 +14,25 @@ module.exports = {
    await queryInterface.bulkInsert(options,[
     {
       spotId: 1,
-      url: 'image url',
+      url: 'image url1',
       preview: false
-    }
+    },
+    {
+      spotId: 1,
+      url: 'image url2',
+      preview: false
+    },
+    {
+      spotId: 1,
+      url: 'image url3',
+      preview: false
+    },
    ])
   },
 
   async down (queryInterface, Sequelize) {
-   await queryInterface.bulkDelete(options)
+    await queryInterface.bulkDelete(options, {
+      url: { [Op.in]: ['image url1','image url2','image url3'] }
+    }, {});
   }
 };
