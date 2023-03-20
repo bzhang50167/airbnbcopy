@@ -31,8 +31,6 @@ module.exports = {
       name: 'App Academy',
       description: 'Place where web developers are created',
       price: 123,
-      avgRating: 4.5,
-      previewImage: 'image url'
     },
     {
       ownerId: 1,
@@ -45,8 +43,7 @@ module.exports = {
       name: 'App Academy',
       description: 'Place where web developers are created',
       price: 1234,
-      avgRating: 4.5,
-      previewImage: 'image url'
+
     }
    ])
   },
