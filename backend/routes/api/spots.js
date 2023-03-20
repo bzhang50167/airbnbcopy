@@ -31,4 +31,10 @@ router.post('/', async(req,res,next) => {
     res.json(newSpot)
 })
 
+router.get('/', async(req, res, next) => {
+    const spots = await Spot.findAll();
+
+    res.json(spots)
+})
+
 module.exports = router
