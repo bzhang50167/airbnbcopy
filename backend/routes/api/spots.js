@@ -1,8 +1,28 @@
 const express = require('express');
 const { User, Spot, Review, sequelize, SpotImage, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
+
+const validateSpots = [
+    check('address').exists({ checkFalsy: true }).withMessage("Street address is required"),
+    check('city').exists({ checkFalsy: true }).withMessage('City is required'),
+    check('state').exists({ checkFalsy: true }).withMessage('State is required'),
+    check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
+    check('lat').exists({ checkFalsy: true }).withMessage("Latitude is not valid"),
+    check('lng').exists({ checkFalsy: true }).withMessage("Longitude is not valid"),
+    check('name').exists({ checkFalsy: true }).withMessage("Name must be less than 50 characters"),
+    check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
+    check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
+    handleValidationErrors
+];
+
+const validateReview = [
+    check('reviews').exists({ checkFalsy: true }).withMessage("Review text is required"),
+    check('stars').exists({ checkFalsy: true }).withMessage("Stars must be an integer from 1 to 5")
+]
 
 router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
@@ -44,14 +64,14 @@ router.get('/', async (req, res, next) => {
             }
         })
         if (count > 0) {
-            spot.avgRating = sum / count
+            spot.avgRating = (sum / count).toFixed(2)
         } else {
             spot.avgRating = 0
         }
         delete spot.Reviews
     })
 
-    res.json(spotList)
+    res.json({ Spots: spotList })
 });
 
 router.post('/', requireAuth, async (req, res, next) => {
@@ -84,7 +104,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     res.json(newSpot)
 })
-router.get('/current',requireAuth, async (req, res, next) => {
+router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
 
     const spot = await Spot.findAll({
@@ -97,7 +117,7 @@ router.get('/current',requireAuth, async (req, res, next) => {
 })
 
 
-router.post('/:id/images',requireAuth, async (req, res, next) => {
+router.post('/:id/images', requireAuth, async (req, res, next) => {
     const { url: imageUrl, preview: imagePreview } = req.body;
 
     const spot = await Spot.findByPk(req.params.id);
@@ -125,13 +145,13 @@ router.post('/:id/images',requireAuth, async (req, res, next) => {
     })
 })
 
-router.get('/:spotId/reviews', async(req, res, next) => {
+router.get('/:spotId/reviews', async (req, res, next) => {
     const { user } = req;
-    const spot = await Spot.findByPk(req.params.spotId,{
+    const spot = await Spot.findByPk(req.params.spotId, {
         include: [
             {
                 model: Review,
-                include:{
+                include: {
                     model: ReviewImage
                 },
                 seperate: true,
@@ -147,6 +167,63 @@ router.get('/:spotId/reviews', async(req, res, next) => {
     res.json(spot)
 })
 
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const { review, stars } = req.body;
+
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!review) {
+        res.status(404).json({
+            message: "Review text is required"
+        })
+    }
+    if (!stars) {
+        return res.status(404).json({
+            message: "stars must be an integer from 1 to 5"
+        })
+    }
+    if (!spot) {
+        return res.status(404).json({
+            message: "Spot couldn't be found"
+        })
+    }
+
+    const existingReview = await Review.findAll({
+        where:{
+            spotId: req.params.spotId
+        }
+    })
+
+    console.log(existingReview);
+    
+    if(existingReview.userId === user.id){
+        return res.status(400).json({
+            message: "User already has a review for this spot"
+        })
+    }
+
+    const newReview = await Review.create(
+        {
+            review: review,
+            stars: stars
+        }
+    )
+    newReview.userId = user.id;
+    newReview.spotId = spot.id
+
+    const responseObj = {
+        id: newReview.id,
+        userId: newReview.userId,
+        spotId: newReview.spotId,
+        review: newReview.review,
+        stars: newReview.stars,
+        createdAt: newReview.createdAt,
+        updatedAt: newReview.updatedAt
+    };
+
+    res.json(responseObj);
+})
+
 router.get('/:spotId', async (req, res, next) => {
 
     const { user } = req
@@ -157,8 +234,8 @@ router.get('/:spotId', async (req, res, next) => {
     reviews.forEach(review => {
         let count = 0;
         let sum = 0;
-        if(review.stars){
-            sum+= review.stars;
+        if (review.stars) {
+            sum += review.stars;
             count++
         };
         if (count > 0) {
@@ -196,12 +273,12 @@ router.get('/:spotId', async (req, res, next) => {
         updatedAt: spot.updatedAt,
         numReviews: spot.count,
         avgStarRating: spot.avgRating,
-        SpotImages:{
+        SpotImages: {
             id: spot.imgId,
             url: spot.imgUrl,
             preview: spot.imgReview
         },
-        Owner:{
+        Owner: {
             id: spot.user,
             firstName: spot.first,
             lastName: spot.last
@@ -209,8 +286,8 @@ router.get('/:spotId', async (req, res, next) => {
     })
 })
 
-router.put('/:spotId', requireAuth, async(req, res, next) => {
-    const{ user } = req;
+router.put('/:spotId', requireAuth, async (req, res, next) => {
+    const { user } = req;
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -226,24 +303,24 @@ router.put('/:spotId', requireAuth, async(req, res, next) => {
     updated.description = description;
     updated.price = price;
 
-    if(!address) return res.status(404).json({message:'address cant be empty'})
-    if(!city) return res.status(404).json({message:'city cant be empty'})
-    if(!state) return res.status(404).json({message:'state cant be empty'})
-    if(!country) return res.status(404).json({message:'country cant be empty'})
-    if(!lat) return res.status(404).json({message:'lat cant be empty'})
-    if(!lng) return res.status(404).json({message:'lng cant be empty'})
-    if(!name) return res.status(404).json({message:'name cant be empty'})
-    if(!description) return res.status(404).json({message:'description cant be empty'})
-    if(!price) return res.status(404).json({message:'price cant be empty'})
+    if (!address) return res.status(404).json({ message: 'address cant be empty' })
+    if (!city) return res.status(404).json({ message: 'city cant be empty' })
+    if (!state) return res.status(404).json({ message: 'state cant be empty' })
+    if (!country) return res.status(404).json({ message: 'country cant be empty' })
+    if (!lat) return res.status(404).json({ message: 'lat cant be empty' })
+    if (!lng) return res.status(404).json({ message: 'lng cant be empty' })
+    if (!name) return res.status(404).json({ message: 'name cant be empty' })
+    if (!description) return res.status(404).json({ message: 'description cant be empty' })
+    if (!price) return res.status(404).json({ message: 'price cant be empty' })
 
     res.json(updated)
 })
 
-router.delete('/:spotId', requireAuth, async(req, res, next)=>{
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
 
     const oldSpot = await Spot.findByPk(req.params.spotId);
 
-    if(!oldSpot){
+    if (!oldSpot) {
         return res.status(404).json({
             message: "Spot couldn't be found"
         })
