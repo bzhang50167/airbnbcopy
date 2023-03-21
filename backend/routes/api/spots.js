@@ -31,32 +31,59 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-    const spots = await Spot.findAll({
-        attributes: {
-            include: [
-                [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
-                [sequelize.literal(`(
-                    SELECT url
-                    FROM SpotImages
-                    WHERE
-                        SpotImages.spotId = Spot.id
-                )`),'previewImage']
-            ]
-        },
-        include: [
-            {
-                model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage,
-                attributes: []
-            }
-        ],
-        group: ['Spot.id'],
-    });
+    const spot = await Spot.findAll();
 
-    res.json(spots);
+    for (let i = 0; i < spot.length; i++) {
+        const ele = spot[i];
+
+        const average = await Review.findAll({
+            attributes: [
+                [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
+            ],
+            where: {
+                spotId: spot.id
+            }
+        })
+
+        const image = await SpotImage.findOne({
+            attributes: ['url'],
+            where:{
+                spotId : spot.id
+            }
+        });
+
+        spot.average = average.avgRating;
+        spot.image = image.url
+    }
+
+    res.json(spot)
+
+
+    // const spots = await Spot.findAll({
+    //     attributes: {
+    //         include: [
+    //             [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
+    //             [sequelize.literal(`(
+    //                 SELECT url
+    //                 FROM SpotImages
+    //                 WHERE
+    //                     SpotImages.spotId = Spot.id
+    //             )`),'previewImage']
+    //         ]
+    //     },
+    //     include: [
+    //         {
+    //             model: Review,
+    //             attributes: []
+    //         },
+    //         {
+    //             model: SpotImage,
+    //             attributes: []
+    //         }
+    //     ],
+    //     group: ['Spot.id'],
+    // });
+    // res.json(spots);
 });
 
 router.post('/:id/images', async (req, res, next) => {
