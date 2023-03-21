@@ -31,32 +31,53 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-    const spot = await Spot.findAll();
+    const spots = await Spot.findAll({
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: SpotImage
+            }
+        ]
+    });
 
-    for (let i = 0; i < spot.length; i++) {
-        const ele = spot[i];
+    let spotList = [];
 
-        const average = await Review.findAll({
-            attributes: [
-                [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
-            ],
-            where: {
-                spotId: spot.id
+    spots.forEach(spot => {
+        spotList.push(spot.toJSON())
+    })
+
+    spotList.forEach(spot => {
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true){
+               spot.previewImage = image.url
             }
         })
+        if(!spot.previewImage){
+            spot.previewImage = 'no preview image'
+        }
+        delete spot.SpotImages
+    })
 
-        const image = await SpotImage.findOne({
-            attributes: ['url'],
-            where:{
-                spotId : spot.id
+    spotList.forEach(spot => {
+        let sum = 0;
+        let count = 0;
+        spot.Reviews.forEach(review => {
+            if(review.stars){
+                sum += review.stars;
+                count ++
             }
-        });
+        })
+        if(count > 0){
+            spot.avgRating = sum / count
+        } else {
+            spot.avgRating = 0
+        }
+        delete spot.Reviews
+    })
 
-        spot.average = average.avgRating;
-        spot.image = image.url
-    }
-
-    res.json(spot)
+    res.json(spotList)
 
 
     // const spots = await Spot.findAll({
