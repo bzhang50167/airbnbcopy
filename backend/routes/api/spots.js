@@ -4,9 +4,11 @@ const { User, Spot, Review, sequelize, SpotImage } = require('../../db/models');
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
+    const { user } = req
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    const newSpot = await Spot.create({
+    const newSpot = await Spot.build({
+        ownerId: user.id,
         address: address,
         city: city,
         state: state,
@@ -26,6 +28,8 @@ router.post('/', async (req, res, next) => {
     if (!name) return res.status(404).json({ error: { name: 'name is required' } })
     if (!description) return res.status(404).json({ error: { description: 'description is required' } })
     if (!price) return res.status(404).json({ error: { price: 'price is required' } })
+
+    await newSpot.save()
 
     res.json(newSpot)
 })
@@ -78,33 +82,6 @@ router.get('/', async (req, res, next) => {
     })
 
     res.json(spotList)
-
-
-    // const spots = await Spot.findAll({
-    //     attributes: {
-    //         include: [
-    //             [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
-    //             [sequelize.literal(`(
-    //                 SELECT url
-    //                 FROM SpotImages
-    //                 WHERE
-    //                     SpotImages.spotId = Spot.id
-    //             )`),'previewImage']
-    //         ]
-    //     },
-    //     include: [
-    //         {
-    //             model: Review,
-    //             attributes: []
-    //         },
-    //         {
-    //             model: SpotImage,
-    //             attributes: []
-    //         }
-    //     ],
-    //     group: ['Spot.id'],
-    // });
-    // res.json(spots);
 });
 
 router.post('/:id/images', async (req, res, next) => {
@@ -133,6 +110,18 @@ router.post('/:id/images', async (req, res, next) => {
         url,
         preview
     })
+})
+
+router.get('/current', async (req, res ,next ) => {
+    const { user } = req
+
+    const spot = await Spot.findAll({
+        where:{
+            ownerId: user.id
+        }
+    })
+
+    res.json(spot)
 })
 
 module.exports = router
