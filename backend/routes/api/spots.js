@@ -72,12 +72,12 @@ router.post('/:id/images', async (req, res, next) => {
         })
     }
 
-    const spotImage = await spot.update({
+    const image = await spot.createSpotImage({
         url: url,
         preview: preview
     })
 
-    res.json(spotImage)
+    res.json(image)
 })
 
 module.exports = router

@@ -16,11 +16,11 @@ module.exports = {
       url: 'img url1'
     },
     {
-      reviewId: 1,
+      reviewId: 2,
       url: 'img url2'
     },
     {
-      reviewId: 1,
+      reviewId: 3,
       url: 'img url3'
     }
    ])
