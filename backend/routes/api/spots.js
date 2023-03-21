@@ -60,7 +60,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/:id/images', async (req, res, next) => {
-    const { url, preview } = req.body;
+    const { url: imageUrl, preview: imagePreview } = req.body;
 
     const spot = await Spot.findByPk(req.params.id);
 
@@ -73,11 +73,18 @@ router.post('/:id/images', async (req, res, next) => {
     }
 
     const image = await spot.createSpotImage({
-        url: url,
-        preview: preview
+        url: imageUrl,
+        preview: imagePreview
     })
 
-    res.json(image)
+    const { id, url, preview } = image.toJSON();
+
+
+    res.json({
+        id,
+        url,
+        preview
+    })
 })
 
 module.exports = router
