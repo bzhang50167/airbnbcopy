@@ -107,13 +107,56 @@ router.post('/', requireAuth, async (req, res, next) => {
 router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
 
-    const spot = await Spot.findAll({
-        where: {
+    const spots = await Spot.findAll({
+        where:{
             ownerId: user.id
-        }
+        },
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: SpotImage
+            }
+        ]
+    });
+
+    let spotList = [];
+
+    spots.forEach(spot => {
+        spotList.push(spot.toJSON())
     })
 
-    res.json(spot)
+    spotList.forEach(spot => {
+        spot.SpotImages.forEach(image => {
+            if (image.preview === true) {
+                spot.previewImage = image.url
+            }
+        })
+        if (!spot.previewImage) {
+            spot.previewImage = 'no preview image'
+        }
+        delete spot.SpotImages
+    })
+
+    spotList.forEach(spot => {
+        let sum = 0;
+        let count = 0;
+        spot.Reviews.forEach(review => {
+            if (review.stars) {
+                sum += review.stars;
+                count++
+            }
+        })
+        if (count > 0) {
+            spot.avgRating = (sum / count).toFixed(2)
+        } else {
+            spot.avgRating = 0
+        }
+        delete spot.Reviews
+    })
+
+    res.json({ Spots: spotList })
 })
 
 
@@ -136,7 +179,6 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
     })
 
     const { id, url, preview } = image.toJSON();
-
 
     res.json({
         id,
@@ -195,7 +237,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     })
 
     console.log(existingReview);
-    
+
     if(existingReview.userId === user.id){
         return res.status(400).json({
             message: "User already has a review for this spot"
@@ -205,11 +247,11 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const newReview = await Review.create(
         {
             review: review,
-            stars: stars
+            stars: stars,
+            userId: user.id,
+            spotId: spot.id
         }
     )
-    newReview.userId = user.id;
-    newReview.spotId = spot.id
 
     const responseObj = {
         id: newReview.id,
