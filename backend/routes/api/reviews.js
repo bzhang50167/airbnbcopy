@@ -8,7 +8,10 @@ router.get('/current',requireAuth, async(req, res, next) => {
 
     const { user } = req;
 
-    const reviews = await Review.findByPk(user.id,{
+    const reviews = await Review.findAll({
+        where:{
+            userId: user.id
+        },
         include:[
             {
                 model: User,
@@ -28,10 +31,20 @@ router.get('/current',requireAuth, async(req, res, next) => {
         ]
     })
 
+    const reviewList = [];
 
+    reviews.forEach(review => {
+        reviewList.push(review.toJSON());
+    })
 
+    reviewList.forEach(review => {
+       review.Spot.SpotImages.forEach(image => {
+        review.Spot.previewImage = image.url
+       })
+       delete review.Spot.SpotImages
+    })
 
-    res.json(reviews)
+    res.json(reviewList);
 })
 
 router.post('/:reviewId/images',requireAuth, async(req, res, next) => {
@@ -63,7 +76,44 @@ router.put('/:reviewId',requireAuth, async (req, res, next) => {
 
     const { review, stars } = req.body;
 
+    const updated = await Review.findByPk(req.params.reviewId);
 
+    if(!updated) return res.status(404).json("Review couldn't be found")
+
+    updated.review = review;
+    updated.stars = stars;
+
+    if(!review) return res.status(404).json("Review Text is required");
+    if(!stars) return res.status(404).json("Stars must be an integer from 1 to 5")
+
+    await updated.save()
+
+    res.json(updated)
 })
+
+router.delete('/:reviewId', requireAuth, async(req, res, next) => {
+
+    const{ user } = req;
+    const old = await Review.findByPk(req.params.reviewId);
+
+    if(!old){
+        return res.status(404).json({
+            message:"Review couln't be found"
+        })
+    }
+
+    if(user.id === old.userId){
+        await old.destroy();
+
+        return res.json({
+            message: "Successfully deleted"
+        })
+    } else {
+        return res.json({
+            message: "Cannot delete what is not yours"
+        })
+    }
+})
+
 
 module.exports = router

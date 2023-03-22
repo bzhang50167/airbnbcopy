@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, sequelize, SpotImage, ReviewImage } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -64,7 +64,7 @@ router.get('/', async (req, res, next) => {
             }
         })
         if (count > 0) {
-            spot.avgRating = (sum / count).toFixed(2)
+            spot.avgRating = parseFloat((sum / count).toFixed(1))
         } else {
             spot.avgRating = 0
         }
@@ -104,6 +104,21 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     res.json(newSpot)
 })
+
+router.get('/bookings/current', requireAuth, async(req, res, next) => {
+
+    const { user } = req;
+
+    const booking = await Booking.findAll({
+        where:{
+            userId: user.id
+        },
+        attributes:['spotId','startDate','endDate']
+    })
+
+    return res.json(booking)
+})
+
 router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
 
@@ -149,7 +164,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             }
         })
         if (count > 0) {
-            spot.avgRating = (sum / count).toFixed(2)
+            spot.avgRating = parseFloat((sum / count).toFixed(1))
         } else {
             spot.avgRating = 0
         }
@@ -264,6 +279,33 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     res.json(newReview);
 })
 
+
+router.post('/:spotId/bookings', requireAuth, async(req, res, next) =>{
+
+    const { user } = req
+    const { startDate, endDate } = req.body;
+    const spot = await Spot.findByPk(req.params.spotId);
+    const current = await User.findByPk(user.id,{
+        attributes:['id','firstName','lastName']
+    });
+
+    if(!spot) return res.status(404).json("Spot does not exist");
+
+    if(startDate > endDate) return res.status(404).json("endDate cannot be on or before startDate")
+
+    const booking = await spot.createBooking({
+        userId: user.id,
+        startDate: startDate,
+        endDate: endDate,
+    })
+
+    res.json({
+        Bookings: [current, booking]
+    })
+
+})
+
+
 router.get('/:spotId', async (req, res, next) => {
 
     const { user } = req
@@ -331,7 +373,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    const updated = await Spot.findByPk(req.params.spotId)
+    const updated = await Spot.findByPk(req.params.spotId);
 
     updated.address = address;
     updated.city = city;
@@ -353,11 +395,14 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     if (!description) return res.status(404).json({ message: 'description cant be empty' })
     if (!price) return res.status(404).json({ message: 'price cant be empty' })
 
+    await updated.save()
+
     res.json(updated)
 })
 
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
 
+    const { user } = req;
     const oldSpot = await Spot.findByPk(req.params.spotId);
 
     if (!oldSpot) {
@@ -365,11 +410,16 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
             message: "Spot couldn't be found"
         })
     }
+    if(user.id === oldSpot.userId){
+        await oldSpot.destroy();
 
-    await oldSpot.destroy();
-
-    res.json({
-        message: 'Successfully deleted'
-    })
+        return res.json({
+            message: 'Successfully deleted'
+        })
+    } else {
+        return res.json({
+            message: "Cannot delete what is not yours"
+        })
+    }
 })
 module.exports = router
