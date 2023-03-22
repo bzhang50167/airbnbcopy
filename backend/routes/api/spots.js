@@ -188,25 +188,14 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
 })
 
 router.get('/:spotId/reviews', async (req, res, next) => {
-    const { user } = req;
-    const spot = await Spot.findByPk(req.params.spotId, {
-        include: [
-            {
-                model: Review,
-                include: {
-                    model: ReviewImage
-                },
-                seperate: true,
-                required: false
-            }
-        ]
-    });
 
-    delete spot.dataValues.Reviews
+    const spot = await Spot.findByPk(req.params.spotId);
 
     const review = await spot.getReviews()
 
-    res.json(spot)
+    const user = await review.getReviewImages()
+
+    res.json({review,user})
 })
 
 router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
@@ -244,12 +233,16 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
         })
     }
 
-    const newReview = await Review.create(
+    const currentUser = await User.findByPk(user.id)
+
+    console.log(currentUser);
+    
+    const newReview = await spot.createReview(
         {
             review: review,
             stars: stars,
-            userId: user.id,
-            spotId: spot.id
+            spotId: spot.id,
+            userId: currentUser.id
         }
     )
 
