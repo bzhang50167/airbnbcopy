@@ -105,20 +105,6 @@ router.post('/', requireAuth, async (req, res, next) => {
     res.json(newSpot)
 })
 
-router.get('/bookings/current', requireAuth, async(req, res, next) => {
-
-    const { user } = req;
-
-    const booking = await Booking.findAll({
-        where:{
-            userId: user.id
-        },
-        attributes:['spotId','startDate','endDate']
-    })
-
-    return res.json(booking)
-})
-
 router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
 
