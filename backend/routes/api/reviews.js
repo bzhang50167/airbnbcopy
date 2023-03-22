@@ -5,12 +5,24 @@ const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 router.get('/current',requireAuth, async(req, res, next) => {
-    const { user } = req;
 
-    console.log(user.id);
-    const reviews = await Review.findAll()
+    const reviews = await Review.findAll({
+        include:[
+            {
+                model: User,
+                attributes:['id','firstName','lastName']
+            },
+            {
+                model: Spot,
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id','url']
+            }
+        ]
+    })
 
-    console.log(reviews);
     res.json(reviews)
 })
 
