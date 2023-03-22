@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get('/current',requireAuth, async(req, res, next) => {
 
-    const reviews = await Review.findAll({
+    const { user } = req;
+
+    const reviews = await Review.findByPk(user.id,{
         include:[
             {
                 model: User,
@@ -14,7 +16,10 @@ router.get('/current',requireAuth, async(req, res, next) => {
             },
             {
                 model: Spot,
-                attributes: { exclude: ['createdAt', 'updatedAt'] }
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                include: {
+                    model: SpotImage
+                }
             },
             {
                 model: ReviewImage,
@@ -22,6 +27,9 @@ router.get('/current',requireAuth, async(req, res, next) => {
             }
         ]
     })
+
+
+
 
     res.json(reviews)
 })
@@ -38,13 +46,12 @@ router.post('/:reviewId/images',requireAuth, async(req, res, next) => {
         })
     }
 
-    const image = await ReviewImage.create(
+    const image = await review.createReviewImage(
         {
+            reviewId: review.id,
             url: url
         }
     )
-
-    review.image = image;
 
     res.json({
         id: image.id,
