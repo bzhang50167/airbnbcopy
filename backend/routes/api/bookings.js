@@ -39,6 +39,73 @@ router.get('/current', requireAuth, async (req, res, next) => {
     })
 
     return res.json(bookingList)
+});
+
+router.put('/:bookingId', requireAuth, async(req, res, next) => {
+    const { user } = req;
+
+    const { startDate, endDate } = req.body;
+
+    const booking = await Booking.findOne({
+        where: {
+          id: req.params.bookingId,
+          userId: user.id
+        }
+      });
+
+    if(!booking){
+        return res.status(404).json({
+            message: "Booking couldn't be found"
+        })
+    }
+
+    let booklist = [];
+    booklist.push(booking.toJSON())
+
+    if(booklist[0].endDate < new Date()){
+        return res.status(404).json({
+            message: "Past booking can't be modified"
+        })
+    }
+
+    booking.startDate = startDate;
+    booking.endDate = endDate;
+
+    await booking.save()
+
+    res.json(booking)
+});
+
+router.put('/:bookingId', requireAuth, async(req, res, next) => {
+    const { user } = req;
+
+    const booking = await Booking.findOne({
+        where: {
+          id: req.params.bookingId,
+          userId: user.id
+        }
+      });
+
+    if(!booking){
+        return res.status(404).json({
+            message: "Booking couldn't be found"
+        })
+    }
+
+    let booklist = [];
+    booklist.push(booking.toJSON())
+
+    if(booklist[0].startDate < new Date()){
+        return res.status(404).json({
+            message: "Bookings that have been started can't be deleted"
+        })
+    }
+
+    await booking.destroy()
+
+    res.json({
+        message: "Successfully deleted"
+    })
 })
 
 module.exports = router;

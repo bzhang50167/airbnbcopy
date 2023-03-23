@@ -74,7 +74,7 @@ router.get('/', async (req, res, next) => {
     res.json({ Spots: spotList })
 });
 
-router.post('/', requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     const { user } = req
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -90,15 +90,6 @@ router.post('/', requireAuth, async (req, res, next) => {
         description: description,
         price: price
     })
-    if (!address) return res.status(404).json({ error: { address: 'Street address is required' } })
-    if (!city) return res.status(404).json({ error: { city: 'city is required' } })
-    if (!state) return res.status(404).json({ error: { state: 'state is required' } })
-    if (!country) return res.status(404).json({ error: { country: 'country is required' } })
-    if (!lat) return res.status(404).json({ error: { lat: 'lat is required' } })
-    if (!lng) return res.status(404).json({ error: { lng: 'lng is required' } })
-    if (!name) return res.status(404).json({ error: { name: 'name is required' } })
-    if (!description) return res.status(404).json({ error: { description: 'description is required' } })
-    if (!price) return res.status(404).json({ error: { price: 'price is required' } })
 
     await newSpot.save()
 
@@ -158,6 +149,55 @@ router.get('/current', requireAuth, async (req, res, next) => {
     })
 
     res.json({ Spots: spotList })
+})
+
+router.get('/:spotId/bookings',requireAuth, async(req, res, next) => {
+
+    const { user } = req;
+
+    const spot = await Booking.findAll({
+        where:{
+            spotId: req.params.spotId
+        }
+    })
+
+    console.log(spot[0].toJSON());
+
+    let allBooking = [];
+    let correctBooking = [];
+
+    spot.forEach(booking => {
+        allBooking.push(booking.toJSON())
+    })
+
+    allBooking.forEach(booking => {
+        if(booking.spotId === user.id){
+            const resbody = {
+                User:{
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                },
+                spotId: booking.spotId,
+                userId: user.id,
+                startDate: booking.startDate,
+                endDate: booking.endDate,
+                createdAt: booking.createdAt,
+                updatedAt: booking.updatedAt
+            }
+            correctBooking.push(resbody)
+        }
+        else if(booking.spotId !== user.id){
+            const resbody = {
+                spotId: booking.spotId,
+                startDate: booking.startDate,
+                endDate: booking.endDate
+            }
+            correctBooking.push(spot)
+        }
+    })
+
+    return res.json(correctBooking)
 })
 
 
@@ -354,7 +394,7 @@ router.get('/:spotId', async (req, res, next) => {
     })
 })
 
-router.put('/:spotId', requireAuth, async (req, res, next) => {
+router.put('/:spotId', requireAuth,validateSpots ,async (req, res, next) => {
     const { user } = req;
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -370,16 +410,6 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     updated.name = name;
     updated.description = description;
     updated.price = price;
-
-    if (!address) return res.status(404).json({ message: 'address cant be empty' })
-    if (!city) return res.status(404).json({ message: 'city cant be empty' })
-    if (!state) return res.status(404).json({ message: 'state cant be empty' })
-    if (!country) return res.status(404).json({ message: 'country cant be empty' })
-    if (!lat) return res.status(404).json({ message: 'lat cant be empty' })
-    if (!lng) return res.status(404).json({ message: 'lng cant be empty' })
-    if (!name) return res.status(404).json({ message: 'name cant be empty' })
-    if (!description) return res.status(404).json({ message: 'description cant be empty' })
-    if (!price) return res.status(404).json({ message: 'price cant be empty' })
 
     await updated.save()
 
