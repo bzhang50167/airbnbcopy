@@ -21,8 +21,14 @@ const validateSpots = [
 
 const validateReview = [
     check('reviews').exists({ checkFalsy: true }).withMessage("Review text is required"),
-    check('stars').exists({ checkFalsy: true }).withMessage("Stars must be an integer from 1 to 5")
-]
+    check('stars').exists({ checkFalsy: true }).withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
+];
+
+// const validateSpot = [
+//     check('spot').exists({checkFalsy: true}).withMessage("Spot not found"),
+//     handleValidationErrors
+// ]
 
 router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
@@ -401,6 +407,12 @@ router.put('/:spotId', requireAuth,validateSpots ,async (req, res, next) => {
 
     const updated = await Spot.findByPk(req.params.spotId);
 
+    if(!updated){
+        return res.status(404).json({
+            message: "Spot couldn't be found"
+        })
+    }
+
     updated.address = address;
     updated.city = city;
     updated.state = state;
@@ -426,7 +438,9 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
             message: "Spot couldn't be found"
         })
     }
-    if(user.id === oldSpot.userId){
+    console.log(oldSpot.toJSON().id);
+    console.log(oldSpot.userId);
+    if(user.id === oldSpot.toJSON().id){
         await oldSpot.destroy();
 
         return res.json({

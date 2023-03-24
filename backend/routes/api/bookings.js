@@ -76,7 +76,7 @@ router.put('/:bookingId', requireAuth, async(req, res, next) => {
     res.json(booking)
 });
 
-router.put('/:bookingId', requireAuth, async(req, res, next) => {
+router.delete('/:bookingId', requireAuth, async(req, res, next) => {
     const { user } = req;
 
     const booking = await Booking.findOne({
