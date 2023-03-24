@@ -9,16 +9,6 @@ if (process.env.NODE_ENV === 'production') {
 options.tableName = 'Spots'
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
-
    await queryInterface.bulkInsert(options,[
     {
       ownerId: 1,
@@ -60,12 +50,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
       address: { [Op.in]: ['123 Disney Lane','1233 Disney Lane','1234 Disney Lane'] }

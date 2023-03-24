@@ -26,13 +26,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Review.init({
     spotId: {
-      type: DataTypes,
+      type: DataTypes.INTEGER,
       references:{
         model: 'Spots'
       }
     },
     userId: {
-      type: DataTypes,
+      type: DataTypes.INTEGER,
       references:{
         model: 'Users'
       }

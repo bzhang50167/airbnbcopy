@@ -396,6 +396,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
             message: "Spot couldn't be found"
         })
     }
+    console.log(user);
 
     const existingReview = await Review.findAll({
         where: {
@@ -410,20 +411,10 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         })
     }
 
-    if (existingReview.userId === user.id) {
-        return res.status(400).json({
-            message: "User already has a review for this spot"
-        })
-    }
-
-    const currentUser = await User.findByPk(user.id)
-
-    console.log(currentUser);
-
     const newReview = await spot.createReview(
         {
             spotId: spot.id,
-            userId: currentUser.id,
+            userId: user.id,
             review: review,
             stars: stars,
         }
