@@ -327,7 +327,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     return res.json({Booking:correctBooking})
 })
 
-
 router.post('/:id/images', requireAuth, async (req, res, next) => {
     const { url: imageUrl, preview: imagePreview } = req.body;
 
@@ -433,7 +432,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     res.json(newReview);
 })
 
-
 router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     let errorResult = { errors: [], count: 0, pageCount: 0 };
@@ -486,7 +484,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     res.json(booking)
 })
-
 
 router.get('/:spotId', async (req, res, next) => {
 
