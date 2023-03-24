@@ -183,9 +183,7 @@ router.get('/', async (req, res, next) => {
     }
 
     res.json({
-        Spots:{
-            spotList,
-        },
+        Spots:spotList,
         page:page,
         size:size
     });
