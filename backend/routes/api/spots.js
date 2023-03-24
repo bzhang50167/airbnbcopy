@@ -167,6 +167,12 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
     })
 
+    if(!spot){
+        return res.status(404).json({
+            message: "Spot doesn't exist"
+        })
+    }
+
     console.log(spot[0].toJSON());
 
     let allBooking = [];
@@ -320,7 +326,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
     })
 
-    // console.log(allBookings);
+    let bookingList = [];
+
+    allBookings.forEach(booking =>{
+        bookingList.push(booking.toJSON())
+    })
 
     if (!spot) return res.status(404).json("Spot does not exist");
     const start = new Date(startDate);
@@ -328,19 +338,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     if (start > end) return res.status(404).json("endDate cannot be on or before startDate")
 
-    const conflict = allBookings.find(booking => {
-        // console.log(booking.toJSON().startDate);
-        // console.log('startDate--',booking.startDate<=start);
-        // console.log('startDate--',booking.endDate>=start);
-        // console.log('endDate---',typeof(booking.dataValues.endDate));
-        // console.log(start);
-        // console.log(end);
-        ((booking.toJSON().startDate <= start && start <= booking.toJSON().endDate)||
-        (booking.toJSON().startDate <= end && end <= booking.toJSON().endDate)||
-        (start <= booking.toJSON().startDate && booking.toJSON().startDate <= end))
+    const conflict = bookingList.find(booking => {
+        return ((booking.startDate <= start && start <= booking.endDate)||
+        (booking.startDate <= end && end <= booking.endDate)||
+        (start <= booking.startDate && booking.startDate <= end))
     });
-
-    console.log(conflict);
 
     if(conflict) {
         return res.status(409).json("Booking conflicts with an existing booking");

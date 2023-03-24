@@ -70,8 +70,14 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         }
     })
 
-    const conflict = allBookings.find(booking => {
-        ((booking.startDate <= start && start <= booking.endDate) ||
+    let bookingList = [];
+
+    allBookings.forEach(booking => {
+        bookingList.push(booking.toJSON())
+    })
+
+    const conflict = bookingList.find(booking => {
+        return ((booking.startDate <= start && start <= booking.endDate) ||
             (booking.startDate <= end && end <= booking.endDate) ||
             (start <= booking.startDate && booking.startDate <= end))
     });
