@@ -6,47 +6,46 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-router.delete('/:reviewId', requireAuth, async(req, res, next) => {
+router.delete('/:imageId', requireAuth, async(req, res, next) => {
     const { user } = req;
 
-    const image = await ReviewImage.findOne({
+    const review = await Review.findOne({
         where:{
-            id: req.params.reviewId,
-        }
+            userId: user.id
+        },
+        include:[
+            {
+                model: ReviewImage,
+                where:{
+                    id: req.params.imageId
+                }
+            }
+        ]
     });
 
-    if(!image){
+    if(!review){
         return res.status(404).json({
-            message: "image not found"
+            message: "Spot Image could't be found"
         })
     }
 
-    const review = await Review.findAll({
+    const image = await ReviewImage.findOne({
         where:{
-            userId: user.id
-        }
-    });
-
-    let reviewList = [];
-
-    review.forEach(reviewer => {
-        reviewList.push(reviewer.toJSON())
-    })
-    console.log(reviewList);
-
-    reviewList.forEach(async review => {
-        if(review.id === image.spotId){
-            await image.destroy();
-
-            return res.json({
-                message: "Successfully deleted"
-            })
+            id: req.params.imageId
         }
     })
 
-    res.json({
-        message: "Review not found"
-    })
+    // console.log(image.toJSON().url);
+    const forgo = review.toJSON()
+    // console.log(forgo.ReviewImages[0].url);
+    if(image.toJSON().url === forgo.ReviewImages[0].url){
+        console.log('hi');
+        await image.destroy()
+        return res.json({
+            message: "Successfully deleted"
+        })
+    }
+    res.json('hi')
 })
 
 module.exports = router
