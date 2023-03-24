@@ -82,18 +82,34 @@ router.post('/:reviewId/images',requireAuth, async(req, res, next) => {
 
 router.put('/:reviewId',requireAuth,validateReview, async (req, res, next) => {
 
+    const { user } = req;
+
     const { review, stars } = req.body;
 
     const updated = await Review.findByPk(req.params.reviewId);
 
-    if(!updated) return res.status(404).json("Review couldn't be found")
+    if(!updated){
+        return res.status(404).json(    {
+            "message": "Review couldn't be found"
+          })
+    }
 
-    updated.review = review;
-    updated.stars = stars;
 
-    await updated.save()
+    if(user.id === updated.userId){
+        if(!updated) return res.status(404).json("Review couldn't be found")
 
-    res.json(updated)
+        updated.review = review;
+        updated.stars = stars;
+
+        await updated.save()
+
+        res.json(updated)
+    } else {
+        return res.status(404).json({
+            message: "Cannot delete what is yours"
+        })
+    }
+
 })
 
 router.delete('/:reviewId', requireAuth, async(req, res, next) => {
