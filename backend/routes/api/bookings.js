@@ -38,31 +38,52 @@ router.get('/current', requireAuth, async (req, res, next) => {
         delete booking.Spot.SpotImages
     })
 
-    return res.json(bookingList)
+    return res.json({ Booking: bookingList })
 });
 
-router.put('/:bookingId', requireAuth, async(req, res, next) => {
+router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const { user } = req;
 
     const { startDate, endDate } = req.body;
 
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
     const booking = await Booking.findOne({
         where: {
-          id: req.params.bookingId,
-          userId: user.id
+            id: req.params.bookingId,
+            userId: user.id
         }
-      });
+    });
 
-    if(!booking){
+    if (!booking) {
         return res.status(404).json({
             message: "Booking couldn't be found"
         })
     }
 
+    console.log(booking);
+
+    const allBookings = await Booking.findAll({
+        where: {
+            spotId: booking.spotId
+        }
+    })
+
+    const conflict = allBookings.find(booking => {
+        ((booking.startDate <= start && start <= booking.endDate) ||
+            (booking.startDate <= end && end <= booking.endDate) ||
+            (start <= booking.startDate && booking.startDate <= end))
+    });
+
+    if (conflict) {
+        return res.status(409).json("Booking conflicts with an existing booking");
+    }
+
     let booklist = [];
     booklist.push(booking.toJSON())
 
-    if(booklist[0].endDate < new Date()){
+    if (booklist[0].endDate < new Date()) {
         return res.status(404).json({
             message: "Past booking can't be modified"
         })
@@ -76,17 +97,17 @@ router.put('/:bookingId', requireAuth, async(req, res, next) => {
     res.json(booking)
 });
 
-router.delete('/:bookingId', requireAuth, async(req, res, next) => {
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const { user } = req;
 
     const booking = await Booking.findOne({
         where: {
-          id: req.params.bookingId,
-          userId: user.id
+            id: req.params.bookingId,
+            userId: user.id
         }
-      });
+    });
 
-    if(!booking){
+    if (!booking) {
         return res.status(404).json({
             message: "Booking couldn't be found"
         })
@@ -95,7 +116,7 @@ router.delete('/:bookingId', requireAuth, async(req, res, next) => {
     let booklist = [];
     booklist.push(booking.toJSON())
 
-    if(booklist[0].startDate < new Date()){
+    if (booklist[0].startDate < new Date()) {
         return res.status(404).json({
             message: "Bookings that have been started can't be deleted"
         })
