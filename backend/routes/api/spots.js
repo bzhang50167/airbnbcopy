@@ -3,6 +3,7 @@ const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../d
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -25,13 +26,119 @@ const validateReview = [
     handleValidationErrors
 ];
 
-// const validateSpot = [
-//     check('spot').exists({checkFalsy: true}).withMessage("Spot not found"),
-//     handleValidationErrors
-// ]
+const validateSpot = [
+    check('page').exists({ checkFalsy: true }).withMessage("Spot not found"),
+    handleValidationErrors
+]
 
 router.get('/', async (req, res, next) => {
+    let errorResult = { errors: [], count: 0, pageCount: 0 };
+
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    errorResult.errors.push({
+        message: "Bad Request"
+    })
+    if(page <= 0){
+        errorResult.errors.push({
+                page: "Page must be greater than or equal to 1"
+        })
+    }
+
+    if (!page) {
+        page = 1
+    }
+
+    if(size <= 0){
+        errorResult.errors.push({
+                size: "size must be greater than or equal to 1"
+        })
+    }
+
+    if (!size) {
+        size = 20
+    }
+
+    const pagination = {};
+
+    const where = {};
+
+    if(minLat === NaN){
+        errorResult.errors.push({
+                minLat: "Minimum latitude is invalid"
+        })
+    }
+
+    if (minLat) {
+        where.lat = {
+            [Op.gte]: minLat
+        }
+    }
+
+    if(maxLat === NaN){
+        errorResult.errors.push({
+                maxLat: "Maximum latitude is invalid"
+        })
+    }
+
+    if (maxLat) {
+        where.lat = {
+            [Op.lte]: maxLat
+        }
+    }
+
+    if(minLng === NaN){
+        errorResult.errors.push({
+                minLng: "Minimum longitude is invalid"
+        })
+    }
+
+    if (minLng) {
+        where.lng = {
+            [Op.gte]: minLng
+        }
+    }
+
+    if(maxLng === NaN){
+        errorResult.errors.push({
+                maxLng: "Maximum longitude is invalid"
+        })
+    }
+
+    if (maxLng) {
+        where.lng = {
+            [Op.lte]: maxLng
+        }
+    }
+
+    if(minPrice < 0){
+        errorResult.errors.push({
+                minPrice: "Minimum price must be greater than or equal to 0"
+        })
+    }
+
+    if (minPrice) {
+        where.price = {
+            [Op.gte]: minPrice
+        }
+    }
+
+    if(maxPrice < 0){
+        errorResult.errors.push({
+                maxPrice: "Maximum price must be greater than or equal to 0"
+        })
+    }
+
+    if (maxPrice) {
+        where.price = {
+            [Op.lte]: maxPrice
+        }
+    }
+
+    pagination.offset = size * (page-1);
+    pagination.limit = size;
+
     const spots = await Spot.findAll({
+        where: where,
         include: [
             {
                 model: Review
@@ -39,7 +146,8 @@ router.get('/', async (req, res, next) => {
             {
                 model: SpotImage
             }
-        ]
+        ],
+        ...pagination
     });
 
     let spotList = [];
@@ -76,8 +184,15 @@ router.get('/', async (req, res, next) => {
         }
         delete spot.Reviews
     })
+    if (errorResult.errors.length > 1) {
+        return res.status(400).json(errorResult)
+    }
 
-    res.json({ Spots: spotList })
+    res.json({
+        spotList,
+        page:page,
+        size:size
+    });
 });
 
 router.post('/', requireAuth, validateSpots, async (req, res, next) => {
@@ -167,7 +282,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
     })
 
-    if(!spot){
+    if (!spot) {
         return res.status(404).json({
             message: "Spot doesn't exist"
         })
@@ -328,7 +443,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     let bookingList = [];
 
-    allBookings.forEach(booking =>{
+    allBookings.forEach(booking => {
         bookingList.push(booking.toJSON())
     })
 
@@ -339,12 +454,12 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     if (start > end) return res.status(404).json("endDate cannot be on or before startDate")
 
     const conflict = bookingList.find(booking => {
-        return ((booking.startDate <= start && start <= booking.endDate)||
-        (booking.startDate <= end && end <= booking.endDate)||
-        (start <= booking.startDate && booking.startDate <= end))
+        return ((booking.startDate <= start && start <= booking.endDate) ||
+            (booking.startDate <= end && end <= booking.endDate) ||
+            (start <= booking.startDate && booking.startDate <= end))
     });
 
-    if(conflict) {
+    if (conflict) {
         return res.status(409).json("Booking conflicts with an existing booking");
     }
 
@@ -472,4 +587,6 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
         })
     }
 })
+
+
 module.exports = router
