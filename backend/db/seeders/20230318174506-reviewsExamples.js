@@ -40,8 +40,6 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(options, {
-      review: { [Op.in]: ['Good food','10/10 GREAT','Great view'] }
-    }, {});
+    await queryInterface.bulkDelete(options, null, {});
   }
 };
