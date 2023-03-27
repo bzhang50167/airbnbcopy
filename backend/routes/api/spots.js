@@ -504,6 +504,13 @@ router.get('/:spotId', async (req, res, next) => {
         }
     })
 
+    if(!spot.count){
+        spot.count = 0
+    }
+    if(!spot.avgRating){
+        spot.avgRating = 0
+    }
+
     images.forEach(image => {
         spot.imgId = image.id;
         spot.imgUrl = image.url;
