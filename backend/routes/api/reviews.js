@@ -65,6 +65,7 @@ router.post('/:reviewId/images',requireAuth, async(req, res, next) => {
         return res.status(404).json({
             message: "Review couldn't be found"
         })
+
     }
 
     const image = await review.createReviewImage(
@@ -73,6 +74,24 @@ router.post('/:reviewId/images',requireAuth, async(req, res, next) => {
             url: url
         }
     )
+
+    const totalImage = await ReviewImage.findAll({
+        where:{
+            reviewId: review.id
+        }
+    })
+
+    let imageList = [];
+
+    totalImage.forEach(image => {
+        imageList.push(image.toJSON())
+    })
+
+    if(imageList.length > 10){
+        return res.status(403).json({
+            message: "Maximum number of images for this resource was reached"
+        })
+    };
 
     res.json({
         id: image.id,

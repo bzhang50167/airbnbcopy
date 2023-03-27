@@ -166,7 +166,7 @@ router.get('/', async (req, res, next) => {
         }
         delete spot.Reviews
     })
-    
+
     spotList.forEach(spot => {
         spot.SpotImages.forEach(image => {
             if (image.preview === true) {
@@ -271,11 +271,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     const { user } = req;
 
-    const spots = await Spot.findAll({
-        where:{
-            ownerId: req.params.spotId
-        }
-    })
+    const spots = await Spot.findByPk(req.params.spotId)
 
     const spot = await Booking.findAll({
         where: {
@@ -283,17 +279,11 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
     })
 
-    console.log(spots);
-
-    if (spots.length === 0) {
+    if (!spots) {
         return res.status(404).json({
             message: "Spot doesn't exist"
         })
     }
-
-    console.log(spot.length);
-
-    console.log(spot[0].toJSON());
 
     let allBooking = [];
     let correctBooking = [];
@@ -303,9 +293,10 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     })
 
     allBooking.forEach(booking => {
-        if (booking.spotId === user.id) {
-            // console.log(booking.spotId);
-            // console.log(user.id);
+        // console.log(booking);
+        // console.log('bookingId',booking.userId);
+        // console.log('userid',user.id);
+        if (booking.userId === user.id) {
             const resbody = {
                 User: {
                     id: user.id,
