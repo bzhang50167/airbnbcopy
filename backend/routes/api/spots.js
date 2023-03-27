@@ -151,18 +151,6 @@ router.get('/', async (req, res, next) => {
     })
 
     spotList.forEach(spot => {
-        spot.SpotImages.forEach(image => {
-            if (image.preview === true) {
-                spot.previewImage = image.url
-            }
-        })
-        if (!spot.previewImage) {
-            spot.previewImage = 'no preview image'
-        }
-        delete spot.SpotImages
-    })
-
-    spotList.forEach(spot => {
         let sum = 0;
         let count = 0;
         spot.Reviews.forEach(review => {
@@ -178,6 +166,19 @@ router.get('/', async (req, res, next) => {
         }
         delete spot.Reviews
     })
+    
+    spotList.forEach(spot => {
+        spot.SpotImages.forEach(image => {
+            if (image.preview === true) {
+                spot.previewImage = image.url
+            }
+        })
+        if (!spot.previewImage) {
+            spot.previewImage = 'no preview image'
+        }
+        delete spot.SpotImages
+    })
+
     if (errorResult.errors.length) {
         return res.status(400).json(errorResult)
     }
@@ -468,7 +469,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             message: "Booking conflicts with an existing booking"
         })
     }
-    
+
     if (errorResult.errors.length) {
         return res.status(400).json(errorResult)
     }
