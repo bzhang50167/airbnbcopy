@@ -270,13 +270,21 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     const { user } = req;
 
+    const spots = await Spot.findAll({
+        where:{
+            ownerId: req.params.spotId
+        }
+    })
+
     const spot = await Booking.findAll({
         where: {
             spotId: req.params.spotId
         }
     })
 
-    if (spot.length === 0) {
+    console.log(spots);
+
+    if (spots.length === 0) {
         return res.status(404).json({
             message: "Spot doesn't exist"
         })
@@ -460,6 +468,10 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             message: "Booking conflicts with an existing booking"
         })
     }
+    
+    if (errorResult.errors.length) {
+        return res.status(400).json(errorResult)
+    }
 
     const booking = await spot.createBooking({
         userId: user.id,
@@ -467,9 +479,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         endDate: endDate,
     })
 
-    if (errorResult.errors.length) {
-        return res.status(400).json(errorResult)
-    }
 
     res.json(booking)
 })
