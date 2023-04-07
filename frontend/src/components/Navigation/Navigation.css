@@ -16,4 +16,5 @@
 
 .profile-dropdown.hidden{
     background-color: aqua;
+    display: none;
 }
