@@ -423,7 +423,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
 router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
-    let errorResult = { errors: [], count: 0, pageCount: 0 };
+    let errorResult = { errors: []};
     const { user } = req
     const { startDate, endDate } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
@@ -462,6 +462,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     }
 
     if (errorResult.errors.length) {
+        console.log(errorResult);
         return res.status(400).json(errorResult)
     }
 
@@ -470,7 +471,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         startDate: startDate,
         endDate: endDate,
     })
-
 
     res.json(booking)
 })
