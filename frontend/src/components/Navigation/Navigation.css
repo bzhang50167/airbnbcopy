@@ -1,0 +1,19 @@
+.NavBar{
+    display: flex;
+    /* align-items: flex-end; */
+    justify-content: flex-end;
+    margin: 10px;
+    padding: 3px;
+    padding-left: 10px;
+}
+.nav{
+    margin: 19px;
+}
+
+.profile-dropdown{
+    background-color: antiquewhite;
+}
+
+.profile-dropdown.hidden{
+    background-color: aqua;
+}
