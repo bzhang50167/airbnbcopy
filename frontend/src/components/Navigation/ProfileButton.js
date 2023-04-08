@@ -4,11 +4,16 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { NavLink } from "react-router-dom";
+import { useLoggedin } from "../../context/LoggedIn";
+import './Navigation.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+
+  const { login, setLogin } = useLoggedin()
 
   const openMenu = () => {
     if (showMenu) return;
@@ -29,10 +34,13 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
+  const closeMenu = () => {
+    setShowMenu(false);
+  }
 
   const logout = (e) => {
     e.preventDefault();
+    setLogin(false)
     dispatch(sessionActions.logout());
     closeMenu();
   };
@@ -40,7 +48,10 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
+    <div>
+      {login === true && (
+        <NavLink className={'createNewSpotLink'} to={'/spots/new'}>Create a New Spot</NavLink>
+      )}
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
@@ -69,7 +80,7 @@ function ProfileButton({ user }) {
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

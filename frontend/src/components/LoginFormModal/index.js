@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import { useLoggedin } from "../../context/LoggedIn";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -10,6 +11,8 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+
+  const { login , setLogin } = useLoggedin()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button onClick={e => setLogin(true)} type="submit">Log In</button>
       </form>
     </>
   );

@@ -1,0 +1,76 @@
+.mainPageSpots{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid red;
+}
+
+.mainPageSpots :hover{
+    box-shadow: 4px 5px 3px;
+}
+
+
+.individualSpot{
+    border: 3px blue solid;
+    box-sizing: border-box;
+    display: grid;
+    margin: 10px;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 80%, 10%, 10%;
+    grid-template-areas:
+    "image image image image"
+    "address . . avgRating"
+    "price . . .";
+}
+
+.spotImg{
+    border-radius: 7%;
+    width: 300px;
+    height: 300px;
+    max-width: 420px;
+    max-height: 420px;
+    min-width: 255px;
+    min-height: 255px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    grid-area: image;
+}
+.spotAddress{
+    border: 2px solid orange;
+    /* width: 50%; */
+    grid-area: address;
+}
+
+.spotAvgRating{
+    border: 2px solid red;
+    /* width: 50%; */
+    grid-area: avgRating;
+}
+
+.spotPrice{
+    border: 2px solid black;
+    grid-area: price;
+}
+
+.selectedSpot{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.specialSpotImg{
+    border-radius: 3%;
+}
+
+.createSpotFrom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disciptionOfSpot{
+    font-size: 30px;
+    border-top: 3px black solid;
+}

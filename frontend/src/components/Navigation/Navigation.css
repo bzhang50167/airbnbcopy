@@ -18,3 +18,12 @@
     background-color: aqua;
     display: none;
 }
+.topOfPage{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.createNewSpotLink{
+    margin-right: 30px;
+}
