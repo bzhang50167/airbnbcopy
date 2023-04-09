@@ -10,8 +10,35 @@
     margin: 19px;
 }
 
+.allOfProfilePage{
+    /* border: 2px solid black; */
+    display: flex;
+    align-items: center;
+}
+
+.profileButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px darkgray solid;
+    border-radius: 45%;
+    width: 90px;
+    height: 70px;
+}
+
+.threeBar{
+    width: 30px;
+    height: 15px;
+}
+
+.grayPerson{
+    width: 30px;
+}
+
 .profile-dropdown{
-    background-color: antiquewhite;
+    width: 120px;
+    height: 60px;
 }
 
 .profile-dropdown.hidden{
@@ -26,4 +53,8 @@
 
 .createNewSpotLink{
     margin-right: 30px;
+}
+
+.banner{
+    height: 70px;
 }

@@ -11,7 +11,12 @@ function Navigation({ isLoaded }){
   return (
     <ul className='topOfPage'>
       <div>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">
+          <img
+          className='banner'
+          src='https://content.fortune.com/wp-content/uploads/2014/07/new-logos-airbnb.jpg?w=545'
+          />
+        </NavLink>
       </div>
       {isLoaded && (
         <div>

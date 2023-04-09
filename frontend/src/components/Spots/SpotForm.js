@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSpotThunk } from "../../store/spots";
 import './spot.css'
 
@@ -16,9 +16,13 @@ const CreateNewSpot = () => {
     const [url, setUrl] = useState('');
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
+    const spots = useSelector(state => {
+        console.log(state, '<~~~~~~~~~~ this is my state');
+    })
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(spots);
 
         const spotInfo = {
             address,
