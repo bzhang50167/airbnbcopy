@@ -97,10 +97,14 @@
     flex-direction: column;
     align-items: start;
     margin: 40px;
-    margin-left: 20%;
+    margin-left: 10%;
 }
 
 .singleSpotName{
-    font-size: x-large;
+    font-size: xx-large;
+    margin-bottom: 40px;
+}
 
+.singleSpotPlaceDetails{
+    margin-bottom: 20px;
 }
