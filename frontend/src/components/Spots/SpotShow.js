@@ -7,7 +7,9 @@ import './spot.css'
 const SpotShow = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch()
-    const spots = useSelector(state => Object.values(state.spot.allSpots))[spotId - 1]
+    console.log(spotId);
+    const spots = useSelector(state => (state.spot.allSpots))[spotId]
+
     useEffect(() => {
 
     }, [])
@@ -18,10 +20,12 @@ const SpotShow = () => {
 
 
     // console.log(spots, '--------------------------');
-    return(
+    return (
         <div className="selectedSpot">
-            <div>{spots?.name}</div>
-            <img className="specialSpotImg" src={spots.previewImage}/>
+            <div className="singleSpotName">{spots?.name}</div>
+            <div>
+                <img className="specialSpotImg" src={spots.previewImage} />
+            </div>
         </div>
     )
 }

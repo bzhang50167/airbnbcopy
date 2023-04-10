@@ -20,33 +20,29 @@ const CreateNewSpot = () => {
         console.log(state, '<~~~~~~~~~~ this is my state');
     })
 
-    const onSubmit = async (e) => {
+    const OnSubmit = async (e) => {
         e.preventDefault();
-        console.log(spots);
 
         const spotInfo = {
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
+          address,
+          city,
+          state,
+          country,
+          lat,
+          lng,
+          name,
+          description,
+          price
         }
-
-        console.log(spotInfo);
 
         const newSpot = await dispatch(createSpotThunk(spotInfo))
 
-        console.log(newSpot,'--------------------');
-
-    }
+        console.log(newSpot);
+      }
 
     return (
         <div className="createSpotFrom">
-            <form onSubmit={onSubmit}>
+            <form onSubmit={OnSubmit}>
                 <label>
                     <div>
                         Country

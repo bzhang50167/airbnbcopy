@@ -15,6 +15,7 @@ const SpotList = () => {
         dispatch(getAllSpotsThunk(spots))
     }, [dispatch])
 
+    const stingNew = <span className="newReview">New</span>
 
     return (
         <div className="mainPageSpots">
@@ -27,7 +28,7 @@ const SpotList = () => {
                             className="starImg"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9MhgtRwMfXkm87aFFh15-oKE_F3LPLD--GtFRyDQ&s" />
                         {' '}
-                        {spot.avgRating}
+                        {(spot.avgRating === 0 ? stingNew : spot.avgRating)}
                     </div>
                     <div className="spotPrice"><span className="spotPriceBold">{'$'}{spot.price}</span>{" "}night</div>
                 </div>
