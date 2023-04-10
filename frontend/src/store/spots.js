@@ -55,6 +55,7 @@ export const getOneSpotThunk = (spotId) => async dispatch => {
 
     if (res.ok) {
         const data = await res.json()
+
         dispatch(getOneSpotAction(data))
         return data
     }
@@ -79,24 +80,26 @@ export const createSpotThunk = (spot) => async dispatch => {
     }
 }
 
-export const createImageThunk = ({ spotId, url }) => async dispatch => {
+export const createImageThunk = (spotId, url) => async dispatch => {
 
     const res = await csrfFetch(`/api/spots/${spotId}/images`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ url,
-    preview:true })
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            url,
+            preview: true
+        })
     })
 
-    if(res.ok){
-      const data = await res.json()
+    if (res.ok) {
+        const data = await res.json()
 
-      dispatch(createImageAction(spotId, data))
-      return data
+        dispatch(createImageAction(spotId, data))
+        return data
     }
-  }
+}
 
 const initalState = { allSpots: {}, singleSpot: {} }
 
@@ -104,12 +107,15 @@ const spotReducer = (state = initalState, action) => {
     switch (action.type) {
         case GET_ALL_SPOTS: {
             const newState = { ...state, allSpots: { ...state.allSpots } }
+            // console.log(action, 'what was it before');
             action.spot.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
             return newState
         }
         case GET_SINGLE_SPOT: {
-            const newState = { ...state, singleSpot: { ...state.singleSpot } }
-            newState.singleSpot = action.spot
+            // return { ...state, [action.spots.id]: action.spots };
+            const newState = { ...state }
+            // console.log(action,'aciont~~~~~~~~~~~~');
+            newState.singleSpot = action.spotId
             return newState
         }
         case CREATE_SPOT: {

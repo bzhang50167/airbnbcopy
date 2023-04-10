@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { createImageThunk, createSpotThunk } from "../../store/spots";
 import './spot.css'
 
@@ -16,9 +17,7 @@ const CreateNewSpot = () => {
     const [url, setUrl] = useState('');
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
-    const spots = useSelector(state => {
-        // console.log(state, '<~~~~~~~~~~ this is my state');
-    })
+    const history = useHistory()
 
     const OnSubmit = async (e) => {
         e.preventDefault();
@@ -44,6 +43,8 @@ const CreateNewSpot = () => {
         const spotId = newSpot.id
 
         await dispatch(createImageThunk(spotId, url))
+
+        return history.push('/')
       }
 
     return (

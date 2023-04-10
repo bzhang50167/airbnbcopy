@@ -98,6 +98,7 @@
     align-items: start;
     margin: 40px;
     margin-left: 10%;
+    margin-right: 10%;
 }
 
 .singleSpotName{
@@ -109,7 +110,7 @@
     margin-bottom: 20px;
 }
 
-.spotImageArea{
+/* .spotImageArea{
     display: grid;
     grid-template-columns: 50% 25% 25%;
     grid-template-rows: 50%, 50%;
@@ -120,4 +121,35 @@
 
 .singleSpotMainImg{
     grid-area: Mainimage;
+}
+ */
+
+.BookingstarImg{
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.priceReviewAndBook{
+    border: 2px solid black;
+
+}
+
+.description{
+    display: flex;
+    justify-content: space-between;
+}
+
+.starImgForSpot{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.allreviewtitlefont{
+    font-size: xx-large;
+}
+
+.allReviewsForSpot{
+    border-top: 2px solid black;
 }

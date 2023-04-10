@@ -488,6 +488,8 @@ router.get('/:spotId', async (req, res, next) => {
     const reviews = await spot.getReviews()
     const images = await spot.getSpotImages()
 
+    console.log(images, 'aljsdlakjdlaskjdlkajsdlkajsdlk');
+
     reviews.forEach(review => {
         let count = 0;
         let sum = 0;
@@ -511,15 +513,21 @@ router.get('/:spotId', async (req, res, next) => {
         spot.avgRating = 0
     }
 
+    const SpotImages = []
+
     images.forEach(image => {
-        spot.imgId = image.id;
-        spot.imgUrl = image.url;
-        spot.imgReview = image.preview
+        SpotImages.push({
+            id: image.id,
+            url: image.url,
+            preview: image.preview
+        })
     })
+
 
     spot.user = user.id;
     spot.first = user.firstName;
     spot.last = user.lastName;
+    // console.log(spot);
 
     res.json({
         id: spot.id,
@@ -537,11 +545,7 @@ router.get('/:spotId', async (req, res, next) => {
         updatedAt: spot.updatedAt,
         numReviews: spot.count,
         avgStarRating: spot.avgRating,
-        SpotImages: {
-            id: spot.imgId,
-            url: spot.imgUrl,
-            preview: spot.imgReview
-        },
+        SpotImages,
         Owner: {
             id: spot.user,
             firstName: spot.first,
