@@ -58,3 +58,19 @@
 .banner{
     height: 70px;
 }
+/*
+.profileButton{
+    position: absolute;
+}
+*/
+
+.profile-dropdown{
+    position: absolute;
+    margin-top: 160px;
+    background-color: gray;
+    border: 1px solid black;
+    border-radius: 5%;
+    width: fit-content;
+    height: fit-content;
+    right: 20px;
+}

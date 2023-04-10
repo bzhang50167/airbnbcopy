@@ -10,6 +10,8 @@ export const getAllUsersThunk = () => async dispatch => {
 
 }
 
+const initalState = { users:{} }
+
 const userReducer = (state , action) =>{
     switch(action.type){
         default:{

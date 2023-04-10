@@ -9,7 +9,7 @@ const SpotShow = () => {
     const dispatch = useDispatch()
     console.log(spotId);
     const spots = useSelector(state => (state.spot.allSpots))[spotId]
-
+    // const spotUser = spots.ownerId ===
     useEffect(() => {
 
     }, [])
@@ -23,9 +23,9 @@ const SpotShow = () => {
     return (
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>
-            <div className="singleSpotPlaceDetails">{spots.city},{spots.state},{spots.country}</div>
-            <div>
-                <img className="singleSpotMainImg" src={spots.previewImage} />
+            <div className="singleSpotPlaceDetails">{spots?.city},{spots?.state},{spots?.country}</div>
+            <div className="spotImageArea">
+                <img className="singleSpotMainImg" src={spots?.previewImage} />
             </div>
             <div>Hosted by</div>
         </div>

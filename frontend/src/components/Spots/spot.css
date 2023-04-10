@@ -108,3 +108,16 @@
 .singleSpotPlaceDetails{
     margin-bottom: 20px;
 }
+
+.spotImageArea{
+    display: grid;
+    grid-template-columns: 50% 25% 25%;
+    grid-template-rows: 50%, 50%;
+    grid-template-areas:
+    "Mainimage image1 image2"
+    "Mainimage image3 image4"
+}
+
+.singleSpotMainImg{
+    grid-area: Mainimage;
+}

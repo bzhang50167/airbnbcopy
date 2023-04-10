@@ -55,7 +55,7 @@ export const getOneSpotThunk = (spotId) => async dispatch => {
 
     if (res.ok) {
         const data = await res.json()
-        dispatch(getOneSpotAction(spotId))
+        dispatch(getOneSpotAction(data))
         return data
     }
 }
@@ -70,31 +70,33 @@ export const createSpotThunk = (spot) => async dispatch => {
         body: JSON.stringify(spot)
     })
 
+
     if (res.ok) {
         const data = await res.json()
-        console.log(data, '~~~~~~~~~~~~~');
+        // console.log(data, 'data ~~~~~~~~~~~~~');
         dispatch(createSpotAction(data))
         return data
     }
 }
 
-export const createImageThunk = (spot) => async dispatch => {
+export const createImageThunk = ({ spotId, url }) => async dispatch => {
 
-    const res = await csrfFetch(`/api/spots/${spot.id}/images`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(spot)
+    const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ url,
+    preview:true })
     })
 
     if(res.ok){
-        const data = await res.json()
+      const data = await res.json()
 
-        dispatch(createSpotAction(data))
-        return data
+      dispatch(createImageAction(spotId, data))
+      return data
     }
-}
+  }
 
 const initalState = { allSpots: {}, singleSpot: {} }
 

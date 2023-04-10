@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { createSpotThunk } from "../../store/spots";
+import { createImageThunk, createSpotThunk } from "../../store/spots";
 import './spot.css'
 
 const CreateNewSpot = () => {
@@ -17,7 +17,7 @@ const CreateNewSpot = () => {
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
     const spots = useSelector(state => {
-        console.log(state, '<~~~~~~~~~~ this is my state');
+        // console.log(state, '<~~~~~~~~~~ this is my state');
     })
 
     const OnSubmit = async (e) => {
@@ -32,12 +32,18 @@ const CreateNewSpot = () => {
           lng,
           name,
           description,
-          price
+          price,
+          url
         }
 
-        const newSpot = await dispatch(createSpotThunk(spotInfo))
+        const newSpot =await dispatch(createSpotThunk(spotInfo))
 
-        console.log(newSpot);
+        console.log(newSpot, '<============== newSpot ');
+
+
+        const spotId = newSpot.id
+
+        await dispatch(createImageThunk(spotId, url))
       }
 
     return (
