@@ -20,7 +20,7 @@ const UpdateSpotForm = () =>{
     const history = useHistory();
 
 
-    const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
+    // const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 
     const OnSubmit = async (e) => {
         e.preventDefault();
@@ -52,7 +52,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         Country
                         {' '}
-                        {errors.country && <span className={errorClassName}>{errors.country}</span>}
+                        {/* {errors.country && <span className={errorClassName}>{errors.country}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -65,7 +65,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         Street Address
                         {' '}
-                         {errors.address && <span className={errorClassName}>{errors.address}</span>}
+                         {/* {errors.address && <span className={errorClassName}>{errors.address}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -78,7 +78,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         City
                         {' '}
-                    {errors.city && <span className={errorClassName}>{errors.city}</span>}
+                    {/* {errors.city && <span className={errorClassName}>{errors.city}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -91,7 +91,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         State
                         {' '}
-                    {errors.state && <span className={errorClassName}>{errors.state}</span>}
+                    {/* {errors.state && <span className={errorClassName}>{errors.state}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -104,7 +104,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         Latitude
                         {' '}
-                    {errors.lat && <span className={errorClassName}>{errors.lat}</span>}
+                    {/* {errors.lat && <span className={errorClassName}>{errors.lat}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -117,7 +117,7 @@ const UpdateSpotForm = () =>{
                     <div>
                         Longitude
                         {' '}
-                    {errors.lng && <span className={errorClassName}>{errors.lng}</span>}
+                    {/* {errors.lng && <span className={errorClassName}>{errors.lng}</span>} */}
                     </div>
                     <input
                         type={'text'}
@@ -140,7 +140,7 @@ const UpdateSpotForm = () =>{
                         onChange={e => setDescription(e.target.value)}
                     />
                 </label>
-                {errors.description && <span className={errorClassName}>{errors.description}</span>}
+                {/* {errors.description && <span className={errorClassName}>{errors.description}</span>} */}
                 <div className="disciptionOfSpot" >
                     Create a title for your spot
                 </div>
@@ -155,7 +155,7 @@ const UpdateSpotForm = () =>{
                         placeholder={'Name of your spot'}
                     />
                 </label>
-                {errors.name && <span className={errorClassName}>{errors.name}</span>}
+                {/* {errors.name && <span className={errorClassName}>{errors.name}</span>} */}
                 <div className="disciptionOfSpot">
                     Set a base price for your spot
                 </div>
@@ -170,7 +170,7 @@ const UpdateSpotForm = () =>{
                         onChange={e => setPrice(e.target.value)}
                     />
                 </label>
-                {errors.price && <span className={errorClassName}>{errors.price}</span>}
+                {/* {errors.price && <span className={errorClassName}>{errors.price}</span>} */}
                 <div className="disciptionOfSpot">
                     Liven up your spot with photos
                 </div>
@@ -185,7 +185,7 @@ const UpdateSpotForm = () =>{
                         onChange={e => setUrl(e.target.value)}
                     />
                 </label>
-                {errors.url && <span className={errorClassName}>{errors.url}</span>}
+                {/* {errors.url && <span className={errorClassName}>{errors.url}</span>} */}
                 <button type="submit">Submit</button>
             </form>
         </div>
