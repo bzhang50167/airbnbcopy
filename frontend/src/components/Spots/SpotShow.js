@@ -32,8 +32,6 @@ const SpotShow = () => {
     if (!spots) {
         return <div>Loading...</div>;
     }
-
-
     // console.log(spots, 'what is this plase work plaese');
 
     // console.log(spots, '--------------------------');
@@ -55,12 +53,11 @@ const SpotShow = () => {
                 <div className="priceReviewAndBook">
                     <div>{'$'}{spots.price} <span>night</span>
                         <span>
-                            <img
-                                className="BookingstarImg"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9MhgtRwMfXkm87aFFh15-oKE_F3LPLD--GtFRyDQ&s"
-                            />
+                            <i className="fa-sharp fa-solid fa-star"></i>
                             <span>{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
-                            *
+                            {' '}
+                            ·
+                            {' '}
                             <span>{spots.numReviews} reviews</span>
                             <div>
                                 <button className="reserveButton">RESERVE</button>
@@ -72,28 +69,28 @@ const SpotShow = () => {
             </div>
             <div className="allReviewsForSpot">
                 <div>
-                    <img
-                        className="starImgForSpot"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9MhgtRwMfXkm87aFFh15-oKE_F3LPLD--GtFRyDQ&s"
-                    />
+                    <i className="fa-sharp fa-solid fa-star"></i>
                     <span className="allreviewtitlefont">{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
-                    *
+                    {' '}
+                    ·
+                    {' '}
                     <span className="allreviewtitlefont">{spots.numReviews} reviews</span>
                 </div>
             </div>
             <div>
                 {sessionUser && (
                     <OpenModalMenuItem
-                    itemText='Pose A review'
-                    modalComponent={<PostReviewModal spotId={spotId} />}
+                        itemText='Pose A review'
+                        modalComponent={<PostReviewModal spotId={spotId} />}
                     />
                 )}
             </div>
             {review.map(r => {
+                const time = (r.createdAt).split('T')
                 return (
                     <div key={r.id}>
                         <div>{r?.User.firstName}</div>
-                        <div>{r?.createdAt}</div>
+                        <div>{time[0]}</div>
                         <div> {r?.review} </div>
                     </div>
                 )

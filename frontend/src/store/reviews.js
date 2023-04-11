@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_REVIEWS = 'reviews/getAllReviews';
-const CREATE_A_REVIEW = 'reviews/createAReview'
+const CREATE_A_REVIEW = 'reviews/createAReview';
 
 export const getAllReviewsFromSpotAction = (spotId) => {
     return{
@@ -63,13 +63,37 @@ const reviewReducer = (state = initalState, action) => {
             return newState
         }
         case CREATE_A_REVIEW:{
-            const newState = {...state, spot: {...state.spot}, user: {...state.user}}
-            console.log(action);
+            const newState = {}
+            console.log(action,'action in making the review');
+            newState.spot = action.review
+            return newState
         }
         default: {
             return state
         }
     }
 }
-
+// spotId
+// :
+// createdAt
+// :
+// "2023-04-11T17:05:15.923Z"
+// id
+// :
+// 10
+// review
+// :
+// "andre is great "
+// spotId
+// :
+// 8
+// stars
+// :
+// 5
+// updatedAt
+// :
+// "2023-04-11T17:05:15.923Z"
+// userId
+// :
+// 1
 export default reviewReducer

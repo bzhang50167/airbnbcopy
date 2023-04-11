@@ -3,7 +3,10 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_SPOTS = 'spots/getAllSpots';
 const GET_SINGLE_SPOT = 'spots/getSingleSpot';
 const CREATE_SPOT = 'spots/createSpot';
-const CREATE_SPOT_IMAGE = 'spots/createSpotImage'
+const CREATE_SPOT_IMAGE = 'spots/createSpotImage';
+const GET_USERS_SPOT = 'spots/getUsersSpot';
+const Delete_SPOT = 'spots/deleteSpot';
+const UPDATE_SPOT= 'spots/updateSpot';
 
 
 export const getAllSpotsAction = (spot) => {
@@ -34,6 +37,27 @@ export const createImageAction = (spotId, img) => {
             spotId,
             img
         }
+    }
+}
+
+export const deleteSpotAction = (spotId) => {
+    return {
+        type: Delete_SPOT,
+        spotId
+    }
+}
+
+export const getUsersSpotsAction = (spots) => {
+    return {
+        type: GET_USERS_SPOT,
+        spots
+    }
+}
+
+export const updateSpotAction = (spot) => {
+    return {
+        type:UPDATE_SPOT,
+        spot
     }
 }
 
@@ -101,6 +125,50 @@ export const createImageThunk = (spotId, url) => async dispatch => {
     }
 }
 
+export const getUserSpotsThunk = (spots) => async dispatch => {
+
+    const res = await fetch(`/api/spots/current`)
+
+    if(res.ok){
+        const data = await res.json()
+
+        dispatch(getUsersSpotsAction(data))
+
+        return data
+    }
+}
+
+export const deleteSpotThunk = (spotId) => async dispatch => {
+
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE',
+    })
+
+    if(res.ok){
+        const data = await res.json()
+
+        dispatch(deleteSpotAction(spotId))
+    }
+}
+
+export const updateSpotThunk = (spotId, info) => async dispatch => {
+
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(info)
+    })
+
+    if(res.ok){
+
+        const data = await res.json()
+
+        dispatch(updateSpotAction(data))
+    }
+}
+
 const initalState = { allSpots: {}, singleSpot: {} }
 
 const spotReducer = (state = initalState, action) => {
@@ -121,6 +189,21 @@ const spotReducer = (state = initalState, action) => {
         case CREATE_SPOT: {
             const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } }
             newState.allSpots[action.spot.id] = action.spot
+            return newState
+        }
+        case GET_USERS_SPOT:{
+            const newState = {...state, allSpots:{...state.allSpots}}
+            newState.allSpots = action.spots
+            return newState
+        }
+        case Delete_SPOT:{
+            const newState = {...state, allSpots:{...state.allSpots}}
+            delete newState[action.spotId]
+            return newState
+        }
+        case UPDATE_SPOT:{
+            const newState = {...state, allSpots:{...state.allSpots}}
+            newState[action.spot.id] = action.spot
             return newState
         }
         default: {

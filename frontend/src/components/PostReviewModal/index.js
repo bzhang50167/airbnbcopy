@@ -3,7 +3,7 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { CreateAReviewThunk } from "../../store/reviews";
 
-const PostReviewModal = ({spotId}) => {
+const PostReviewModal = ({ spotId }) => {
 
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
@@ -36,12 +36,12 @@ const PostReviewModal = ({spotId}) => {
                             <button
                                 type='button'
                                 key={index}
-                                className={index <= (hover || stars) ? 'on' : 'off'}
+                                className={index <= (hover || stars) ? 'starOn' : 'starOff'}
                                 onClick={e => setStars(index)}
                                 onMouseEnter={e => setHover(index)}
                                 onMouseLeave={e => setHover(stars)}
                             >
-                                <span className="stars">&#9733;</span>
+                                <i className="fa-sharp fa-solid fa-star"></i>
                             </button>
                         )
                     })}

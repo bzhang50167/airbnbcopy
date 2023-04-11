@@ -10,11 +10,6 @@
     box-shadow: 4px 5px 3px;
 } */
 
-.starImg{
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-}
 
 .individualSpot{
     /* border: 3px blue solid;/ */
@@ -152,4 +147,25 @@
 
 .allReviewsForSpot{
     border-top: 2px solid black;
+}
+
+.fa-sharp.fa-solid.fa-star{
+    margin-right: 10px;
+}
+
+.managePageSpots{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.managePageButtonDiv{
+    position: relative;
+}
+
+.errorshidden{
+    color:white
+}
+
+.errors{
+    color: red;
 }

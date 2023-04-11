@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { createImageThunk, createSpotThunk } from "../../store/spots";
+import { useHistory, useParams } from "react-router-dom";
+import { createImageThunk, createSpotThunk, updateSpotThunk } from "../../store/spots";
 import './spot.css'
 
-const CreateNewSpot = () => {
+const UpdateSpotForm = () =>{
+    const { spotId } = useParams()
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('');
@@ -15,35 +16,15 @@ const CreateNewSpot = () => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('');
     const [url, setUrl] = useState('');
-    const [errors, setErrors] = useState({});
-    const [showErrors, setShowErrors] = useState(false)
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(() => {
-        const errorObj = {}
-        if (!country) errorObj.country = 'Country is required';
-        if (!address) errorObj.address = 'Address is required';
-        if (!city) errorObj.city = 'City is required';
-        if (!state) errorObj.state = 'State is required';
-        if (!lat) errorObj.lat = 'Latitude is required';
-        if (!lng) errorObj.lng = 'Longitude is required';
-        if (!description) errorObj.description = 'Description needs a minimum of 30 characters';
-        if (!name) errorObj.name = 'Name is required';
-        if (!price) errorObj.price = 'Price is required';
-        if (!url) errorObj.url = 'Preview image is required';
-        setErrors(errorObj)
-    }, [country,address,city,state,lat,lng,description,name,price,url])
 
     const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 
     const OnSubmit = async (e) => {
         e.preventDefault();
 
-        if(errors.length > 0){
-            setShowErrors(true)
-            return
-        }
 
         const spotInfo = {
             address,
@@ -54,16 +35,10 @@ const CreateNewSpot = () => {
             lng,
             name,
             description,
-            price,
-            url
+            price
         }
 
-        const newSpot = await dispatch(createSpotThunk(spotInfo))
-
-        console.log(newSpot, '<============== newSpot ');
-
-
-        const spotId = newSpot.id
+        await dispatch(updateSpotThunk(spotId,spotInfo))
 
         await dispatch(createImageThunk(spotId, url))
 
@@ -217,4 +192,4 @@ const CreateNewSpot = () => {
     )
 }
 
-export default CreateNewSpot
+export default UpdateSpotForm
