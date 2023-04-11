@@ -125,6 +125,27 @@ export const createImageThunk = (spotId, url) => async dispatch => {
     }
 }
 
+export const createNotPreviewImageThunk = (spotId, url) => async dispatch => {
+
+    const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            url,
+            preview: false
+        })
+    })
+
+    if (res.ok) {
+        const data = await res.json()
+
+        dispatch(createImageAction(spotId, data))
+        return data
+    }
+}
+
 export const getUserSpotsThunk = (spots) => async dispatch => {
 
     const res = await fetch(`/api/spots/current`)

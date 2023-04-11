@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createImageThunk, createSpotThunk } from "../../store/spots";
 import './spot.css'
@@ -16,7 +16,7 @@ const CreateNewSpot = () => {
     const [price, setPrice] = useState('');
     const [url, setUrl] = useState('');
     const [errors, setErrors] = useState({});
-    const [showErrors, setShowErrors] = useState(false)
+    const [showErrors, setShowErrors] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
 

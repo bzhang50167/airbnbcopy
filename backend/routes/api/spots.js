@@ -485,27 +485,33 @@ router.get('/:spotId', async (req, res, next) => {
             message: "Spot couldn't be found"
         })
     }
-    const reviews = await spot.getReviews()
+    const reviews =[];
+    const review = await spot.getReviews()
+    review.forEach(r => {
+        reviews.push(r.toJSON())
+    })
     const images = await spot.getSpotImages()
 
-    console.log(images, 'aljsdlakjdlaskjdlkajsdlkajsdlk');
+    // console.log(images, 'aljsdlakjdlaskjdlkajsdlkajsdlk');
+    let count = 0;
+    let sum = 0;
 
     reviews.forEach(review => {
-        let count = 0;
-        let sum = 0;
+        console.log(review, 'reviews ~~~~~~~~~~~~~~~~');
         if (review.stars) {
             sum += review.stars;
             count++
         };
-        if (count > 0) {
-            spot.count = count;
-            spot.avgRating = sum / count
-        } else {
-            spot.count = 0
-            spot.avgRating = 0
-        }
     })
-
+    if (count > 0) {
+        spot.count = count;
+        spot.avgRating = (sum/count).toFixed(2)
+    } else {
+        spot.count = 0
+        spot.avgRating = 0
+    }
+    // console.log(spot.count, 'count');
+    // console.log(spot.avgRating, 'sum');
     if(!spot.count){
         spot.count = 0
     }
@@ -528,6 +534,7 @@ router.get('/:spotId', async (req, res, next) => {
     spot.first = user.firstName;
     spot.last = user.lastName;
     // console.log(spot);
+    // console.log(spot.count);/
 
     res.json({
         id: spot.id,

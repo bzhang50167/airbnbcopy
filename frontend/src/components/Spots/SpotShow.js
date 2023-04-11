@@ -29,6 +29,7 @@ const SpotShow = () => {
         fetchSpot();
     }, [dispatch, spotId]);
 
+    console.log(reviews, '========================');
     if (!spots) {
         return <div>Loading...</div>;
     }

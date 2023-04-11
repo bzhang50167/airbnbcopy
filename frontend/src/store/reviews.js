@@ -63,9 +63,9 @@ const reviewReducer = (state = initalState, action) => {
             return newState
         }
         case CREATE_A_REVIEW:{
-            const newState = {}
+            const newState = {spot: {...state.spot}}
             console.log(action,'action in making the review');
-            newState.spot = action.review
+            newState.spot[action.spot.id] = action.review
             return newState
         }
         default: {
@@ -73,27 +73,5 @@ const reviewReducer = (state = initalState, action) => {
         }
     }
 }
-// spotId
-// :
-// createdAt
-// :
-// "2023-04-11T17:05:15.923Z"
-// id
-// :
-// 10
-// review
-// :
-// "andre is great "
-// spotId
-// :
-// 8
-// stars
-// :
-// 5
-// updatedAt
-// :
-// "2023-04-11T17:05:15.923Z"
-// userId
-// :
-// 1
+
 export default reviewReducer
