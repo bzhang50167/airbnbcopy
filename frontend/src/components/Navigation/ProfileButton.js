@@ -70,13 +70,15 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={manageSpots}>Manage Spots</button>
+            <ul>{user.username}</ul>
+            <ul>{user.firstName} {user.lastName}</ul>
+            <ul>{user.email}</ul>
+            <ul>
+              <div>
+                <button onClick={manageSpots}>Manage Spots</button>
+              </div>
               <button onClick={logout}>Log Out</button>
-            </li>
+            </ul>
           </>
         ) : (
           <>
