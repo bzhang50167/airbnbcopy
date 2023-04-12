@@ -56,7 +56,7 @@ export const UpdateReviewThunk = (reviewId, info) => async dispatch => {
 
 export const GetAllReviewsFromSpotThunk = (spotId) => async dispatch => {
 
-    const res = await fetch(`/api/spots/${spotId}/reviews`);
+    const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
 
     if(res.ok){
         const data = await res.json();

@@ -63,7 +63,7 @@ export const updateSpotAction = (spot) => {
 
 export const getAllSpotsThunk = () => async dispatch => {
 
-    const res = await fetch('/api/spots')
+    const res = await csrfFetch('/api/spots')
     // console.log(res,'what is res');
     if (res.ok) {
         const data = await res.json()
@@ -74,7 +74,7 @@ export const getAllSpotsThunk = () => async dispatch => {
 
 export const getOneSpotThunk = (spotId) => async dispatch => {
 
-    const res = await fetch(`/api/spots/${spotId}`)
+    const res = await csrfFetch(`/api/spots/${spotId}`)
 
     if (res.ok) {
         const data = await res.json()
@@ -146,7 +146,7 @@ export const createNotPreviewImageThunk = (spotId, url) => async dispatch => {
 
 export const getUserSpotsThunk = (spots) => async dispatch => {
 
-    const res = await fetch(`/api/spots/current`)
+    const res = await csrfFetch(`/api/spots/current`)
 
     if(res.ok){
         const data = await res.json()
@@ -218,13 +218,13 @@ const spotReducer = (state = initalState, action) => {
             action.spots.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
             // newState.allSpots = action.spots.Spots
             // salkdjlajs
+            console.log(action, 'action---------');
+            console.log(newState, 'new state -------------');
             return newState
         }
         case Delete_SPOT:{
             const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } }
             delete newState.allSpots[action.spotId]
-            console.log(action, 'action---------');
-            console.log(newState, 'new state -------------');
             return newState
         }
         case UPDATE_SPOT:{

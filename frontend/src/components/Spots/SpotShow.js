@@ -112,7 +112,7 @@ const SpotShow = () => {
                 return (
                     <div>
                         <div key={r.id}>
-                            <div>{r?.User.firstName}</div>
+                            <div>{r?.User?.firstName}</div>
                             <div>{time}</div>
                             <div> {r?.review} </div>
                         </div>
