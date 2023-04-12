@@ -479,7 +479,8 @@ router.get('/:spotId', async (req, res, next) => {
 
     const { user } = req
     const spot = await Spot.findByPk(req.params.spotId)
-
+    const users = await User.findByPk(spot.ownerId)
+    console.log(users,'--------------------');
     if(!spot){
         return res.status(404).json({
             message: "Spot couldn't be found"
@@ -497,7 +498,7 @@ router.get('/:spotId', async (req, res, next) => {
     let sum = 0;
 
     reviews.forEach(review => {
-        console.log(review, 'reviews ~~~~~~~~~~~~~~~~');
+        // console.log(review, 'reviews ~~~~~~~~~~~~~~~~');
         if (review.stars) {
             sum += review.stars;
             count++
@@ -530,9 +531,9 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
 
-    spot.user = user.id;
-    spot.first = user.firstName;
-    spot.last = user.lastName;
+    spot.user = users.id;
+    spot.first = users.firstName;
+    spot.last = users.lastName;
     // console.log(spot);
     // console.log(spot.count);/
 
