@@ -146,6 +146,8 @@ export const createNotPreviewImageThunk = (spotId, url) => async dispatch => {
 
 export const getUserSpotsThunk = (spots) => async dispatch => {
 
+    console.log(spots,'get user spots ----------');
+
     const res = await csrfFetch(`/api/spots/current`)
 
     if(res.ok){
@@ -214,7 +216,7 @@ const spotReducer = (state = initalState, action) => {
             return newState
         }
         case GET_USERS_SPOT:{
-            const newState = {...state}
+            const newState = {...state, allSpots: {}}
             action.spots.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
             // newState.allSpots = action.spots.Spots
             // salkdjlajs
