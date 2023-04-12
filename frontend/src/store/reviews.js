@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_ALL_REVIEWS = 'reviews/getAllReviews';
 const CREATE_A_REVIEW = 'reviews/createAReview';
+const DELETE_REVIEW = 'reviews/deleteReview';
 
 export const getAllReviewsFromSpotAction = (spotId) => {
     return{
@@ -14,6 +15,13 @@ export const createAReviewAction = (spotId) => {
     return{
         type: CREATE_A_REVIEW,
         spotId
+    }
+}
+
+export const deleteReviewAction = (reviewId) => {
+    return {
+        type: DELETE_REVIEW,
+        reviewId
     }
 }
 
@@ -50,22 +58,40 @@ export const CreateAReviewThunk = (spotId, fullReview) => async dispatch => {
     }
 }
 
+export const DeleteReviewThunk = (reviewId) => async dispatch => {
+
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE'
+    })
+
+    if(res.ok){
+        const data = await res.json()
+
+        dispatch(deleteReviewAction(reviewId))
+    }
+}
 
 const initalState = { spot: {}, user:{}};
 
 const reviewReducer = (state = initalState, action) => {
     switch(action.type){
         case GET_ALL_REVIEWS:{
-            const newState = {...state, spot: {...state.spot}, user: {...state.user}}
+            const newState = {...state, spot: {}, user: {...state.user}}
             action.spotId.Reviews.forEach( review => {
                 return newState.spot[review.id] = review
             });
             return newState
         }
         case CREATE_A_REVIEW:{
-            const newState = {spot: {...state.spot}}
-            console.log(action,'action in making the review');
-            newState.spot[action.spot.id] = action.review
+            const newState = {...state};
+            newState.spot[action.spotId.id] = action.spotId.review
+            console.log(newState,'newState--------------------');
+            console.log(action,'action~~~~~~~~~~~~~~');
+            return state
+        }
+        case DELETE_REVIEW:{
+            const newState = {...state};
+            delete newState[action.reviewId]
             return newState
         }
         default: {

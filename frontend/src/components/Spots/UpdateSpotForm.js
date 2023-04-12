@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { createImageThunk, createSpotThunk, updateSpotThunk } from "../../store/spots";
+import { createImageThunk, createSpotThunk, getOneSpotThunk, updateSpotThunk } from "../../store/spots";
 import './spot.css'
 
 const UpdateSpotForm = () =>{
-    const { spotId } = useParams()
+    const { spotId } = useParams();
+    const [spots, setSpots] = useState(null);
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('');
@@ -18,7 +19,27 @@ const UpdateSpotForm = () =>{
     const [url, setUrl] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
+    useEffect(() => {
+        const fetchSpot = async () => {
+            const spotData = await dispatch(getOneSpotThunk(spotId));
+            setSpots(spotData);
+        };
+        fetchSpot();
+    }, [dispatch, spotId]);
 
+    console.log(spots);
+    useEffect(() => {
+        setCountry(spots.country);
+        setAddress(spots.address);
+        setCity(spots.city);
+        setState(spots.state);
+        setLat(spots.lat);
+        setLng(spots.lng);
+        setDescription(spots.description);
+        setName(spots.name);
+        setPrice(spots.price);
+        setUrl(spots.SpotImages[0].url)
+    })
 
     // const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 

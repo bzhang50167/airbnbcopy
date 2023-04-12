@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
 import { GetAllReviewsFromSpotThunk } from "../../store/reviews";
 import { getOneSpotThunk } from "../../store/spots";
+import DeleteReviewModal from "../DeleteReviewModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
 import './spot.css'
@@ -11,12 +12,14 @@ const SpotShow = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const [spots, setSpots] = useState(null);
-    const reviews = useSelector(state => Object.values(state.review))
+    const reviews = useSelector(state => {
+        // console.log(state,'this is tate');
+        return Object.values(state.review.spot)
+    })
     const sessionUser = useSelector(state => state.session.user);
     // console.log(sessionUser, 'WHO IS USING THIS ATM');
-    // console.log(reviews, 'these are the reviews');
-    const review = Object.values(reviews[0])
-    // console.log(review, 'for keying in');
+    // console.log(sessionUser, 'this is who is using this ');
+    // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
         dispatch(GetAllReviewsFromSpotThunk(spotId))
     }, [dispatch])
@@ -29,7 +32,11 @@ const SpotShow = () => {
         fetchSpot();
     }, [dispatch, spotId]);
 
-    console.log(reviews, '========================');
+    // console.log(reviews, '========================');
+    if (!reviews) {
+        return <div>Loading...</div>;
+    }
+    // const review = Object.values(reviews[0])
     if (!spots) {
         return <div>Loading...</div>;
     }
@@ -59,7 +66,7 @@ const SpotShow = () => {
                             {' '}
                             ·
                             {' '}
-                            <span>{spots.numReviews} reviews</span>
+                            <span>{spots.numReviews === 1 ? 'review' : 'reviews'}</span>
                             <div>
                                 <button className="reserveButton">RESERVE</button>
                             </div>
@@ -80,19 +87,34 @@ const SpotShow = () => {
             </div>
             <div>
                 {sessionUser && (
-                    <OpenModalMenuItem
-                        itemText='Pose A review'
-                        modalComponent={<PostReviewModal spotId={spotId} />}
-                    />
+                    <button>
+                        <OpenModalMenuItem
+                            itemText='Pose A review'
+                            modalComponent={<PostReviewModal spotId={spotId} />}
+                        />
+                    </button>
                 )}
             </div>
-            {review.map(r => {
-                const time = (r.createdAt).split('T')
+            {reviews.map(r => {
+                // if(r.createdAt){
+                //     return <div>...loading</div>
+                // }
+                // const time = (r?.createdAt).split('T');
                 return (
-                    <div key={r.id}>
-                        <div>{r?.User.firstName}</div>
-                        <div>{time[0]}</div>
-                        <div> {r?.review} </div>
+                    <div>
+                        <div key={r.id}>
+                            <div>{r?.User.firstName}</div>
+                            <div>{r?.createdAt}</div>
+                            <div> {r?.review} </div>
+                        </div>
+                        <div>
+                            {r.userId === sessionUser.id ? <button>
+                                <OpenModalMenuItem
+                                    itemText='Delete Review'
+                                    modalComponent={<DeleteReviewModal reviewId={r.id} />}
+                                />
+                            </button> : ''}
+                        </div>
                     </div>
                 )
             })}

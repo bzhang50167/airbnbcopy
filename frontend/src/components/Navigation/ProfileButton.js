@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
@@ -13,7 +13,8 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const history = useHistory()
   const ulRef = useRef();
-
+  const sessionUser = useSelector(state => state.session.user);
+  // console.log(sessionUser);
   const { login, setLogin } = useLoggedin()
 
   const openMenu = () => {
@@ -60,7 +61,7 @@ function ProfileButton({ user }) {
 
   return (
     <div className="allOfProfilePage">
-      {login === true && (
+      {sessionUser && (
         <NavLink className={'createNewSpotLink'} to={'/spots/new'}>Create a New Spot</NavLink>
       )}
       <button className="profileButton" onClick={openMenu}>
