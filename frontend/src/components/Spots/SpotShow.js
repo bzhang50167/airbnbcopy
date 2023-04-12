@@ -108,12 +108,12 @@ const SpotShow = () => {
                 // if(r.createdAt){
                 //     return <div>...loading</div>
                 // }
-                // const time = (r?.createdAt).split('T');
+                const time = (r?.createdAt).split('T');
                 return (
                     <div>
                         <div key={r.id}>
                             <div>{r?.User.firstName}</div>
-                            <div>{r?.createdAt}</div>
+                            <div>{time}</div>
                             <div> {r?.review} </div>
                         </div>
                         <div>
@@ -134,9 +134,6 @@ const SpotShow = () => {
                 )
             })}
         </div>
-        // <div>
-        //     hi
-        // </div>
     )
 }
 
