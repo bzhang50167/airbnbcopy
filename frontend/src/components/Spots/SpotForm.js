@@ -69,11 +69,11 @@ const CreateNewSpot = () => {
 
         const spotId = newSpot.id
 
-        await dispatch(createImageThunk(spotId, url))
-        await dispatch(createNotPreviewImageThunk(url2))
-        await dispatch(createNotPreviewImageThunk(url3))
-        await dispatch(createNotPreviewImageThunk(url4))
-        await dispatch(createNotPreviewImageThunk(url5))
+        dispatch(createImageThunk(spotId, url))
+        dispatch(createNotPreviewImageThunk(url2))
+        dispatch(createNotPreviewImageThunk(url3))
+        dispatch(createNotPreviewImageThunk(url4))
+        dispatch(createNotPreviewImageThunk(url5))
 
         return history.push('/')
     }
