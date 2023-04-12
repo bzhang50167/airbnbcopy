@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_REVIEWS = 'reviews/getAllReviews';
 const CREATE_A_REVIEW = 'reviews/createAReview';
 const DELETE_REVIEW = 'reviews/deleteReview';
+const UPDATE_REVIEW = 'reviews/updateReview';
 
 export const getAllReviewsFromSpotAction = (spotId) => {
     return{
@@ -22,6 +23,33 @@ export const deleteReviewAction = (reviewId) => {
     return {
         type: DELETE_REVIEW,
         reviewId
+    }
+}
+
+export const updateReviewAction = (data) => {
+    return {
+        type: UPDATE_REVIEW,
+        data
+    }
+}
+
+export const UpdateReviewThunk = (reviewId, info) => async dispatch => {
+    // console.log(reviewId, info);
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(info)
+    })
+    // console.log(res,'is my code making it here');
+
+    if(res.ok){
+        const data = await res.json();
+
+        // console.log(data,'--------------------------');
+
+        dispatch(updateReviewAction(data))
     }
 }
 
@@ -94,6 +122,12 @@ const reviewReducer = (state = initalState, action) => {
             const newState = {...state};
             delete newState[action.reviewId]
             return newState
+        }
+        case UPDATE_REVIEW:{
+            const newState = {...state, spot:{...state.spot}};
+            console.log(newState, 'new state ~~~~~~~~~~~~~~~~');
+            console.log(action, 'what is actoin really my god');
+            return state
         }
         default: {
             return state

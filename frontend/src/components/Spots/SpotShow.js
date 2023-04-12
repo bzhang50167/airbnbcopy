@@ -6,6 +6,7 @@ import { getOneSpotThunk } from "../../store/spots";
 import DeleteReviewModal from "../DeleteReviewModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
+import UpdateReviewModal from "../UpdateReviewModal";
 import './spot.css'
 
 const SpotShow = () => {
@@ -122,7 +123,7 @@ const SpotShow = () => {
                             {sessionUser && r.userId === sessionUser.id ? <button>
                                 <OpenModalMenuItem
                                     itemText='Update Review'
-                                    modalComponent={<DeleteReviewModal reviewId={r.id} spotId={spotId} />}
+                                    modalComponent={<UpdateReviewModal reviewId={r.id} spotName={spots.name} />}
                                 />
                             </button> : ''}
                         </div>
