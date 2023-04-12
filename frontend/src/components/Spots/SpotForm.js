@@ -31,16 +31,16 @@ const CreateNewSpot = () => {
         if (!description) errorObj.description = 'Description needs a minimum of 30 characters';
         if (!name) errorObj.name = 'Name is required';
         if (!price) errorObj.price = 'Price is required';
-        if (!url) errorObj.url = 'Preview image is required';
+        // if (!url) errorObj.url = 'Preview image is required';
         setErrors(errorObj)
-    }, [country,address,city,state,lat,lng,description,name,price,url])
+    }, [country,address,city,state,lat,lng,description,name,price])
 
     const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 
     const OnSubmit = async (e) => {
         e.preventDefault();
 
-        if(errors.length > 0){
+        if(Object.values(errors).length > 0){
             setShowErrors(true)
             return
         }
@@ -158,8 +158,10 @@ const CreateNewSpot = () => {
                     <div>
                         Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.
                     </div>
-                    <input
+                    <textarea
                         type={'textbox'}
+                        rows={5}
+                        cols={50}
                         placeholder={'Please write at least 30 characters'}
                         value={description}
                         onChange={e => setDescription(e.target.value)}

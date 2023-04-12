@@ -76,18 +76,19 @@ const initalState = { spot: {}, user:{}};
 const reviewReducer = (state = initalState, action) => {
     switch(action.type){
         case GET_ALL_REVIEWS:{
-            const newState = {...state, spot: {}, user: {...state.user}}
+            const newState = {...state, spot: {}, user: {...state.user}};
             action.spotId.Reviews.forEach( review => {
                 return newState.spot[review.id] = review
             });
             return newState
         }
         case CREATE_A_REVIEW:{
-            const newState = {...state};
-            newState.spot[action.spotId.id] = action.spotId.review
+            const newState = {...state, spot: {...state.spot}};
             console.log(newState,'newState--------------------');
+            newState.spot[action.spotId.id] = action.spotId;
             console.log(action,'action~~~~~~~~~~~~~~');
-            return state
+            // ASDLAJKS
+            return newState
         }
         case DELETE_REVIEW:{
             const newState = {...state};

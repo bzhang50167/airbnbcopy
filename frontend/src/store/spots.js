@@ -61,7 +61,7 @@ export const updateSpotAction = (spot) => {
     }
 }
 
-export const getAllSpotsThunk = (spot) => async dispatch => {
+export const getAllSpotsThunk = () => async dispatch => {
 
     const res = await fetch('/api/spots')
     // console.log(res,'what is res');
@@ -69,7 +69,6 @@ export const getAllSpotsThunk = (spot) => async dispatch => {
         const data = await res.json()
         // console.log(data, 'what is data');
         dispatch(getAllSpotsAction(data))
-        return data
     }
 }
 
@@ -81,7 +80,6 @@ export const getOneSpotThunk = (spotId) => async dispatch => {
         const data = await res.json()
 
         dispatch(getOneSpotAction(data))
-        return data
     }
 }
 
@@ -195,15 +193,18 @@ const initalState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initalState, action) => {
     switch (action.type) {
         case GET_ALL_SPOTS: {
-            const newState = { ...state, allSpots: { ...state.allSpots } }
-            // console.log(action, 'what was it before');
+            const newState = { ...state, allSpots: {} }
+            console.log(action, 'action---------');
+            console.log(newState, 'new state -------------');
             action.spot.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
             return newState
         }
         case GET_SINGLE_SPOT: {
             // return { ...state, [action.spots.id]: action.spots };
-            const newState = { ...state }
-            // console.log(action,'aciont~~~~~~~~~~~~');
+            const newState = { ...state, singleSpot: {} }
+            // console.log(action, 'action---------');
+            // console.log(newState, 'new state -------------');
+            // sdfs
             newState.singleSpot = action.spotId
             return newState
         }
@@ -213,18 +214,23 @@ const spotReducer = (state = initalState, action) => {
             return newState
         }
         case GET_USERS_SPOT:{
-            const newState = {...state, allSpots:{...state.allSpots}}
-            newState.allSpots = action.spots
+            const newState = {...state}
+            action.spots.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
+            // newState.allSpots = action.spots.Spots
+            // salkdjlajs
             return newState
         }
         case Delete_SPOT:{
-            const newState = {...state, allSpots:{...state.allSpots}}
-            delete newState[action.spotId]
+            const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } }
+            delete newState.allSpots[action.spotId]
+            console.log(action, 'action---------');
+            console.log(newState, 'new state -------------');
             return newState
         }
         case UPDATE_SPOT:{
             const newState = {...state, allSpots:{...state.allSpots}}
             newState[action.spot.id] = action.spot
+            newState.spot.allSpots.Spots.forEach(spot => newState.spot.allSpots.Spots[spot.id]= spot)
             return newState
         }
         default: {

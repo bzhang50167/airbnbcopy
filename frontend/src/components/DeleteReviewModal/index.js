@@ -1,15 +1,18 @@
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { DeleteReviewThunk } from "../../store/reviews";
 
-const DeleteReviewModal = ({reviewId}) => {
+const DeleteReviewModal = ({reviewId, spotId}) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { closeModal } = useModal();
+    const history = useHistory()
 
     const yesButton = (e) => {
         e.preventDefault()
-        return dispatch(DeleteReviewThunk(reviewId)).then(closeModal)
+        dispatch(DeleteReviewThunk(reviewId)).then(closeModal)
+        return history.push(`/spots/${spotId}`)
     }
 
     const noButton = (e) => {

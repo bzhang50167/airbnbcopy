@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { deleteSpotThunk, getUserSpotsThunk } from "../../store/spots"
+import DeleteReviewModal from "../DeleteReviewModal"
+import DeleteSpotModal from "../DeleteSpotModal"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import './spot.css'
 
 const ManageSpot = () => {
@@ -9,7 +12,7 @@ const ManageSpot = () => {
     const dispatch = useDispatch();
     const history = useHistory()
     const [userSpot, setUserSpot] = useState([])
-    const spotObj = useSelector(state => (state.spot.allSpots.Spots));
+    const spotObj = useSelector(state => state.spot.allSpots);
 
     useEffect(() => {
         dispatch(getUserSpotsThunk(spotObj))
@@ -21,8 +24,8 @@ const ManageSpot = () => {
 
     const spots = Object.values(spotObj)
 
-    console.log(typeof spots, 'is this an array or object');
-    console.log(spots, 'items in the spot');
+    // console.log(typeof spots, 'is this an array or object');
+    // console.log(spots, 'items in the spot');
     return (
         <div>
             <div>
@@ -44,7 +47,12 @@ const ManageSpot = () => {
                             </div>
                             <div className="managePageButtonDiv">
                                 <button onClick={e => history.push(`/${spot.id}/update`)} className="updateButton">Update</button>
-                                <button onClick={e => dispatch(deleteSpotThunk(spot.id))} className="deleteButton">Delete</button>
+                                <button>
+                                    <OpenModalMenuItem
+                                    itemText={'Delete'}
+                                    modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                                    />
+                                </button>
                             </div>
                         </div>
                     )

@@ -11,35 +11,39 @@ import './spot.css'
 const SpotShow = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch();
-    const [spots, setSpots] = useState(null);
-    const reviews = useSelector(state => {
-        // console.log(state,'this is tate');
-        return Object.values(state.review.spot)
-    })
+    // const [spots, setSpots] = useState(null);
+    const reviews = useSelector(state => Object.values(state.review.spot));
     const sessionUser = useSelector(state => state.session.user);
+    const spots = useSelector(state => state.spot.singleSpot);
     // console.log(sessionUser, 'WHO IS USING THIS ATM');
     // console.log(sessionUser, 'this is who is using this ');
     // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
         dispatch(GetAllReviewsFromSpotThunk(spotId))
-    }, [dispatch])
+    }, [dispatch]);
 
     useEffect(() => {
-        const fetchSpot = async () => {
-            const spotData = await dispatch(getOneSpotThunk(spotId));
-            setSpots(spotData);
-        };
-        fetchSpot();
-    }, [dispatch, spotId]);
-
+        dispatch(getOneSpotThunk(spotId));
+    }, [dispatch]);
+    console.log(reviews);
+    // console.log(Object.values(spots));
+    if (!spots) {
+        return null;
+    }
+    if (Object.values(spots).length < 1){
+        return null
+    }
     // console.log(reviews, '========================');
     if (!reviews) {
         return <div>Loading...</div>;
     }
-    // const review = Object.values(reviews[0])
-    if (!spots) {
-        return <div>Loading...</div>;
+    if (Object.values(reviews).length < 1){
+        return null
     }
+    const handelNull = () => {
+        return null
+    }
+    // const review = Object.values(reviews[0])
     // console.log(spots, 'what is this plase work plaese');
 
     // console.log(spots, '--------------------------');
@@ -95,7 +99,8 @@ const SpotShow = () => {
                     </button>
                 )}
             </div>
-            {reviews.map(r => {
+            {reviews.slice().reverse().map(r => {
+                // {r.length ===1 ? handelNull : ''}
                 // if(r.createdAt){
                 //     return <div>...loading</div>
                 // }
@@ -108,10 +113,16 @@ const SpotShow = () => {
                             <div> {r?.review} </div>
                         </div>
                         <div>
-                            {r.userId === sessionUser.id ? <button>
+                            {sessionUser && r.userId === sessionUser.id ? <button>
                                 <OpenModalMenuItem
                                     itemText='Delete Review'
-                                    modalComponent={<DeleteReviewModal reviewId={r.id} />}
+                                    modalComponent={<DeleteReviewModal reviewId={r.id} spotId={spotId} />}
+                                />
+                            </button> : ''}
+                            {sessionUser && r.userId === sessionUser.id ? <button>
+                                <OpenModalMenuItem
+                                    itemText='Update Review'
+                                    modalComponent={<DeleteReviewModal reviewId={r.id} spotId={spotId} />}
                                 />
                             </button> : ''}
                         </div>
@@ -119,6 +130,9 @@ const SpotShow = () => {
                 )
             })}
         </div>
+        // <div>
+        //     hi
+        // </div>
     )
 }
 

@@ -5,14 +5,14 @@ import { getAllSpotsThunk } from "../../store/spots"
 import './spot.css'
 
 const SpotList = () => {
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-    const spots = useSelector(state => Object.values(state.spot.allSpots))
+    const spots = useSelector(state => Object.values(state.spot.allSpots));
 
     // console.log(spots,'spots~~~~~~~~~~~');
     useEffect(() => {
-        dispatch(getAllSpotsThunk(spots))
+        dispatch(getAllSpotsThunk())
     }, [dispatch])
 
     const stingNew = <span className="newReview">New</span>

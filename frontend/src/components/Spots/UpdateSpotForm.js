@@ -29,16 +29,20 @@ const UpdateSpotForm = () =>{
 
     console.log(spots);
     useEffect(() => {
-        setCountry(spots.country);
-        setAddress(spots.address);
-        setCity(spots.city);
-        setState(spots.state);
-        setLat(spots.lat);
-        setLng(spots.lng);
-        setDescription(spots.description);
-        setName(spots.name);
-        setPrice(spots.price);
-        setUrl(spots.SpotImages[0].url)
+        if(spots !== null){
+            if(!country){
+                setCountry(spots.country);
+                setAddress(spots.address);
+                setCity(spots.city);
+                setState(spots.state);
+                setLat(spots.lat);
+                setLng(spots.lng);
+                setDescription(spots.description);
+                setName(spots.name);
+                setPrice(spots.price);
+                setUrl(spots.SpotImages[0].url)
+            }
+        }
     })
 
     // const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
@@ -154,8 +158,11 @@ const UpdateSpotForm = () =>{
                     <div>
                         Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.
                     </div>
-                    <input
+                    <textarea
                         type={'textbox'}
+                        rows={6}
+                        cols={50}
+                        // style={{ resize: 'hidden' }}
                         placeholder={'Please write at least 30 characters'}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
