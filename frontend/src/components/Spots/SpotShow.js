@@ -16,6 +16,9 @@ const SpotShow = () => {
     const reviews = useSelector(state => Object.values(state.review.spot));
     const sessionUser = useSelector(state => state.session.user);
     const spots = useSelector(state => state.spot.singleSpot);
+    console.log(spotId,'is it even grabbing this');
+    console.log(spots,'whhy is this here?');
+    console.log(reviews);
     // console.log(sessionUser, 'WHO IS USING THIS ATM');
     // console.log(sessionUser, 'this is who is using this ');
     // console.log(reviews, 'how do compare id with one another');
@@ -38,7 +41,7 @@ const SpotShow = () => {
     if (!reviews) {
         return <div>Loading...</div>;
     }
-    if (Object.values(reviews).length < 1){
+    if (Object.values(reviews).length < 0){
         return null
     }
     const handelNull = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch} from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createImageThunk, createSpotThunk } from "../../store/spots";
+import { createImageThunk, createNotPreviewImageThunk, createSpotThunk } from "../../store/spots";
 import './spot.css'
 
 const CreateNewSpot = () => {
@@ -15,6 +15,10 @@ const CreateNewSpot = () => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('');
     const [url, setUrl] = useState('');
+    const [url2, setUrl2] = useState('');
+    const [url3, setUrl3] = useState('');
+    const [url4, setUrl4] = useState('');
+    const [url5, setUrl5] = useState('');
     const [errors, setErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const dispatch = useDispatch();
@@ -66,6 +70,10 @@ const CreateNewSpot = () => {
         const spotId = newSpot.id
 
         await dispatch(createImageThunk(spotId, url))
+        dispatch(createNotPreviewImageThunk(url2))
+        dispatch(createNotPreviewImageThunk(url3))
+        dispatch(createNotPreviewImageThunk(url4))
+        dispatch(createNotPreviewImageThunk(url5))
 
         return history.push('/')
     }
@@ -210,6 +218,38 @@ const CreateNewSpot = () => {
                         value={url}
                         placeholder={'Preview Image URL'}
                         onChange={e => setUrl(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <input
+                        type={'text'}
+                        value={url2}
+                        placeholder={'Image URL'}
+                        onChange={e => setUrl2(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <input
+                        type={'text'}
+                        value={url3}
+                        placeholder={'Image URL'}
+                        onChange={e => setUrl3(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <input
+                        type={'text'}
+                        value={url4}
+                        placeholder={'Image URL'}
+                        onChange={e => setUrl4(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <input
+                        type={'text'}
+                        value={url5}
+                        placeholder={'Image URL'}
+                        onChange={e => setUrl5(e.target.value)}
                     />
                 </label>
                 {errors.url && <span className={errorClassName}>{errors.url}</span>}
