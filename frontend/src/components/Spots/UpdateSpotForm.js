@@ -23,7 +23,7 @@ const UpdateSpotForm = () =>{
     const [url5, setUrl5] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
-    const spots = useSelector(state => state.spot.singleSpot)
+    const spots = useSelector(state => state.spot.singleSpot);
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
@@ -42,7 +42,6 @@ const UpdateSpotForm = () =>{
                 setDescription(spots.description);
                 setName(spots.name);
                 setPrice(spots.price);
-                setUrl(spots.SpotImages[0].url)
             }
         } else {
             return null
@@ -91,6 +90,11 @@ const UpdateSpotForm = () =>{
     return (
         <div className="createSpotFrom">
             <form onSubmit={OnSubmit}>
+            <div>
+                <h2>Update your Spot</h2>
+                <h3>Where's your place located?</h3>
+                <p>Guests will only get your exact address once they booked a reservation.</p>
+            </div>
                 <label>
                     <div>
                         Country
@@ -264,7 +268,7 @@ const UpdateSpotForm = () =>{
                     />
                 </label>
                 {/* {errors.url && <span className={errorClassName}>{errors.url}</span>} */}
-                <button type="submit">Submit</button>
+                <button className="createSpotButton" type="submit">Update Spot</button>
             </form>
         </div>
     )

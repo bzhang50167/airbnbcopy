@@ -17,7 +17,7 @@ const SpotShow = () => {
     const sessionUser = useSelector(state => state.session.user);
     const spots = useSelector(state => state.spot.singleSpot);
     // console.log(spotId,'is it even grabbing this');
-    console.log(spots.ownerId,'whhy is this here?');
+    console.log(spots.ownerId, 'whhy is this here?');
     // console.log(Object.values(spots),'what is this');
     // console.log(Object.values(sessionUser),'-=============');
     // console.log(reviews);
@@ -52,7 +52,7 @@ const SpotShow = () => {
     const mainImg = spots.SpotImages.find(spot => spot.preview === true)
     const otherimg = spots.SpotImages.filter(spot => spot.preview === false)
     // console.log(otherimg);
-    const numToMonth ={
+    const numToMonth = {
         1: 'January',
         2: 'Febuary',
         3: 'March',
@@ -115,7 +115,6 @@ const SpotShow = () => {
                     {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
                 </div>
             </div>
-            {sessionUser && sessionUser.id !== spots.ownerId ? (spots.numReviews === 0 ? 'Be The First to Post a Review' : '') : ''}
             <div>
                 {sessionUser && sessionUser.id !== spots.ownerId ? (
                     <button className="updateDeleteCommentButton">
@@ -126,6 +125,7 @@ const SpotShow = () => {
                     </button>
                 ) : ''}
             </div>
+            {sessionUser && sessionUser.id !== spots.ownerId ? (spots.numReviews === 0 ? <h4>Be the first to post a review!</h4> : '') : ''}
             {reviews.slice().reverse().map(r => {
                 // {r.length ===1 ? handelNull : ''}
                 // if(r.createdAt){
