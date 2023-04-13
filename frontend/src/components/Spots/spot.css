@@ -9,7 +9,11 @@
 /* .mainPageSpots :hover{
     box-shadow: 4px 5px 3px;
 } */
-
+.fa-sharp.fa-solid.fa-star{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
 
 .individualSpot {
     /* border: 3px blue solid; */
@@ -246,13 +250,17 @@
 
 .userSpotImg {
     border-radius: 7%;
-    width: 140%;
+    width: 120%;
     height: 12em;
     object-fit: cover;
     overflow: hidden;
     background-size: cover;
     background-position: center center;
     grid-area: image;
+}
+
+.userSpotAvgRating{
+    margin-left: 130px;
 }
 
 .managePageButtonDiv {

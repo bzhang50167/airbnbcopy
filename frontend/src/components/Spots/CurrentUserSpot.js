@@ -39,7 +39,7 @@ const ManageSpot = () => {
                             <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='individualSpot'>
                                 <img className="userSpotImg" src={spot.previewImage} />
                                 <div className="spotAddress">{spot.city}{' , '}{spot.state}</div>
-                                <div className="spotAvgRating">
+                                <div className="userSpotAvgRating">
                                     <i className="fa-sharp fa-solid fa-star"></i>
                                     {' '}
                                     {(spot.avgRating === 0 ? 'New' : spot.avgRating)}
