@@ -34,19 +34,22 @@ const SpotShow = () => {
     if (!spots) {
         return null;
     }
-    if (Object.values(spots).length < 1){
+    if (Object.values(spots).length < 1) {
         return null
     }
     // console.log(reviews, '========================');
     if (!reviews) {
         return <div>Loading...</div>;
     }
-    if (Object.values(reviews).length < 0){
+    if (Object.values(reviews).length < 0) {
         return null
     }
     const handelNull = () => {
         return null
     }
+    const mainImg = spots.SpotImages.find(spot => spot.preview === true)
+    const otherimg = spots.SpotImages.filter(spot => spot.preview === false)
+    console.log(otherimg);
     // const review = Object.values(reviews[0])
     // console.log(spots, 'what is this plase work plaese');
 
@@ -55,15 +58,19 @@ const SpotShow = () => {
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>
             <div className="singleSpotPlaceDetails">{spots?.city},{spots?.state},{spots?.country}</div>
-            <div className="spotImageArea">
-                {spots?.SpotImages.map(image => {
-                    return <img key={image.id} src={image.url} />
-                })}
-            </div>
-            <div>
-                {console.log(spots,'how to grab names')}
-                Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
+            <div class="showSpotImages">
+                <div class="mainImageContainer">
+                    <img class="mainSpotImage" src={mainImg.url} />
                 </div>
+                <div class="otherImagesContainer">
+                    {otherimg.map(image => {
+                        return <img class="fourImage" key={image.id} src={image.url} />
+                    })}
+                </div>
+            </div>
+            <div className="nameOfOwner">
+                Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
+            </div>
             <div className="description">
                 <div>
                     {spots.description}
@@ -72,7 +79,7 @@ const SpotShow = () => {
                 <div className="priceReviewAndBook">
                     <div>{'$'}{spots.price} <span>night</span>
                         <span>
-                            <i className="fa-sharp fa-solid fa-star"></i>
+                            <i id="starNearReserve" className="fa-sharp fa-solid fa-star"></i>
                             <span>{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                             {' '}
                             ·
@@ -87,7 +94,7 @@ const SpotShow = () => {
                 {/* </span> */}
             </div>
             <div className="allReviewsForSpot">
-                <div>
+                <div className="actualReviewCss">
                     <i className="fa-sharp fa-solid fa-star"></i>
                     <span className="allreviewtitlefont">{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                     {' '}

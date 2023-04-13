@@ -14,7 +14,7 @@ function Navigation({ isLoaded }){
         <NavLink exact to="/">
           <img
           className='banner'
-          src='https://content.fortune.com/wp-content/uploads/2014/07/new-logos-airbnb.jpg?w=545'
+          src='https://www.lettingagenttoday.co.uk/upload/STAA-Logo-400x310.jpg'
           />
         </NavLink>
       </div>
