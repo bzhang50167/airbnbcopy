@@ -112,22 +112,23 @@ const reviewReducer = (state = initalState, action) => {
         }
         case CREATE_A_REVIEW:{
             const newState = {...state, spot: {...state.spot}};
-            console.log(newState,'newState--------------------');
             newState.spot[action.spotId.id] = action.spotId;
-            console.log(action,'action~~~~~~~~~~~~~~');
             // ASDLAJKS
             return newState
         }
         case DELETE_REVIEW:{
-            const newState = {...state};
-            delete newState[action.reviewId]
+            const newState = {...state, spot:{...state.spot}};
+            console.log(newState,'newState--------------------');
+            console.log(action,'action~~~~~~~~~~~~~~');
+            delete newState.spot[action.reviewId]
             return newState
         }
         case UPDATE_REVIEW:{
             const newState = {...state, spot:{...state.spot}};
             console.log(newState, 'new state ~~~~~~~~~~~~~~~~');
             console.log(action, 'what is actoin really my god');
-            return state
+            newState.spot[action.data.id] = action.data
+            return newState
         }
         default: {
             return state

@@ -21,7 +21,7 @@ const SpotList = () => {
         <div className="mainPageSpots">
             {spots.map(spot => (
                 <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='individualSpot'>
-                    <img className="spotImg" src={spot.previewImage} />
+                    <img className="spotImg" src={spot.previewImage} title={spot.name}/>
                     <div className="spotAddress">{spot.city}{' , '}{spot.state}</div>
                     <div className="spotAvgRating">
                         <i className="fa-sharp fa-solid fa-star"></i>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateReviewThunk } from "../../store/reviews";
+import { useModal } from "../../context/Modal";
 
 const UpdateReviewModal = ({ reviewId, spotName }) => {
 
@@ -11,6 +12,7 @@ const UpdateReviewModal = ({ reviewId, spotName }) => {
     const [reviewText, setReviewText] = useState('');
     const [stars, setStars] = useState(0);
     const [hover, setHover] = useState(0);
+    const { closeModal } = useModal();
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -31,7 +33,7 @@ const UpdateReviewModal = ({ reviewId, spotName }) => {
 
         // console.log(info,'what am i passing in');
 
-        dispatch(UpdateReviewThunk(reviewId, info))
+        dispatch(UpdateReviewThunk(reviewId, info)).then(closeModal)
         // return
     }
 

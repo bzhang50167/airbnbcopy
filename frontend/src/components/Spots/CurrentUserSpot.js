@@ -27,19 +27,19 @@ const ManageSpot = () => {
     // console.log(typeof spots, 'is this an array or object');
     // console.log(spots, 'items in the spot');
     return (
-        <div>
+        <div className="managePageHeader">
             <div>
                 <h2>Manage Your Spots</h2>
             </div>
             <button onClick={e => history.push('/spots/new')} className="updateButton">Create a New Spot</button>
-            <div className="managePageSpots">
+            <div className="mainPageSpots">
                 {spots.map(spot => {
                     return (
-                        <div>
-                            <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='individualSpot'>
-                                <img className="userSpotImg" src={spot.previewImage} />
+                        <div className="userContainer">
+                            <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='userIndividualSpot'>
+                                <img className="spotImg" src={spot.previewImage} />
                                 <div className="spotAddress">{spot.city}{' , '}{spot.state}</div>
-                                <div className="userSpotAvgRating">
+                                <div className="spotAvgRating">
                                     <i className="fa-sharp fa-solid fa-star"></i>
                                     {' '}
                                     {(spot.avgRating === 0 ? 'New' : spot.avgRating)}
