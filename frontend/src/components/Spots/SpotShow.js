@@ -6,6 +6,7 @@ import { getOneSpotThunk } from "../../store/spots";
 import DeleteReviewModal from "../DeleteReviewModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
+import ReserveButtonModal from "../ReverseButtonModel";
 import UpdateReviewModal from "../UpdateReviewModal";
 import './spot.css'
 
@@ -16,12 +17,17 @@ const SpotShow = () => {
     const reviews = useSelector(state => Object.values(state.review.spot));
     const sessionUser = useSelector(state => state.session.user);
     const spots = useSelector(state => state.spot.singleSpot);
+    const [numReviews, setNumReviews] = useState(0);
+
+    const handleNewReview = () => {
+      setNumReviews(numReviews + 1);
+    }
     // console.log(spotId,'is it even grabbing this');
-    console.log(spots.ownerId, 'whhy is this here?');
+    // console.log(spots.ownerId, 'whhy is this here?');
     // console.log(Object.values(spots),'what is this');
     // console.log(Object.values(sessionUser),'-=============');
     // console.log(reviews);
-    console.log(sessionUser.id, 'WHO IS USING THIS ATM');
+    // console.log(sessionUser.id, 'WHO IS USING THIS ATM');
     // console.log(sessionUser, 'this is who is using this ');
     // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
@@ -66,6 +72,24 @@ const SpotShow = () => {
         11: 'November',
         12: 'December'
     }
+    console.log(reviews,'reviews ---------');
+    console.log(sessionUser,'user');
+
+    const userReviewExists = () => {
+
+        const isHere = reviews.find(review => review.userId === sessionUser.id)
+
+        if(!isHere) return false
+        if(isHere.userId === sessionUser.id){
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const rerenderingPage = async() => {
+       return await dispatch(getOneSpotThunk(spotId))
+    }
     // const review = Object.values(reviews[0])
     // console.log(spots, 'what is this plase work plaese');
 
@@ -100,7 +124,12 @@ const SpotShow = () => {
                             {' '}
                             {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
                             <div>
-                                <button className="reserveButton">RESERVE</button>
+                                <button className="reserveButton">
+                                    <OpenModalMenuItem
+                                        itemText='RESERVE'
+                                        modalComponent={<ReserveButtonModal />}
+                                    />
+                                </button>
                             </div>
                         </span>
                     </div>
@@ -116,11 +145,11 @@ const SpotShow = () => {
                 </div>
             </div>
             <div>
-                {sessionUser && sessionUser.id !== spots.ownerId ? (
-                    <button className="updateDeleteCommentButton">
+                {sessionUser && sessionUser.id !== spots.ownerId ? (userReviewExists() ? '' :
+                    <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                         <OpenModalMenuItem
                             itemText='Pose A review'
-                            modalComponent={<PostReviewModal spotId={spotId} />}
+                            modalComponent={<PostReviewModal spotId={spotId} rerender={rerenderingPage} />}
                         />
                     </button>
                 ) : ''}
@@ -144,16 +173,16 @@ const SpotShow = () => {
                             <div className="reviewReview"> {r?.review} </div>
                         </div>
                         <div>
-                            {sessionUser && r.userId === sessionUser.id ? <button className="updateDeleteCommentButton">
+                            {sessionUser && r.userId === sessionUser.id ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Delete Review'
-                                    modalComponent={<DeleteReviewModal reviewId={r.id} spotId={spotId} />}
+                                    modalComponent={<DeleteReviewModal rerender={rerenderingPage} reviewId={r.id} spotId={spotId} />}
                                 />
                             </button> : ''}
-                            {sessionUser && r.userId === sessionUser.id ? <button className="updateDeleteCommentButton">
+                            {sessionUser && r.userId === sessionUser.id ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Update Review'
-                                    modalComponent={<UpdateReviewModal reviewId={r.id} spotName={spots.name} />}
+                                    modalComponent={<UpdateReviewModal rerender={rerenderingPage} reviewId={r.id} spotName={spots.name} />}
                                 />
                             </button> : ''}
                         </div>

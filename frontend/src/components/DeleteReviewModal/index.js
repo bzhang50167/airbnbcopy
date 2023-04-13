@@ -3,20 +3,22 @@ import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { DeleteReviewThunk } from "../../store/reviews";
 
-const DeleteReviewModal = ({reviewId, spotId}) => {
+const DeleteReviewModal = ({reviewId, spotId, rerender}) => {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-    const history = useHistory()
+    // const history = useHistory()
 
     const yesButton = (e) => {
         e.preventDefault()
+        rerender()
         dispatch(DeleteReviewThunk(reviewId)).then(closeModal)
-        return history.push(`/spots/${spotId}`)
+        // return history.push(`/spots/${spotId}`)
     }
 
     const noButton = (e) => {
         e.preventDefault()
+        rerender()
         return closeModal()
     }
     return(

@@ -21,9 +21,11 @@ const UpdateSpotForm = () =>{
     const [url3, setUrl3] = useState('');
     const [url4, setUrl4] = useState('');
     const [url5, setUrl5] = useState('');
+    // const [control, setControl] = useState(true)
     const dispatch = useDispatch();
     const history = useHistory();
     const spots = useSelector(state => state.spot.singleSpot);
+    console.log(spots);
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
@@ -42,6 +44,8 @@ const UpdateSpotForm = () =>{
                 setDescription(spots.description);
                 setName(spots.name);
                 setPrice(spots.price);
+                // setUrl(spots)
+                // setControl(!control)
             }
         } else {
             return null
@@ -84,7 +88,7 @@ const UpdateSpotForm = () =>{
             dispatch(createNotPreviewImageThunk(spotId,url5))
         }
 
-        return history.push('/')
+        return history.push(`/spots/${spots.id}`)
     }
 
     return (
@@ -221,7 +225,7 @@ const UpdateSpotForm = () =>{
                     />
                 </label>
                 {/* {errors.price && <span className={errorClassName}>{errors.price}</span>} */}
-                <div className="disciptionOfSpot">
+                {/* <div className="disciptionOfSpot">
                     Liven up your spot with photos
                 </div>
                 <label>
@@ -266,7 +270,7 @@ const UpdateSpotForm = () =>{
                         placeholder={'Image URL'}
                         onChange={e => setUrl5(e.target.value)}
                     />
-                </label>
+                </label> */}
                 {/* {errors.url && <span className={errorClassName}>{errors.url}</span>} */}
                 <button className="createSpotButton" type="submit">Update Spot</button>
             </form>

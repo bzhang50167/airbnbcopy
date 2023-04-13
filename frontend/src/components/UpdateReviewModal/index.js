@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UpdateReviewThunk } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 
-const UpdateReviewModal = ({ reviewId, spotName }) => {
+const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
 
     const reviews = useSelector(state => Object.values(state.review.spot));
     const review = reviews.find(review => review.id === reviewId)
@@ -32,7 +32,7 @@ const UpdateReviewModal = ({ reviewId, spotName }) => {
         }
 
         // console.log(info,'what am i passing in');
-
+        rerender()
         dispatch(UpdateReviewThunk(reviewId, info)).then(closeModal)
         // return
     }

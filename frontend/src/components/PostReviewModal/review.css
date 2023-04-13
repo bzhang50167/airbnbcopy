@@ -1,9 +1,11 @@
 .starOn{
     border: none;
+    color: yellow;
 }
 
 .starOff{
     border: none;
+    color: gray;
 }
 
 .fa-sharp.fa-solid.fa-star{
@@ -11,5 +13,5 @@
 }
 
 button{
-    border: none;
+    border: 1px solid black;
 }
