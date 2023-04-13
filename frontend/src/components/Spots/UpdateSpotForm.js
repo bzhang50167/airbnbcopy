@@ -6,7 +6,7 @@ import './spot.css'
 
 const UpdateSpotForm = () =>{
     const { spotId } = useParams();
-    const [spots, setSpots] = useState(null);
+    // const [spots, setSpots] = useState(null);
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('');
@@ -23,13 +23,11 @@ const UpdateSpotForm = () =>{
     const [url5, setUrl5] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
+    const spots = useSelector(state => state.spot.singleSpot)
+
     useEffect(() => {
-        const fetchSpot = async () => {
-            const spotData = await dispatch(getOneSpotThunk(spotId));
-            setSpots(spotData);
-        };
-        fetchSpot();
-    }, [dispatch, spotId]);
+        dispatch(getOneSpotThunk(spotId));
+    }, [dispatch]);
 
     console.log(spots);
     useEffect(() => {
@@ -46,6 +44,8 @@ const UpdateSpotForm = () =>{
                 setPrice(spots.price);
                 setUrl(spots.SpotImages[0].url)
             }
+        } else {
+            return null
         }
     })
 
