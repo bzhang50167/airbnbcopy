@@ -3,15 +3,43 @@
     color: yellow;
 }
 
+.starOn:hover{
+    color: yellow;
+}
+
 .starOff{
     border: none;
     color: gray;
 }
 
+.starOff:hover {
+    color: gray;
+}
+
+
 .fa-sharp.fa-solid.fa-star{
     border: none;
 }
 
-button{
-    border: 1px solid black;
+
+.reviewModal{
+    padding: 20px;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+}
+
+.submitButton{
+    border: 1px black solid;
+    background-color: rgb(231, 116, 135);
+    padding: 5px 40px;
+    margin-top: 10px;
+    margin-left: 25%;
+}
+
+.starssssss{
+    display: flex;
+    justify-content: space-evenly;
 }

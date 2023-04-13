@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { deleteSpotThunk } from "../../store/spots";
+import './index.css'
 
 const DeleteSpotModal = ({spotId}) => {
 
@@ -12,7 +13,7 @@ const DeleteSpotModal = ({spotId}) => {
     const yesButton = (e) => {
         // e.preventDefault()
         dispatch(deleteSpotThunk(spotId)).then(closeModal)
-        return 
+        return
     }
 
     const noButton = (e) => {
@@ -24,8 +25,8 @@ const DeleteSpotModal = ({spotId}) => {
         <div>
             <h1>Confirm Delete</h1>
             <h3>Are you sure you want to remove this spot from the listing?</h3>
-            <button onClick={yesButton} >Yes (Delete Spot)</button>
-            <button onClick={noButton} >No (Keep Spot)</button>
+            <button className="redButton" onClick={yesButton} >Yes (Delete Spot)</button>
+            <button className="grayButton" onClick={noButton} >No (Keep Spot)</button>
         </div>
     )
 }

@@ -30,9 +30,9 @@ const PostReviewModal = ({ spotId, rerender }) => {
     }
 
     return (
-        <div>
+        <div className="reviewModal">
             <form onSubmit={handleSubmit}>
-                <h2>How was your stay</h2>
+                <h2>How was your stay?</h2>
                 <textarea
                     rows={5}
                     cols={50}
@@ -42,7 +42,7 @@ const PostReviewModal = ({ spotId, rerender }) => {
                     onChange={e => setReview(e.target.value)}
                 />
                 {/* {errors.review && <p className="errors">{errors.review}</p>} */}
-                <div>
+                <div className="starssssss">
                     {[...Array(5)].map((stars, index) => {
                         index += 1;
                         return (
@@ -50,9 +50,9 @@ const PostReviewModal = ({ spotId, rerender }) => {
                                 type='button'
                                 key={index}
                                 className={index <= (hover || stars) ? 'starOn' : 'starOff'}
-                                onClick={e => setStars(index)}
+                                onClick={e =>{ setStars(index);}}
                                 onMouseEnter={e => setHover(index)}
-                                onMouseLeave={e => setHover(stars)}
+                                onMouseLeave={e => { setHover(stars);}}
                             >
                                 <i className="fa-sharp fa-solid fa-star"></i>
                             </button>
@@ -60,7 +60,7 @@ const PostReviewModal = ({ spotId, rerender }) => {
                     })}
                 <span>Stars</span>
                 </div>
-                <button disabled={errors.review} type="submit">Submit Your Review</button>
+                <button className="submitButton" disabled={errors.review} type="submit">Submit Your Review</button>
             </form>
         </div>
     )

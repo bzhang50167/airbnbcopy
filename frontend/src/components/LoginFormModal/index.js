@@ -35,7 +35,7 @@ function LoginFormModal() {
   }
 
   return (
-    <>
+    <div className="wholePage">
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -59,10 +59,10 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button onClick={e => setLogin(true)} type="submit">Log In</button>
-        <button onClick={demoUser} >Demo User</button>
+        <button className="loginButton" onClick={e => setLogin(true)} type="submit">Log In</button>
+        <button className="demoUser" onClick={demoUser} >Demo User</button>
       </form>
-    </>
+    </div>
   );
 }
 

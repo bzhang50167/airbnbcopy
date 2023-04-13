@@ -17,18 +17,18 @@ export default function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  useEffect(() => {
-    const errorObj = {};
-    if(!email) errorObj.email = 'Please fill out';
-    if(!username) errorObj.username = 'Please fill out';
-    if(username.length < 4) errorObj.username = 'needs to be greater then 4';
-    if(!firstName) errorObj.firstName = 'Please fill out';
-    if(!lastName) errorObj.lastName = 'Please fill out';
-    if(!password) errorObj.password = 'Please fill out';
-    if(password.length < 6) errorObj.password = 'password needs to be at least 6 characters';
-    if(!confirmPassword) errorObj.confirmPassword = 'Please fill out';
-    setErrors(errorObj)
-  }, [email,username,lastName,firstName, password,confirmPassword])
+  // useEffect(() => {
+  //   const errorObj = {};
+  //   if(!email) errorObj.email = 'Please fill out';
+  //   if(!username) errorObj.username = 'Please fill out';
+  //   if(username.length < 4) errorObj.username = 'needs to be greater then 4';
+  //   if(!firstName) errorObj.firstName = 'Please fill out';
+  //   if(!lastName) errorObj.lastName = 'Please fill out';
+  //   if(!password) errorObj.password = 'Please fill out';
+  //   if(password.length < 6) errorObj.password = 'password needs to be at least 6 characters';
+  //   if(!confirmPassword) errorObj.confirmPassword = 'Please fill out';
+  //   setErrors(errorObj)
+  // }, [email,username,lastName,firstName, password,confirmPassword])
 
   console.log(Object.values(errors));
   if (sessionUser) return <Redirect to="/" />;
@@ -124,7 +124,8 @@ export default function SignupFormModal() {
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button
-          disabled={Object.values(errors).length > 0}
+        className="signUpButton"
+          // disabled={confirmPassword.length < 1}
           type="submit">Sign Up</button>
       </form>
     </div>

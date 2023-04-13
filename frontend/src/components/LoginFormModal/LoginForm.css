@@ -13,10 +13,26 @@ form {
     border: 1px solid black;
     display: flex;
     justify-content:  center;
+    align-items: center;
     flex-direction: column;
     width: fit-content;
-    margin: 8em;
+    /* margin: 8em; */
     padding: 60px;
-    border-radius: 10%;
-    background-color: bisque;
+    /* border-radius: 10%; */
+    background-color: white;
+}
+
+.loginButton{
+    background-color: rgb(231, 116, 135);
+    border: 1px solid black;
+    padding: 5px 80px;
+    margin-left: 18%;
+}
+
+.demoUser{
+  border: none;
+  background-color: transparent;
+  margin-top: 10px;
+  text-decoration: underline blue;
+  margin-left: 37%
 }
