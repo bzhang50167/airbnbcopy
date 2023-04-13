@@ -51,6 +51,7 @@ function ProfileButton({ user }) {
     setLogin(false)
     dispatch(sessionActions.logout());
     closeMenu();
+    history.push('/')
   };
 
   const manageSpots = () => {
@@ -70,19 +71,17 @@ function ProfileButton({ user }) {
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
-            <ul>{user.username}</ul>
-            <ul>{user.firstName} {user.lastName}</ul>
-            <ul>{user.email}</ul>
-            <ul>
-              <div>
-                <button onClick={manageSpots}>Manage Spots</button>
-              </div>
-              <button onClick={logout}>Log Out</button>
-            </ul>
-          </>
+          <div>
+            <ul className="fitInBoxPlease">{user.username}</ul>
+            <ul className="fitInBoxPlease">{user.firstName} {user.lastName}</ul>
+            <ul className="fitInBoxPlease">{user.email}</ul>
+            <div>
+              <button className="manageSpot" onClick={manageSpots}>Manage Spots</button>
+            </div>
+            <button className="logoutButton" onClick={logout}>Log Out</button>
+          </div>
         ) : (
-          <>
+          <div className="loginLogout">
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
@@ -93,7 +92,7 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
+          </div>
         )}
       </ul>
     </div>

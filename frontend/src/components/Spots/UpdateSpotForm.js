@@ -29,7 +29,7 @@ const UpdateSpotForm = () =>{
         dispatch(getOneSpotThunk(spotId));
     }, [dispatch]);
 
-    console.log(spots);
+    // console.log(spots);
     useEffect(() => {
         if(spots !== null){
             if(!country){

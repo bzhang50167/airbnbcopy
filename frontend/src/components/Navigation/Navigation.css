@@ -1,4 +1,4 @@
-.NavBar{
+.NavBar {
     display: flex;
     /* align-items: flex-end; */
     justify-content: flex-end;
@@ -6,71 +6,107 @@
     padding: 3px;
     padding-left: 10px;
 }
-.nav{
+
+
+.nav {
     margin: 19px;
 }
 
-.allOfProfilePage{
+.allOfProfilePage {
     /* border: 2px solid black; */
     display: flex;
     align-items: center;
 }
 
-.profileButton{
+.profileButton {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: white;
     border: 1px darkgray solid;
     border-radius: 45%;
-    width: 90px;
-    height: 70px;
+    width: 50px;
+    height: 47px;
 }
 
-.threeBar{
+.threeBar {
     width: 30px;
     height: 15px;
 }
 
-.grayPerson{
+.grayPerson {
     width: 30px;
 }
 
-.profile-dropdown{
+.profile-dropdown {
     width: 120px;
     height: 60px;
 }
 
-.profile-dropdown.hidden{
+.profile-dropdown.hidden {
     background-color: aqua;
     display: none;
 }
-.topOfPage{
+
+.topOfPage {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.createNewSpotLink{
+.createNewSpotLink {
     margin-right: 30px;
 }
 
-.banner{
+.banner {
     height: 70px;
 }
+
 /*
 .profileButton{
     position: absolute;
 }
 */
+.profileButton {
+    position: relative;
+}
 
-.profile-dropdown{
+.profile-dropdown {
     position: absolute;
-    margin-top: 160px;
-    background-color: gray;
+    top: 12%;
+    background-color: white;
     border: 1px solid black;
-    border-radius: 5%;
+    /* border-radius: 5%; */
     width: fit-content;
     height: fit-content;
-    right: 20px;
+    right: 1%;
+    /* right: 20px; */
+    padding: 14px;
+    padding-left: 18px;
+}
+
+.fitInBoxPlease{
+    padding: 0px;
+    margin-bottom: 2px;
+}
+
+.fa-solid.fa-bars {
+    margin-right: 4px;
+}
+
+.manageSpot {
+    border: none;
+    background-color: white;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+    margin: 6px 0px;
+    width: fit-content;
+}
+
+.logoutButton {
+    border: 1px solid black;
+    padding: 9px 25px;
+    background-color: rgb(231, 116, 135);
+    border-radius: 45%;
+    width: fit-content;
 }

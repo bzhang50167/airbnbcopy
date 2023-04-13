@@ -31,12 +31,13 @@ const ManageSpot = () => {
             <div>
                 <h2>Manage Your Spots</h2>
             </div>
+            <button onClick={e => history.push('/spots/new')} className="updateButton">Create a New Spot</button>
             <div className="managePageSpots">
                 {spots.map(spot => {
                     return (
                         <div>
                             <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='individualSpot'>
-                                <img className="spotImg" src={spot.previewImage} />
+                                <img className="userSpotImg" src={spot.previewImage} />
                                 <div className="spotAddress">{spot.city}{' , '}{spot.state}</div>
                                 <div className="spotAvgRating">
                                     <i className="fa-sharp fa-solid fa-star"></i>
@@ -47,10 +48,11 @@ const ManageSpot = () => {
                             </div>
                             <div className="managePageButtonDiv">
                                 <button onClick={e => history.push(`/${spot.id}/update`)} className="updateButton">Update</button>
-                                <button>
+                                <button className={'deleteButtonSpot'}>
                                     <OpenModalMenuItem
-                                    itemText={'Delete'}
-                                    modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                                        itemText={'Delete'}
+                                        className={'deleteButtonSpot'}
+                                        modalComponent={<DeleteSpotModal spotId={spot.id} />}
                                     />
                                 </button>
                             </div>

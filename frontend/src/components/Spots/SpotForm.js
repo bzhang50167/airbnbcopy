@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createImageThunk, createNotPreviewImageThunk, createSpotThunk } from "../../store/spots";
 import './spot.css'
@@ -37,14 +37,14 @@ const CreateNewSpot = () => {
         if (!price) errorObj.price = 'Price is required';
         // if (!url) errorObj.url = 'Preview image is required';
         setErrors(errorObj)
-    }, [country,address,city,state,lat,lng,description,name,price])
+    }, [country, address, city, state, lat, lng, description, name, price])
 
     const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 
     const OnSubmit = async (e) => {
         e.preventDefault();
 
-        if(Object.values(errors).length > 0){
+        if (Object.values(errors).length > 0) {
             setShowErrors(true)
             return
         }
@@ -70,17 +70,17 @@ const CreateNewSpot = () => {
         const spotId = newSpot.id
 
         dispatch(createImageThunk(spotId, url))
-        if(url2){
-            dispatch(createNotPreviewImageThunk(spotId,url2))
+        if (url2) {
+            dispatch(createNotPreviewImageThunk(spotId, url2))
         }
-        if(url3){
-            dispatch(createNotPreviewImageThunk(spotId,url3))
+        if (url3) {
+            dispatch(createNotPreviewImageThunk(spotId, url3))
         }
-        if(url4){
-            dispatch(createNotPreviewImageThunk(spotId,url4))
+        if (url4) {
+            dispatch(createNotPreviewImageThunk(spotId, url4))
         }
-        if(url5){
-            dispatch(createNotPreviewImageThunk(spotId,url5))
+        if (url5) {
+            dispatch(createNotPreviewImageThunk(spotId, url5))
         }
 
         return history.push('/')
@@ -89,6 +89,11 @@ const CreateNewSpot = () => {
     return (
         <div className="createSpotFrom">
             <form onSubmit={OnSubmit}>
+                <div>
+                    <h2>Create a new Spot</h2>
+                    <h3>Where's your place located?</h3>
+                    <p>Guests will only get your exact address once they booked a reservation</p>
+                </div>
                 <label>
                     <div>
                         Country
@@ -106,7 +111,7 @@ const CreateNewSpot = () => {
                     <div>
                         Street Address
                         {' '}
-                         {errors.address && <span className={errorClassName}>{errors.address}</span>}
+                        {errors.address && <span className={errorClassName}>{errors.address}</span>}
                     </div>
                     <input
                         type={'text'}
@@ -115,65 +120,72 @@ const CreateNewSpot = () => {
                         onChange={e => setAddress(e.target.value)}
                     />
                 </label>
-                <label>
-                    <div>
-                        City
-                        {' '}
-                    {errors.city && <span className={errorClassName}>{errors.city}</span>}
-                    </div>
-                    <input
-                        type={'text'}
-                        placeholder={'City'}
-                        value={city}
-                        onChange={e => setCity(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <div>
-                        State
-                        {' '}
-                    {errors.state && <span className={errorClassName}>{errors.state}</span>}
-                    </div>
-                    <input
-                        type={'text'}
-                        placeholder={'STATE'}
-                        value={state}
-                        onChange={e => setState(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <div>
-                        Latitude
-                        {' '}
-                    {errors.lat && <span className={errorClassName}>{errors.lat}</span>}
-                    </div>
-                    <input
-                        type={'text'}
-                        placeholder={'Latitude'}
-                        value={lat}
-                        onChange={e => setLat(e.target.value)}
-                    />
-                </label>
-                <label>
-                    <div>
-                        Longitude
-                        {' '}
-                    {errors.lng && <span className={errorClassName}>{errors.lng}</span>}
-                    </div>
-                    <input
-                        type={'text'}
-                        placeholder={'Longitude'}
-                        value={lng}
-                        onChange={e => setLng(e.target.value)}
-                    />
-                </label>
+                <div className="cityState">
+                    <label>
+                        <div>
+                            City
+                            {errors.city && <span className={errorClassName}>{errors.city}</span>}
+                        </div>
+                        <input
+                            type={'text'}
+                            placeholder={'City'}
+                            className={'sameLineBox'}
+                            value={city}
+                            onChange={e => setCity(e.target.value)}
+                        />
+                        {/* <span>{','}</span> */}
+                    </label>
+                    <label>
+                        <div className="textRight">
+                            State
+                            {errors.state && <span className={errorClassName}>{errors.state}</span>}
+                        </div>
+                        <input
+                            type={'text'}
+                            placeholder={'State'}
+                            className={'sameLineBoxRight'}
+                            value={state}
+                            onChange={e => setState(e.target.value)}
+                        />
+                    </label>
+                </div>
+                <div className="cityState">
+                    <label>
+                        <div>
+                            Latitude
+                            {' '}
+                            {errors.lat && <span className={errorClassName}>{errors.lat}</span>}
+                        </div>
+                        <input
+                            type={'text'}
+                            className={'sameLineBox'}
+                            placeholder={'Latitude'}
+                            value={lat}
+                            onChange={e => setLat(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        <div className="textRight">
+                            Longitude
+                            {' '}
+                            {errors.lng && <span className={errorClassName}>{errors.lng}</span>}
+                        </div>
+                        <input
+                            type={'text'}
+                            className={'sameLineBoxRight'}
+                            placeholder={'Longitude'}
+                            value={lng}
+                            onChange={e => setLng(e.target.value)}
+                        />
+                    </label>
+                </div>
                 <div className="disciptionOfSpot">
                     Describe your place to guest
                 </div>
                 <label>
-                    <div>
+                    <p>
                         Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.
-                    </div>
+                    </p>
                     <textarea
                         type={'textbox'}
                         rows={5}
@@ -188,9 +200,9 @@ const CreateNewSpot = () => {
                     Create a title for your spot
                 </div>
                 <label>
-                    <div>
+                    <p>
                         Catch quests' attention whith a spot title that highlights what makes your place special.
-                    </div>
+                    </p>
                     <input
                         type={'text'}
                         value={name}
@@ -203,9 +215,9 @@ const CreateNewSpot = () => {
                     Set a base price for your spot
                 </div>
                 <label>
-                    <div>
+                    <p>
                         Competitive pricing can help your listing stand out and rank higher in search results.
-                    </div>
+                    </p>
                     <input
                         type={'text'}
                         value={price}
@@ -218,9 +230,9 @@ const CreateNewSpot = () => {
                     Liven up your spot with photos
                 </div>
                 <label>
-                    <div>
+                    <p>
                         Submit a link to at least one photo to publish your spot.
-                    </div>
+                    </p>
                     <input
                         type={'text'}
                         value={url}
@@ -252,7 +264,7 @@ const CreateNewSpot = () => {
                         onChange={e => setUrl4(e.target.value)}
                     />
                 </label>
-                <label>
+                <label className="makeLineUnder">
                     <input
                         type={'text'}
                         value={url5}
@@ -261,7 +273,7 @@ const CreateNewSpot = () => {
                     />
                 </label>
                 {errors.url && <span className={errorClassName}>{errors.url}</span>}
-                <button type="submit">Submit</button>
+                <button className="createSpotButton" type="submit">Create Spot</button>
             </form>
         </div>
     )

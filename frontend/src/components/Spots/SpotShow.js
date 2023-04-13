@@ -29,8 +29,8 @@ const SpotShow = () => {
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
     }, [dispatch]);
-    // console.log(reviews);
-    // console.log(Object.values(spots));
+    console.log(reviews, 'reivew that is here');
+    console.log(Object.values(reviews).length, 'the length of something with nore reviews');
     if (!spots) {
         return null;
     }
@@ -49,7 +49,21 @@ const SpotShow = () => {
     }
     const mainImg = spots.SpotImages.find(spot => spot.preview === true)
     const otherimg = spots.SpotImages.filter(spot => spot.preview === false)
-    console.log(otherimg);
+    // console.log(otherimg);
+    const numToMonth ={
+        1: 'January',
+        2: 'Febuary',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December'
+    }
     // const review = Object.values(reviews[0])
     // console.log(spots, 'what is this plase work plaese');
 
@@ -82,9 +96,7 @@ const SpotShow = () => {
                             <i id="starNearReserve" className="fa-sharp fa-solid fa-star"></i>
                             <span>{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                             {' '}
-                            ·
-                            {' '}
-                            <span>{spots.numReviews === 1 ? 'review' : 'reviews'}</span>
+                            {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
                             <div>
                                 <button className="reserveButton">RESERVE</button>
                             </div>
@@ -98,14 +110,12 @@ const SpotShow = () => {
                     <i className="fa-sharp fa-solid fa-star"></i>
                     <span className="allreviewtitlefont">{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                     {' '}
-                    ·
-                    {' '}
-                    <span className="allreviewtitlefont">{spots.numReviews} reviews</span>
+                    {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
                 </div>
             </div>
             <div>
                 {sessionUser && (
-                    <button>
+                    <button className="updateDeleteCommentButton">
                         <OpenModalMenuItem
                             itemText='Pose A review'
                             modalComponent={<PostReviewModal spotId={spotId} />}
@@ -118,22 +128,26 @@ const SpotShow = () => {
                 // if(r.createdAt){
                 //     return <div>...loading</div>
                 // }
-                const time = (r?.createdAt).split('T');
+                const year = (r?.createdAt).split('-')[0];
+                const monthNum = (r?.createdAt).split('-')[1];
+                const step1 = monthNum.split('0')
+                const step2 = step1.join('')
+                const month = numToMonth[step2]
                 return (
                     <div>
                         <div key={r.id}>
-                            <div>{r?.User?.firstName}</div>
-                            <div>{time}</div>
-                            <div> {r?.review} </div>
+                            <div className="firstNameReview">{r?.User?.firstName}</div>
+                            <div className="dateReview">{month}{' '}{year}</div>
+                            <div className="reviewReview"> {r?.review} </div>
                         </div>
                         <div>
-                            {sessionUser && r.userId === sessionUser.id ? <button>
+                            {sessionUser && r.userId === sessionUser.id ? <button className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Delete Review'
                                     modalComponent={<DeleteReviewModal reviewId={r.id} spotId={spotId} />}
                                 />
                             </button> : ''}
-                            {sessionUser && r.userId === sessionUser.id ? <button>
+                            {sessionUser && r.userId === sessionUser.id ? <button className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Update Review'
                                     modalComponent={<UpdateReviewModal reviewId={r.id} spotName={spots.name} />}

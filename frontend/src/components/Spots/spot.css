@@ -12,12 +12,12 @@
 
 
 .individualSpot {
-    /* border: 3px blue solid;/ */
+    /* border: 3px blue solid; */
     box-sizing: border-box;
     display: grid;
-    height: 350px;
-    width: 350px;
-    gap: 5px;
+    height: fit-content;
+    width: 20%;
+    gap: 10px;
     margin: 25px;
     grid-template-columns: 25% 25% 25% 25%;
     grid-template-rows: 80%, 10%, 10%;
@@ -30,7 +30,7 @@
 .spotImg {
     border-radius: 7%;
     width: 100%;
-    height: 21em;
+    height: 13em;
     object-fit: cover;
     overflow: hidden;
     background-size: cover;
@@ -70,12 +70,6 @@
 
 .specialSpotImg {
     border-radius: 3%;
-}
-
-.createSpotFrom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .disciptionOfSpot {
@@ -151,11 +145,15 @@
 }
 
 .errorshidden {
-    color: white
+    color: white;
+    font-size: small;
+    margin-left: 3px;
 }
 
 .errors {
     color: red;
+    font-size: small;
+    margin-left: 3px;
 }
 
 /* .selectedSpot{
@@ -168,19 +166,20 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    width: 1000px;
-    height: 350px;
+    width: 100%;
+    height: fit-content;
 }
 
 .mainImageContainer {
     width: 50%;
-    height: 100%;
+    height: 50vh; /* set a fixed height for consistency */
     margin-right: 5px;
 }
 
 .mainSpotImage {
     width: 100%;
     height: 100%;
+    object-fit: cover; /* prevent image distortion */
 }
 
 .otherImagesContainer {
@@ -194,7 +193,9 @@
 
 .fourImage {
     width: 49%;
-    height: 49%;
+    height: 25vh; /* set a fixed height for consistency */
+    margin-bottom: 5px;
+    object-fit: cover; /* prevent image distortion */
 }
 
 .priceReviewAndBook {
@@ -206,11 +207,11 @@
     border-radius: 3%;
 }
 
-#starNearReserve{
+#starNearReserve {
     margin-left: 40px;
 }
 
-.reserveButton{
+.reserveButton {
     margin-top: 10px;
     margin-left: 8px;
     border: 1px solid black;
@@ -219,27 +220,149 @@
     box-shadow: 2px 2px 2px black;
 }
 
-.description{
-    margin: 10px 0px;
-    width: 650px;
-    height: 120px;
+.description {
+    width: 70%;
+    margin-bottom: 7%;
 }
 
-.nameOfOwner{
+.nameOfOwner {
     margin-top: 10px;
     font-size: x-large;
 }
 
-.allReviewsForSpot{
+.allReviewsForSpot {
     /* margin-top: 100px; */
     border-top: 2px solid black;
-    width: 1000px;
+    width: 100%;
 }
 
 .allreviewtitlefont {
     border: none;
 }
 
-.actualReviewCss{
+.actualReviewCss {
     font-size: xx-large;
+}
+
+.userSpotImg {
+    border-radius: 7%;
+    width: 140%;
+    height: 12em;
+    object-fit: cover;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    grid-area: image;
+}
+
+.managePageButtonDiv {
+    margin-left: 22px;
+}
+
+.updateButton {
+    border: 1px solid black;
+    background-color: rgb(231, 116, 135);
+    box-shadow: 1px 1px 1px;
+}
+
+.deleteButtonSpot {
+    border: 1px black solid;
+    background-color: rgb(231, 116, 135);
+    box-shadow: 1px 1px 1px;
+    margin-left: 5px;
+}
+
+.createSpotFrom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    padding-left: 400px;
+}
+
+label {
+    display: grid;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+}
+
+label>div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+label>input {
+    width: 300px;
+}
+
+.cityStateContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.sameLineBox{
+    /* display: inline-block; */
+    width: 136.5px;
+}
+.sameLineBoxRight{
+    /* display: inline-block; */
+    width: 136.5px;
+    margin-left: 15px;
+}
+.cityState{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* background-color: red; */
+    /* display: inline-block; */
+    /* flex-direction: row; */
+    /* width: 300px; */
+}
+
+.textRight{
+    margin-left: 16px;
+}
+input{
+    margin-bottom: 10px;
+}
+
+p{
+    font-size: smaller;
+}
+
+.createSpotButton{
+    border: 1px solid black;
+    background-color: rgb(231, 116, 135);
+    margin-top: 10px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.makeLineUnder{
+    border-bottom: 2px solid black
+}
+
+.updateDeleteCommentButton{
+    border: 1px solid black;
+    background-color: rgb(231, 116, 135);
+    box-shadow: 1px 1px 1px;
+    margin-top: 10px;
+    margin: 3px;
+}
+
+.firstNameReview{
+    font-weight: 600;
+    margin: 5px;
+}
+
+.dateReview{
+    margin: 5px;
+    color: darkgray;
+}
+
+.reviewReview{
+    margin: 5px;
 }
