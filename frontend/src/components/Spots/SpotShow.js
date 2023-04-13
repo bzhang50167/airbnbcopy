@@ -17,9 +17,11 @@ const SpotShow = () => {
     const sessionUser = useSelector(state => state.session.user);
     const spots = useSelector(state => state.spot.singleSpot);
     // console.log(spotId,'is it even grabbing this');
-    // console.log(spots,'whhy is this here?');
+    console.log(spots.ownerId,'whhy is this here?');
+    // console.log(Object.values(spots),'what is this');
+    // console.log(Object.values(sessionUser),'-=============');
     // console.log(reviews);
-    // console.log(sessionUser, 'WHO IS USING THIS ATM');
+    console.log(sessionUser.id, 'WHO IS USING THIS ATM');
     // console.log(sessionUser, 'this is who is using this ');
     // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
@@ -29,8 +31,8 @@ const SpotShow = () => {
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
     }, [dispatch]);
-    console.log(reviews, 'reivew that is here');
-    console.log(Object.values(reviews).length, 'the length of something with nore reviews');
+    // console.log(reviews, 'reivew that is here');
+    // console.log(Object.values(reviews).length, 'the length of something with nore reviews');
     if (!spots) {
         return null;
     }
@@ -113,15 +115,16 @@ const SpotShow = () => {
                     {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
                 </div>
             </div>
+            {sessionUser && sessionUser.id !== spots.ownerId ? (spots.numReviews === 0 ? 'Be The First to Post a Review' : '') : ''}
             <div>
-                {sessionUser && (
+                {sessionUser && sessionUser.id !== spots.ownerId ? (
                     <button className="updateDeleteCommentButton">
                         <OpenModalMenuItem
                             itemText='Pose A review'
                             modalComponent={<PostReviewModal spotId={spotId} />}
                         />
                     </button>
-                )}
+                ) : ''}
             </div>
             {reviews.slice().reverse().map(r => {
                 // {r.length ===1 ? handelNull : ''}
@@ -130,9 +133,9 @@ const SpotShow = () => {
                 // }
                 const year = (r?.createdAt).split('-')[0];
                 const monthNum = (r?.createdAt).split('-')[1];
-                const step1 = monthNum.split('0')
-                const step2 = step1.join('')
-                const month = numToMonth[step2]
+                const step1 = monthNum.split('0');
+                const step2 = step1.join('');
+                const month = numToMonth[step2];
                 return (
                     <div>
                         <div key={r.id}>
