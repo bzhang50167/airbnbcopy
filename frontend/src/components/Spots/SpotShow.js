@@ -14,9 +14,10 @@ const SpotShow = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     // const [spots, setSpots] = useState(null);
-    const reviews = useSelector(state => Object.values(state.review.spot));
-    const sessionUser = useSelector(state => state.session.user);
-    const spots = useSelector(state => state.spot.singleSpot);
+    const reviewObj = useSelector(state => state.review.spot);//dont do Object.values in a useSelector
+    const reviews = Object.values(reviewObj)
+    const sessionUser = useSelector(state => state.session.user);// dont need to force rerender since any since useSelector detecting new ref in memory wold cause rerender
+    const spots = useSelector(state => state.spot.singleSpot);//return object
     const [numReviews, setNumReviews] = useState(0);
 
     const handleNewReview = () => {
@@ -31,7 +32,7 @@ const SpotShow = () => {
     // console.log(sessionUser, 'this is who is using this ');
     // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
-        dispatch(GetAllReviewsFromSpotThunk(spotId))
+        dispatch(GetAllReviewsFromSpotThunk(spotId)) //can combine useEffect
     }, [dispatch]);
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const SpotShow = () => {
     }, [dispatch]);
     // console.log(reviews, 'reivew that is here');
     // console.log(Object.values(reviews).length, 'the length of something with nore reviews');
-    if (!spots) {
+    if (!Object.values(spots).length) {// object are truthy when empty
         return null;
     }
     if (Object.values(spots).length < 1) {
@@ -97,7 +98,7 @@ const SpotShow = () => {
     return (
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>
-            <div className="singleSpotPlaceDetails">{spots?.city},{spots?.state},{spots?.country}</div>
+            <div className="singleSpotPlaceDetails">{spots?.city}, {' '}{spots?.state}, {' '}{spots?.country}</div>
             <div class="showSpotImages">
                 <div class="mainImageContainer">
                     <img class="mainSpotImage" src={mainImg.url} />
@@ -109,7 +110,7 @@ const SpotShow = () => {
                 </div>
             </div>
             <div className="nameOfOwner">
-                Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
+                Hosted by {spots.Owner?.firstName} {spots.Owner?.lastName}
             </div>
             <div className="description">
                 <div>
@@ -145,7 +146,7 @@ const SpotShow = () => {
                 </div>
             </div>
             <div>
-                {sessionUser && sessionUser.id !== spots.ownerId ? (userReviewExists() ? '' :
+                {sessionUser && (sessionUser.id !== spots.ownerId) ? (userReviewExists() ? '' : //group them up for readability and to avoid bugs(predicability)
                     <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                         <OpenModalMenuItem
                             itemText='Pose A review'
@@ -154,8 +155,8 @@ const SpotShow = () => {
                     </button>
                 ) : ''}
             </div>
-            {sessionUser && sessionUser.id !== spots.ownerId ? (spots.numReviews === 0 ? <h4>Be the first to post a review!</h4> : '') : ''}
-            {reviews.slice().reverse().map(r => {
+            {sessionUser && (sessionUser.id !== spots.ownerId) ? (spots.numReviews === 0 ? <h4>Be the first to post a review!</h4> : null) : null}
+            {reviews.reverse().map(r => {
                 // {r.length ===1 ? handelNull : ''}
                 // if(r.createdAt){
                 //     return <div>...loading</div>
@@ -173,13 +174,13 @@ const SpotShow = () => {
                             <div className="reviewReview"> {r?.review} </div>
                         </div>
                         <div>
-                            {sessionUser && r.userId === sessionUser.id ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
+                            {sessionUser && (r.userId === sessionUser.id) ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Delete Review'
                                     modalComponent={<DeleteReviewModal rerender={rerenderingPage} reviewId={r.id} spotId={spotId} />}
                                 />
                             </button> : ''}
-                            {sessionUser && r.userId === sessionUser.id ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
+                            {sessionUser && (r.userId === sessionUser.id) ? <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                                 <OpenModalMenuItem
                                     itemText='Update Review'
                                     modalComponent={<UpdateReviewModal rerender={rerenderingPage} reviewId={r.id} spotName={spots.name} />}

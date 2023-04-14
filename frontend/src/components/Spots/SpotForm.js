@@ -83,7 +83,7 @@ const CreateNewSpot = () => {
             dispatch(createNotPreviewImageThunk(spotId, url5))
         }
 
-        return history.push('/')
+        return history.push(`/spots/${spotId}`)
     }
 
     return (
