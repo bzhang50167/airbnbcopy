@@ -45,7 +45,6 @@ form {
 }
 
 .submitButton {
-    background-color: transparent;
     border: 1px black solid;
     background-color: rgb(231, 116, 135);
     padding: 5px 40px;
@@ -58,15 +57,6 @@ form {
     justify-content: space-evenly;
 }
 
-
-.title {
-    font-size: larger;
-}
-
-button{
+button {
     background-color: transparent;
-}
-
-textarea{
-    margin-bottom: 4px;
 }

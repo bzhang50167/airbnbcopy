@@ -18,7 +18,7 @@
     height: fit-content;
     width: 20%;
     gap: 10px;
-    margin: 25px;
+    margin: 20px;
     grid-template-columns: 25% 25% 25% 25%;
     grid-template-rows: 80%, 10%, 10%;
     grid-template-areas:
@@ -277,7 +277,7 @@
     overflow: hidden;
     background-size: cover;
     background-position: center center;
-    grid-area: image;
+    /* grid-area: image; */
 }
 
 .managePageButtonDiv {
@@ -371,7 +371,7 @@ p {
     justify-content: center; */
 }
 
-.createSpotButton 
+.createSpotButton
 
 .makeLineUnder {
     border-bottom: 2px solid black
@@ -413,4 +413,55 @@ p {
 
 .userContainer {
     width: 25%;
+}
+
+@media screen and (max-width: 830px) {
+    .mainPageSpots{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .individualSpot {
+        /* border: 3px blue solid; */
+        border: 1px solid darkgray;
+        border-radius: 7%;
+        box-sizing: border-box;
+        display: grid;
+        padding: 30px;
+        padding-right: 100px;
+        height: fit-content;
+        width: 80%;
+        gap: 10px;
+        margin: 20px;
+        grid-template-columns: 70% 25% 5%;
+        grid-template-rows: 70%, 25%, 5%;
+        grid-template-areas:
+            "image  address avgRating"
+            "image . price"
+    }
+
+    .spotImg {
+        border-radius: 7%;
+        position: relative;
+        width: 100%;
+        height: 13em;
+        object-fit: cover;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center center;
+        grid-area: image;
+    }
+
+    .spotPrice {
+        display: flex;
+        align-items: end;
+        justify-content: flex-start;
+    }
+
+    .spotAvgRating{
+        display: flex;
+        align-items: end;
+        justify-content: flex-end;
+    }
 }

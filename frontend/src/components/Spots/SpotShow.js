@@ -23,7 +23,7 @@ const SpotShow = () => {
     const handleNewReview = () => {
       setNumReviews(numReviews + 1);
     }
-    // console.log(spotId,'is it even grabbing this');
+    console.log(spots,'is it even grabbing this');
     // console.log(spots.ownerId, 'whhy is this here?');
     // console.log(Object.values(spots),'what is this');
     // console.log(Object.values(sessionUser),'-=============');
@@ -110,7 +110,8 @@ const SpotShow = () => {
                 </div>
             </div>
             <div className="nameOfOwner">
-                Hosted by {spots.Owner?.firstName} {spots.Owner?.lastName}
+                {/* {!spots.Owner.firstName && dispatch(getOneSpotThunk(spotId))} */}
+                Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
             </div>
             <div className="description">
                 <div>

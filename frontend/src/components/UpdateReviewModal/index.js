@@ -13,7 +13,12 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
     const [stars, setStars] = useState(0);
     const [hover, setHover] = useState(0);
     const { closeModal } = useModal();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const handleStarClick = (star) => {
+        setStars(star);
+    };
+
 
     useEffect(() => {
         if(review !== null){
@@ -38,8 +43,8 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
     }
 
     return (
-        <div>
-            <h1>How was your stay at {spotName}</h1>
+        <div className="reviewModal">
+            <h1 className="title">How was your stay at {spotName}</h1>
             <label>
                 <textarea
                     rows={5}
@@ -49,24 +54,25 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
                 />
             </label>
             <div>
-                    {[...Array(5)].map((stars, index) => {
+            {[...Array(5)].map((star, index) => {
                         index += 1;
                         return (
                             <button
-                                type='button'
+                                type="button"
                                 key={index}
-                                className={index <= (hover || stars) ? 'starOn' : 'starOff'}
-                                onClick={e => setStars(index)}
-                                onMouseEnter={e => setHover(index)}
-                                onMouseLeave={e => setHover(stars)}
+                                className={index <= (hover || stars) ? "starOn" : "starOff"}
+                                onClick={() => handleStarClick(index)}
+                                onMouseEnter={() => setHover(index)}
+                                onMouseLeave={() => setHover(stars)}
                             >
-                                <i className="fa-sharp fa-solid fa-star"></i>
+                                <i className="fa fa-star"></i>
                             </button>
-                        )
+                        );
                     })}
+                    <span>Stars</span>
                 </div>
             <div>
-                <button onClick={submitButton}>Update Review</button>
+                <button className="submitButton" onClick={submitButton}>Update Review</button>
             </div>
         </div>
     )

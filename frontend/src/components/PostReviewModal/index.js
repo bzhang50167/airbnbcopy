@@ -13,9 +13,13 @@ const PostReviewModal = ({ spotId, rerender }) => {
     const dispatch = useDispatch()
     const { closeModal } = useModal();
 
+    const handleStarClick = (star) => {
+        setStars(star);
+    };
+
     useEffect(() => {
         const errorObj = {}
-        if(review.length < 10) errorObj.review='wrtie more';
+        if (review.length < 10) errorObj.review = 'wrtie more';
         setErrors(errorObj)
     }, [review])
 
@@ -42,23 +46,23 @@ const PostReviewModal = ({ spotId, rerender }) => {
                     onChange={e => setReview(e.target.value)}
                 />
                 {/* {errors.review && <p className="errors">{errors.review}</p>} */}
-                <div className="starssssss">
-                    {[...Array(5)].map((stars, index) => {
+                <div className="rating">
+                    {[...Array(5)].map((star, index) => {
                         index += 1;
                         return (
                             <button
-                                type='button'
+                                type="button"
                                 key={index}
-                                className={index <= (hover || stars) ? 'starOn' : 'starOff'}
-                                onClick={e =>{ setStars(index);}}
-                                onMouseEnter={e => setHover(index)}
-                                onMouseLeave={e => { setHover(stars);}}
+                                className={index <= (hover || stars) ? "starOn" : "starOff"}
+                                onClick={() => handleStarClick(index)}
+                                onMouseEnter={() => setHover(index)}
+                                onMouseLeave={() => setHover(stars)}
                             >
-                                <i className="fa-sharp fa-solid fa-star"></i>
+                                <i className="fa fa-star"></i>
                             </button>
-                        )
+                        );
                     })}
-                <span>Stars</span>
+                    <span>Stars</span>
                 </div>
                 <button className="submitButton" disabled={errors.review} type="submit">Submit Your Review</button>
             </form>
