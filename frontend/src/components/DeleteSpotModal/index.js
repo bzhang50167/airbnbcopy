@@ -22,7 +22,7 @@ const DeleteSpotModal = ({spotId}) => {
     }
 
     return(
-        <div>
+        <div className="things">
             <h1>Confirm Delete</h1>
             <h3>Are you sure you want to remove this spot from the listing?</h3>
             <button className="redButton" onClick={yesButton} >Yes (Delete Spot)</button>

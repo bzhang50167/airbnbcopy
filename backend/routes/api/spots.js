@@ -409,14 +409,19 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         })
     }
 
+    // const firstName = (user.dataValues.firstName,'the usre~~~~~~~~');
+
     const newReview = await spot.createReview(
         {
+            // firstName: firstName,
             spotId: spot.id,
             userId: user.id,
             review: review,
             stars: stars,
         }
     )
+
+    console.log(newReview), 'is user being passed in';
 
     res.json(newReview);
 })

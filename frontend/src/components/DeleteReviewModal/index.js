@@ -24,7 +24,7 @@ const DeleteReviewModal = ({reviewId, spotId, rerender}) => {
         return closeModal()
     }
     return(
-        <div>
+        <div className="thing">
             <h1>Confirm Delete</h1>
             <h3>Are you sure you want to delete this review</h3>
             <button className="redButton" onClick={yesButton}>Yes(Delete Review)</button>

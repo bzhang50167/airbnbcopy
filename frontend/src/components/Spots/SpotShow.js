@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { GetAllReviewsFromSpotThunk } from "../../store/reviews";
-import { getOneSpotThunk } from "../../store/spots";
+import { getAllReviewsFromSpotAction, GetAllReviewsFromSpotThunk } from "../../store/reviews";
+import { getAllSpotsThunk, getOneSpotThunk } from "../../store/spots";
 import DeleteReviewModal from "../DeleteReviewModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
@@ -18,12 +18,8 @@ const SpotShow = () => {
     const reviews = Object.values(reviewObj)
     const sessionUser = useSelector(state => state.session.user);// dont need to force rerender since any since useSelector detecting new ref in memory wold cause rerender
     const spots = useSelector(state => state.spot.singleSpot);//return object
-    const [numReviews, setNumReviews] = useState(0);
 
-    const handleNewReview = () => {
-      setNumReviews(numReviews + 1);
-    }
-    console.log(spots,'is it even grabbing this');
+    // console.log(spots,'is it even grabbing this');
     // console.log(spots.ownerId, 'whhy is this here?');
     // console.log(Object.values(spots),'what is this');
     // console.log(Object.values(sessionUser),'-=============');
@@ -33,11 +29,9 @@ const SpotShow = () => {
     // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
         dispatch(GetAllReviewsFromSpotThunk(spotId)) //can combine useEffect
-    }, [dispatch]);
-
-    useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
-    }, [dispatch]);
+    }, [dispatch, reviews.length]);
+
     // console.log(reviews, 'reivew that is here');
     // console.log(Object.values(reviews).length, 'the length of something with nore reviews');
     if (!Object.values(spots).length) {// object are truthy when empty
@@ -73,8 +67,8 @@ const SpotShow = () => {
         11: 'November',
         12: 'December'
     }
-    console.log(reviews,'reviews ---------');
-    console.log(sessionUser,'user');
+    // console.log(reviews,'reviews ---------');
+    // console.log(sessionUser,'user');
 
     const userReviewExists = () => {
 
@@ -89,6 +83,7 @@ const SpotShow = () => {
     }
 
     const rerenderingPage = async() => {
+        await dispatch(GetAllReviewsFromSpotThunk(spotId))
        return await dispatch(getOneSpotThunk(spotId))
     }
     // const review = Object.values(reviews[0])
@@ -110,7 +105,6 @@ const SpotShow = () => {
                 </div>
             </div>
             <div className="nameOfOwner">
-                {/* {!spots.Owner.firstName && dispatch(getOneSpotThunk(spotId))} */}
                 Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
             </div>
             <div className="description">

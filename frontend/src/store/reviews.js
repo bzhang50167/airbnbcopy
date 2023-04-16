@@ -113,7 +113,7 @@ const reviewReducer = (state = initalState, action) => {
             return newState
         }
         case CREATE_A_REVIEW:{
-            const newState = {...state, spot: {...state.spot}};
+            const newState = {...state, spot: {...state.spot}, user:{...state.user}};
             newState.spot[action.spotId.id] = action.spotId;
             // ASDLAJKS
             console.log(newState,'newState--------------------');

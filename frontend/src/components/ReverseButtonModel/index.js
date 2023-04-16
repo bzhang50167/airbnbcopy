@@ -1,6 +1,8 @@
+import './index.css'
+
 const ReserveButtonModal = () => {
     return(
-        <div>
+        <div className="things">
             <h1>Feature coming soon</h1>
         </div>
     )
