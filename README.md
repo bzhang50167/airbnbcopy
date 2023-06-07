@@ -6,10 +6,9 @@ Check out [AirBnb](https://app-academy-air-bnb-copy.onrender.com)
 
 ## Index
 
-[MVP Feature List](https://github.com/itsmaica/Remotebnb/wiki/Feature-List) |
-[Database Scheme](https://github.com/itsmaica/Remotebnb/wiki/Database-Schema) |
-[User Stories](https://github.com/itsmaica/Remotebnb/wiki/User-Stories) |
-[Wire Frames](https://github.com/itsmaica/Remotebnb/wiki/Wire-Frames) |
+[MVP Feature List](https://github.com/bzhang50167/airbnbcopy/wiki/MVP-Feature-List) |
+[Database Scheme](https://github.com/bzhang50167/airbnbcopy/wiki/Schema) |
+[User Stories](https://github.com/bzhang50167/airbnbcopy/wiki/User-Stories) |
 
 ## Technologies Used
 
