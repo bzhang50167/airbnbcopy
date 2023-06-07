@@ -14,37 +14,17 @@ const generateSeedData = () => {
   for (let i = 1; i <= 100; i++) {
     seedData.push({
       spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i}.jpg`,
+      url: `https://generatorfun.com/code/uploads/Random-House-image-${i % 10 === 0 ? 1 : i % 10}.jpg`,
       preview: true
     });
-  }
-  for (let i = 1; 1 <= 100; i++){
-    seedData.push({
-      spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i+1}.jpg`,
-      preview: false
-    })
-  }
-  for (let i = 1; 1 <= 100; i++){
-    seedData.push({
-      spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i+2}.jpg`,
-      preview: false
-    })
-  }
-  for (let i = 1; 1 <= 100; i++){
-    seedData.push({
-      spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i+3}.jpg`,
-      preview: false
-    })
-  }
-  for (let i = 1; 1 <= 100; i++){
-    seedData.push({
-      spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i+4}.jpg`,
-      preview: false
-    })
+
+    for (let j = 0; j < 4; j++) {
+      seedData.push({
+        spotId: i,
+        url: `https://generatorfun.com/code/uploads/Random-House-image-${(i+j)%14 === 0 ? 1 : (i+j)%14}.jpg`,
+        preview: false
+      });
+    }
   }
 
   return seedData;

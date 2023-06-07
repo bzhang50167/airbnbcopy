@@ -9,13 +9,13 @@ if (process.env.NODE_ENV === 'production') {
 options.tableName = 'Spots';
 
 const data = [
-  {"ownerId":3,"address":"PO Box 8915","city":"Itzig","country":"Luxembourg","lat":49.5872019,"lng":6.1781675,"name":"Effertz, Casper and Kris","description":"Carbuncle of left axilla","price":319745.26},
-  {"ownerId":2,"address":"Room 926","city":"Imider","country":"Morocco","lat":31.3694559,"lng":-5.7905653,"name":"Purdy-Schowalter","description":"Inj unsp blood vess at abdomen, lower back and pelvis level","price":967425.52},
-  {"ownerId":3,"address":"6th Floor","city":"Cekcyn","country":"Poland","lat":53.5733796,"lng":18.0101779,"name":"McGlynn, Koepp and Nitzsche","description":"Acc pnctr & lac of skin, subcu during a dermatologic proc","price":720604.13},
-  {"ownerId":3,"address":"Suite 33","city":"La Lima","country":"Honduras","lat":15.4321163,"lng":-87.9040571,"name":"White and Sons","description":"Pressure ulcer of unspecified elbow, unstageable","price":352979.34},
-  {"ownerId":2,"address":"Room 1480","city":"Fuxing","country":"China","lat":36.639033,"lng":114.462061,"name":"Dickens Group","description":"Milt op involving unintent restriction of air/airwy, milt","price":364864.49},
-  {"ownerId":2,"address":"1st Floor","city":"Krajan Satu","country":"Indonesia","lat":-7.3743397,"lng":110.2648159,"name":"Lehner Inc","description":"21 weeks gestation of pregnancy","price":844388.31},
-  {"ownerId":2,"address":"18th Floor","city":"Casal Novo","state":"Leiria","country":"Portugal","lat":39.6589565,"lng":-8.8073178,"name":"Blick-Von","description":"War op involving acc deton onboard marine weapons, civilian","price":452641.64},
+  {"ownerId":3,"address":"PO Box 8915","city":"Itzig","country":"Luxembourg","lat":49.5872019,"lng":6.1781675,"name":"Effertz, Casper and Kris","description":"Carbuncle of left axilla","price":3195.26},
+  {"ownerId":2,"address":"Room 926","city":"Imider","country":"Morocco","lat":31.3694559,"lng":-5.7905653,"name":"Purdy-Schowalter","description":"Inj unsp blood vess at abdomen, lower back and pelvis level","price":7425.52},
+  {"ownerId":3,"address":"6th Floor","city":"Cekcyn","country":"Poland","lat":53.5733796,"lng":18.0101779,"name":"McGlynn, Koepp and Nitzsche","description":"Acc pnctr & lac of skin, subcu during a dermatologic proc","price":7204.13},
+  {"ownerId":3,"address":"Suite 33","city":"La Lima","country":"Honduras","lat":15.4321163,"lng":-87.9040571,"name":"White and Sons","description":"Pressure ulcer of unspecified elbow, unstageable","price":3579.34},
+  {"ownerId":2,"address":"Room 1480","city":"Fuxing","country":"China","lat":36.639033,"lng":114.462061,"name":"Dickens Group","description":"Milt op involving unintent restriction of air/airwy, milt","price":34864.49},
+  {"ownerId":2,"address":"1st Floor","city":"Krajan Satu","country":"Indonesia","lat":-7.3743397,"lng":110.2648159,"name":"Lehner Inc","description":"21 weeks gestation of pregnancy","price":4388.31},
+  {"ownerId":2,"address":"18th Floor","city":"Casal Novo","state":"Leiria","country":"Portugal","lat":39.6589565,"lng":-8.8073178,"name":"Blick-Von","description":"War op involving acc deton onboard marine weapons, civilian","price":2641.64},
   {"ownerId":1,"address":"PO Box 68498","city":"Pomacanchi","country":"Peru","lat":-14.0359111,"lng":-71.5709117,"name":"Quigley, Howe and McCullough","description":"Falling, jumping or pushed from a high place, undet intent","price":7452.88},
   {"ownerId":1,"address":"4th Floor","city":"Bulihan","country":"Philippines","lat":14.8853727,"lng":120.8986655,"name":"Kohler and Sons","description":"Glaucoma secondary to eye trauma, bilateral, mild stage","price":521210.86},
   {"ownerId":2,"address":"Room 879","city":"Xinpu","country":"China","lat":27.44587,"lng":118.679751,"name":"Stokes Group","description":"Burns of 40-49% of body surface w 20-29% third degree burns","price":786847.56},
