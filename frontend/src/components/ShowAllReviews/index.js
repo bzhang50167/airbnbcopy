@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { GetUserReviewThunk } from "../../store/reviews"
 import './index.css'
@@ -9,6 +9,7 @@ const ShowAllReview = () => {
     useEffect(() => {
         dispatch(GetUserReviewThunk())
     }, [])
+    const [showImage, setShowImage] = useState(false)
     const userReview = Object.values(reviews)
     return (
         <div>
@@ -31,6 +32,8 @@ const ShowAllReview = () => {
                                 {review.review}
                             </div>
                         </div>
+                        {review.ReviewImages.length > 0 && <button onClick={e => setShowImage(!showImage)}>ShowImage</button>}
+                        {showImage &&
                         <div className="imageBox">
                             {review.ReviewImages.map(image => {
                                 return(
@@ -40,6 +43,7 @@ const ShowAllReview = () => {
                                 )
                             })}
                         </div>
+                        }
                     </div>
                 );
             })}

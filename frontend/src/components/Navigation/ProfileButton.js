@@ -58,6 +58,10 @@ function ProfileButton({ user }) {
     history.push('/spots/current')
   }
 
+  const manageReviews = () => {
+    history.push('/reviews')
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -77,6 +81,9 @@ function ProfileButton({ user }) {
             <ul className="fitInBoxPlease">{user.email}</ul>
             <div>
               <button className="manageSpot" onClick={manageSpots}>Manage Spots</button>
+            </div>
+            <div>
+              <button className="manageSpot" onClick={manageReviews}>Manage Reviews</button>
             </div>
             <button className="logoutButton" onClick={logout}>Log Out</button>
           </div>
