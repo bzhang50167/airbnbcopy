@@ -6,11 +6,11 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-options.tableName = 'Spots';
+options.tableName = 'Spots'
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert(options.tableName, [
+  async up (queryInterface, Sequelize) {
+    await queryInterface.bulkInsert(options,[
       { "ownerId": 3, "address": "PO Box 8915", "city": "Itzig", "country": "Luxembourg", "lat": 49.5872019, "lng": 6.1781675, "name": "Effertz, Casper and Kris", "description": "Carbuncle of left axilla", "price": 3195.26 },
       { "ownerId": 2, "address": "Room 926", "city": "Imider", "country": "Morocco", "lat": 31.3694559, "lng": -5.7905653, "name": "Purdy-Schowalter", "description": "Inj unsp blood vess at abdomen, lower back and pelvis level", "price": 7425.52 },
       { "ownerId": 3, "address": "6th Floor", "city": "Cekcyn", "country": "Poland", "lat": 53.5733796, "lng": 18.0101779, "name": "McGlynn, Koepp and Nitzsche", "description": "Acc pnctr & lac of skin, subcu during a dermatologic proc", "price": 7204.13 },
@@ -116,6 +116,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(options.tableName, null, {});
+    await queryInterface.bulkDelete(options, null, {});
   },
 };
