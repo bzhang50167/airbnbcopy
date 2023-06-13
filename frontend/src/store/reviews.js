@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_REVIEWS = 'reviews/getAllReviews';
+const GET_USER_REVIEWS = 'reviews/getUserReviews'
 const CREATE_A_REVIEW = 'reviews/createAReview';
 const DELETE_REVIEW = 'reviews/deleteReview';
 const UPDATE_REVIEW = 'reviews/updateReview';
@@ -9,6 +10,13 @@ export const getAllReviewsFromSpotAction = (spotId) => {
     return{
         type: GET_ALL_REVIEWS,
         spotId
+    }
+}
+
+export const getAllUserReviews = (data) => {
+    return{
+        type: GET_USER_REVIEWS,
+        data
     }
 }
 
@@ -50,6 +58,18 @@ export const UpdateReviewThunk = (reviewId, info) => async dispatch => {
         // console.log(data,'--------------------------');
 
         dispatch(updateReviewAction(data))
+    }
+}
+
+export const GetUserReviewThunk = () => async dispatch => {
+    const res = await csrfFetch(`/api/reviews/current`)
+
+    if(res.ok){
+        const data = await res.json()
+
+        dispatch(getAllUserReviews(data))
+    } else {
+        console.log('not okay');
     }
 }
 
@@ -108,16 +128,17 @@ const reviewReducer = (state = initalState, action) => {
             action.spotId.Reviews.forEach( review => {
                 return newState.spot[review.id] = review
             });
-            console.log(newState, 'new state ~~~~~~~~~~~~~~~~');
-            console.log(action, 'what is actoin really my god');
+            return newState
+        }
+        case GET_USER_REVIEWS:{
+            const newState = {...state, spot:{},user:{}}
+            console.log(action,'action');
+            action.data.Reviews.forEach(review => newState.user[review.id] = review)
             return newState
         }
         case CREATE_A_REVIEW:{
             const newState = {...state, spot: {...state.spot}, user:{...state.user}};
             newState.spot[action.spotId.id] = action.spotId;
-            // ASDLAJKS
-            console.log(newState,'newState--------------------');
-            console.log(action,'action~~~~~~~~~~~~~~');
             return newState
         }
         case DELETE_REVIEW:{

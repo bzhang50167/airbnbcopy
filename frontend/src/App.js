@@ -8,6 +8,7 @@ import SpotShow from "./components/Spots/SpotShow";
 import CreateNewSpot from "./components/Spots/SpotForm";
 import ManageSpot from "./components/Spots/CurrentUserSpot";
 import UpdateSpotForm from "./components/Spots/UpdateSpotForm";
+import ShowAllReview from "./components/ShowAllReviews";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path='/:spotId/update/'>
             <UpdateSpotForm />
+          </Route>
+          <Route path={'/reviews'}>
+            <ShowAllReview />
           </Route>
           <Route>
             Page Not Found

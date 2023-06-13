@@ -1,5 +1,5 @@
 'use strict';
-
+const { Sequelize } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};

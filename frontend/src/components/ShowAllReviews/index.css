@@ -1,0 +1,18 @@
+.mainBox{
+    border: 1px solid red;
+    width: fit-content;
+}
+
+.innerBox1{
+    display: flex;
+    gap: 10px;
+}
+
+.innerBox2{
+    display: flex;
+    gap: 10px;
+}
+
+.imageBox{
+    display: flex;
+}
