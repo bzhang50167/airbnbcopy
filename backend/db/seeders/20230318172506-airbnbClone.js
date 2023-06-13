@@ -1,5 +1,5 @@
 'use strict';
-const { Sequelize } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
@@ -113,7 +113,7 @@ const data = [
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert(options.tableName, data, options);
+    await queryInterface.bulkInsert(options.tableName, data, {});
   },
 
   async down(queryInterface, Sequelize) {
