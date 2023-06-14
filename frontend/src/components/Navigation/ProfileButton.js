@@ -62,6 +62,10 @@ function ProfileButton({ user }) {
     history.push('/reviews')
   }
 
+  const manageBooking = () => {
+    history.push('/allbookings')
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -84,6 +88,9 @@ function ProfileButton({ user }) {
             </div>
             <div>
               <button className="manageSpot" onClick={manageReviews}>Manage Reviews</button>
+            </div>
+            <div>
+              <button className="manageSpot" onClick={manageBooking}>Manage Bookings</button>
             </div>
             <button className="logoutButton" onClick={logout}>Log Out</button>
           </div>

@@ -9,6 +9,7 @@ import CreateNewSpot from "./components/Spots/SpotForm";
 import ManageSpot from "./components/Spots/CurrentUserSpot";
 import UpdateSpotForm from "./components/Spots/UpdateSpotForm";
 import ShowAllReview from "./components/ShowAllReviews";
+import AllBookings from "./components/Bookings/AllBookings";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route path={'/reviews'}>
             <ShowAllReview />
+          </Route>
+          <Route path={'/allbookings'}>
+            <AllBookings />
           </Route>
           <Route>
             Page Not Found

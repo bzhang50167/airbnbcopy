@@ -9,6 +9,7 @@ import PostReviewModal from "../PostReviewModal";
 import ReserveButtonModal from "../ReverseButtonModel";
 import UpdateReviewModal from "../UpdateReviewModal";
 import './spot.css'
+import CreateBooking from "../Bookings/CreateBookingModal";
 
 const SpotShow = () => {
     const { spotId } = useParams();
@@ -123,7 +124,7 @@ const SpotShow = () => {
                                 <button className="reserveButton">
                                     <OpenModalMenuItem
                                         itemText='RESERVE'
-                                        modalComponent={<ReserveButtonModal />}
+                                        modalComponent={<CreateBooking spotId={spotId} />}
                                     />
                                 </button>
                             </div>

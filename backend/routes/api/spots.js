@@ -131,7 +131,7 @@ router.get('/', async (req, res, next) => {
     pagination.offset = size * (page-1);
     pagination.limit = size;
 
-    const spots = await Spot.findAll({
+    const spots = await Spot.findAndCountAll({
         where: where,
         include: [
             {
@@ -144,11 +144,14 @@ router.get('/', async (req, res, next) => {
         ...pagination
     });
 
+    const totalCount = spots.count/5;
+    const totalPages = Math.ceil(totalCount / size);
+
     let spotList = [];
 
-    spots.forEach(spot => {
-        spotList.push(spot.toJSON())
-    })
+    spots.rows.forEach(spot => {
+        spotList.push(spot.toJSON());
+    });
 
     spotList.forEach(spot => {
         let sum = 0;
@@ -156,16 +159,16 @@ router.get('/', async (req, res, next) => {
         spot.Reviews.forEach(review => {
             if (review.stars) {
                 sum += review.stars;
-                count++
+                count++;
             }
-        })
+        });
         if (count > 0) {
-            spot.avgRating = parseFloat((sum / count).toFixed(1))
+            spot.avgRating = parseFloat((sum / count).toFixed(1));
         } else {
-            spot.avgRating = 0
+            spot.avgRating = 0;
         }
-        delete spot.Reviews
-    })
+        delete spot.Reviews;
+    });
 
     spotList.forEach(spot => {
         spot.SpotImages.forEach(image => {
@@ -186,7 +189,8 @@ router.get('/', async (req, res, next) => {
     res.json({
         Spots:spotList,
         page:page,
-        size:size
+        size:size,
+        pageCount: totalPages
     });
 });
 

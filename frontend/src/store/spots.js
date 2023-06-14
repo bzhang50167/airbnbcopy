@@ -61,16 +61,22 @@ export const updateSpotAction = (spot) => {
     }
 }
 
-export const getAllSpotsThunk = () => async dispatch => {
+export const getAllSpotsThunk = (filters, pagination) => async dispatch => {
+    const { page } = filters;
 
-    const res = await csrfFetch('/api/spots')
-    // console.log(res,'what is res');
+    const queryParameters = new URLSearchParams({
+        page: page || '',
+    });
+
+    const url = `/api/spots?${queryParameters.toString()}`;
+    console.log(url)
+    const res = await csrfFetch(url);
     if (res.ok) {
-        const data = await res.json()
-        // console.log(data, 'what is data');
-        dispatch(getAllSpotsAction(data))
+        const data = await res.json();
+        dispatch(getAllSpotsAction(data));
     }
-}
+};
+
 
 export const getOneSpotThunk = (spotId) => async dispatch => {
 
@@ -190,15 +196,14 @@ export const updateSpotThunk = (spotId, info) => async dispatch => {
     }
 }
 
-const initalState = { allSpots: {}, singleSpot: {} }
+const initalState = { allSpots: {}, singleSpot: {}, maxPage:null }
 
 const spotReducer = (state = initalState, action) => {
     switch (action.type) {
         case GET_ALL_SPOTS: {
             const newState = { ...state, allSpots: {} }
-            console.log(action, 'action---------');
-            console.log(newState, 'new state -------------');
             action.spot.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
+            newState.maxPage = action.spot.pageCount
             return newState
         }
         case GET_SINGLE_SPOT: {
