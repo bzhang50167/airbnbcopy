@@ -10,6 +10,7 @@ import ManageSpot from "./components/Spots/CurrentUserSpot";
 import UpdateSpotForm from "./components/Spots/UpdateSpotForm";
 import ShowAllReview from "./components/ShowAllReviews";
 import AllBookings from "./components/Bookings/AllBookings";
+import SearchList from "./components/Search";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,9 @@ function App() {
           </Route>
           <Route path={'/allbookings'}>
             <AllBookings />
+          </Route>
+          <Route path={'/search'}>
+            <SearchList />
           </Route>
           <Route>
             Page Not Found

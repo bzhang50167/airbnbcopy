@@ -15,54 +15,46 @@ export default function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [empty, setEmpty] = ([])
   const { closeModal } = useModal();
-
-  useEffect(() => {
-    const errorObj = {};
-    if(!email) errorObj.sad = 'Please fill out';
-    if(!username) errorObj.sad = 'Please fill out';
-    if(username.length < 4) errorObj.sad = 'needs to be greater then 4';
-    if(!firstName) errorObj.sad = 'Please fill out';
-    if(!lastName) errorObj.sad = 'Please fill out';
-    if(!password) errorObj.sad = 'Please fill out';
-    if(password.length < 6) errorObj.sad = 'password needs to be at least 6 characters';
-    if(!confirmPassword) errorObj.sad = 'Please fill out';
-    setErrors(errorObj)
-  }, [email,username,lastName,firstName, password,confirmPassword])
-
-  console.log(Object.values(errors));
   if (sessionUser) return <Redirect to="/" />;
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
-          username,
-          firstName,
-          lastName,
-          password,
-        })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
+    if (password !== confirmPassword) {
+      setErrors({
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      });
+    };
+    const results = await dispatch(
+      sessionActions.signup({
+        email,
+        username,
+        firstName,
+        lastName,
+        password,
       })
-        .then(closeModal);
+    )
+    if (results) {
+      setErrors(results);
+    } else {
+      closeModal()
     }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
-  };
+  }
 
   return (
     <div className="SignUpPage">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
+        {errors && (
+          <div className="error-messages">
+            {Object.values(errors).map((error, index) => (
+              <div key={index} className="errors">
+                {error}
+              </div>
+            ))}
+          </div>
+        )}
         <label>
           Email
           <input
@@ -72,7 +64,6 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
         <label>
           Username
           <input
@@ -82,7 +73,6 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
         <label>
           First Name
           <input
@@ -92,7 +82,6 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
         <label>
           Last Name
           <input
@@ -102,7 +91,6 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
         <label>
           Password
           <input
@@ -112,7 +100,6 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -122,10 +109,8 @@ export default function SignupFormModal() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button
-        className="signUpButton"
-          disabled={Object.values(errors).length > 0}
+          className="signUpButton"
           type="submit">Sign Up</button>
       </form>
     </div>

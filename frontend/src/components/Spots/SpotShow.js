@@ -15,33 +15,23 @@ const SpotShow = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     // const [spots, setSpots] = useState(null);
-    const reviewObj = useSelector(state => state.review.spot);//dont do Object.values in a useSelector
+    const reviewObj = useSelector(state => state.review.spot);
     const reviews = Object.values(reviewObj)
-    const sessionUser = useSelector(state => state.session.user);// dont need to force rerender since any since useSelector detecting new ref in memory wold cause rerender
-    const spots = useSelector(state => state.spot.singleSpot);//return object
+    const sessionUser = useSelector(state => state.session.user);
+    const spots = useSelector(state => state.spot.singleSpot);
 
-    // console.log(spots,'is it even grabbing this');
-    // console.log(spots.ownerId, 'whhy is this here?');
-    // console.log(Object.values(spots),'what is this');
-    // console.log(Object.values(sessionUser),'-=============');
-    // console.log(reviews);
-    // console.log(sessionUser.id, 'WHO IS USING THIS ATM');
-    // console.log(sessionUser, 'this is who is using this ');
-    // console.log(reviews, 'how do compare id with one another');
     useEffect(() => {
-        dispatch(GetAllReviewsFromSpotThunk(spotId)) //can combine useEffect
+        dispatch(GetAllReviewsFromSpotThunk(spotId))
         dispatch(getOneSpotThunk(spotId));
     }, [dispatch, reviews.length]);
 
-    // console.log(reviews, 'reivew that is here');
-    // console.log(Object.values(reviews).length, 'the length of something with nore reviews');
-    if (!Object.values(spots).length) {// object are truthy when empty
+
+    if (!Object.values(spots).length) {
         return null;
     }
     if (Object.values(spots).length < 1) {
         return null
     }
-    // console.log(reviews, '========================');
     if (!reviews) {
         return <div>Loading...</div>;
     }
@@ -68,8 +58,6 @@ const SpotShow = () => {
         11: 'November',
         12: 'December'
     }
-    // console.log(reviews,'reviews ---------');
-    // console.log(sessionUser,'user');
 
     const userReviewExists = () => {
 
@@ -87,10 +75,7 @@ const SpotShow = () => {
         await dispatch(GetAllReviewsFromSpotThunk(spotId))
        return await dispatch(getOneSpotThunk(spotId))
     }
-    // const review = Object.values(reviews[0])
-    // console.log(spots, 'what is this plase work plaese');
 
-    // console.log(spots, '--------------------------');
     return (
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>

@@ -24,8 +24,6 @@ const ManageSpot = () => {
 
     const spots = Object.values(spotObj)
 
-    // console.log(typeof spots, 'is this an array or object');
-    // console.log(spots, 'items in the spot');
     return (
         <div className="managePageHeader">
             <div>

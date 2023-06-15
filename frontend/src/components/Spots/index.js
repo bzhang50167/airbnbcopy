@@ -10,7 +10,6 @@ const SpotList = () => {
     const [page, setPage] = useState(1)
     const spots = useSelector(state => Object.values(state.spot.allSpots));
     const pagination = useSelector(state => state.spot.maxPage)
-    // console.log(spots,'spots~~~~~~~~~~~');
     useEffect(() => {
         const info = {
             page

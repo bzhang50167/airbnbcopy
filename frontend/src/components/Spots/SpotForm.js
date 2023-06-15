@@ -64,9 +64,6 @@ const CreateNewSpot = () => {
 
         const newSpot = await dispatch(createSpotThunk(spotInfo))
 
-        console.log(newSpot, '<============== newSpot ');
-
-
         const spotId = newSpot.id
 
         dispatch(createImageThunk(spotId, url))
