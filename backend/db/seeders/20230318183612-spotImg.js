@@ -14,14 +14,14 @@ const generateSeedData = () => {
   for (let i = 1; i <= 100; i++) {
     seedData.push({
       spotId: i,
-      url: `https://generatorfun.com/code/uploads/Random-House-image-${i % 10 === 0 ? 1 : i % 10}.jpg`,
+      url: `https://generatorfun.com/code/uploads/Random-House-image-${i % 19 === 0 ? 1 : i % 19}.jpg`,
       preview: true
     });
 
     for (let j = 0; j < 4; j++) {
       seedData.push({
         spotId: i,
-        url: `https://generatorfun.com/code/uploads/Random-House-image-${(i+j)%14 === 0 ? 1 : (i+j)%14}.jpg`,
+        url: `https://generatorfun.com/code/uploads/Random-House-image-${(i+5)%19 === 0 ? 1 : (i+5)%19}.jpg`,
         preview: false
       });
     }

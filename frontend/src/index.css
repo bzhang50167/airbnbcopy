@@ -3,3 +3,11 @@ body{
     font-family: 'Dongle', sans-serif;
     font-size: x-large;
 }
+
+button:hover{
+    cursor: pointer;
+}
+
+#modal-content{
+    border-radius: 10px;
+}

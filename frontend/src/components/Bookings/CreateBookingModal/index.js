@@ -60,7 +60,7 @@ const CreateBooking = (spotId) => {
                         />
                     </label>
                 </div>
-                <button>
+                <button className={'deleteButtonSpot'}>
                     Book
                 </button>
             </form>

@@ -17,25 +17,34 @@ const PostReviewModal = ({ spotId, rerender }) => {
         setStars(star);
     };
 
-    useEffect(() => {
-        const errorObj = {}
-        if (review.length < 10) errorObj.review = 'wrtie more';
-        setErrors(errorObj)
-    }, [review])
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         const fullReview = {
             review,
             stars
         }
         rerender()
-        return dispatch(CreateAReviewThunk(spotId, fullReview)).then(closeModal)
+        const errorino = await dispatch(CreateAReviewThunk(spotId, fullReview))
+        if (errorino) {
+            console.log(errorino);
+            setErrors(errorino)
+        } else {
+            closeModal()
+        }
     }
 
     return (
         <div className="reviewModal">
             <form onSubmit={handleSubmit}>
+                {errors && (
+                    <div className="error-messages">
+                        {Object.values(errors).map((error, index) => (
+                            <div key={index} className="errors">
+                                {error}
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <h2>How was your stay?</h2>
                 <textarea
                     rows={5}
@@ -45,7 +54,6 @@ const PostReviewModal = ({ spotId, rerender }) => {
                     placeholder={'Leave your review here...'}
                     onChange={e => setReview(e.target.value)}
                 />
-                {/* {errors.review && <p className="errors">{errors.review}</p>} */}
                 <div className="rating">
                     {[...Array(5)].map((star, index) => {
                         index += 1;
@@ -64,7 +72,7 @@ const PostReviewModal = ({ spotId, rerender }) => {
                     })}
                     <span>Stars</span>
                 </div>
-                <button className="submitButton" disabled={errors.review} type="submit">Submit Your Review</button>
+                <button className="submitButton" type="submit">Submit Your Review</button>
             </form>
         </div>
     )

@@ -6,36 +6,24 @@ import { getAllSpotsThunk } from "../../store/spots";
 const SearchList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [page, setPage] = useState(1);
     const spotsinfo = useSelector(state => state.spot.allSpots);
-    const pagination = useSelector(state => state.spot.maxPage);
     const location = useLocation();
 
     useEffect(() => {
-        const info = {
-            page
-        };
-        dispatch(getAllSpotsThunk(info));
+        dispatch(getAllSpotsThunk());
         window.scrollTo(0, 0);
-    }, [dispatch, page, location]);
+    }, [dispatch, location]);
 
     const filtered = location.state
 
-    console.log(typeof(filtered),'<=== filter being passed in');
-
     const filteredSpots = Object.values(spotsinfo).filter(spot => {
-        return spot.name.includes(filtered);
+        const spotNameIncludesFiltered = spot.name.includes(filtered);
+        const spotDescriptionIncludesFiltered = spot.description.includes(filtered);
+        return spotNameIncludesFiltered || spotDescriptionIncludesFiltered;
     });
 
     const stingNew = <span className="newReview">New</span>;
-
-    const handlePrevPage = () => {
-        setPage(page => page - 1);
-    };
-
-    const handleNextPage = () => {
-        setPage(page => page + 1);
-    };
+    
 
     return (
         <div>
@@ -59,15 +47,6 @@ const SearchList = () => {
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="pagination">
-                <button disabled={page === 1} onClick={handlePrevPage}>
-                    Previous
-                </button>
-                <span>{`Page ${page} of ${pagination}`}</span>
-                <button disabled={page === pagination} onClick={handleNextPage}>
-                    Next
-                </button>
             </div>
         </div>
     );

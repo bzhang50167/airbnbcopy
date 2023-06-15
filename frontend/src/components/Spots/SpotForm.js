@@ -46,6 +46,11 @@ const CreateNewSpot = () => {
             price,
             url
         }
+        if(price <= 0){
+            setErrors({
+                price: "Price has to be above 0 dollars"
+            })
+        }
 
         const newSpot = await dispatch(createSpotThunk(spotInfo))
         if(newSpot.errors){

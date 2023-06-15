@@ -19,11 +19,15 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
         setStars(star);
     };
 
+    console.log(review,'what is this');
 
     useEffect(() => {
         if(review !== null){
             if(!reviewText){
                 setReviewText(review.review)
+            }
+            if(!stars){
+                setStars(review.stars)
             }
         }
     },[])

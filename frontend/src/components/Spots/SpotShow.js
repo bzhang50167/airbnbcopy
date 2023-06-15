@@ -94,12 +94,12 @@ const SpotShow = () => {
                 Hosted by {spots.Owner.firstName} {spots.Owner.lastName}
             </div>
             <div className="description">
-                <div>
+                <div className="wordsindes">
                     {spots.description}
                 </div>
                 {/* <span> */}
                 <div className="priceReviewAndBook">
-                    <div>{'$'}{spots.price} <span>night</span>
+                    <div className="priceinspot">{'$'}{spots.price} night
                         <span>
                             <i id="starNearReserve" className="fa-sharp fa-solid fa-star"></i>
                             <span>{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
@@ -130,7 +130,7 @@ const SpotShow = () => {
                 {sessionUser && (sessionUser.id !== spots.ownerId) ? (userReviewExists() ? '' : //group them up for readability and to avoid bugs(predicability)
                     <button onClick={rerenderingPage} className="updateDeleteCommentButton">
                         <OpenModalMenuItem
-                            itemText='Pose A review'
+                            itemText='Post A Review'
                             modalComponent={<PostReviewModal spotId={spotId} rerender={rerenderingPage} />}
                         />
                     </button>

@@ -108,7 +108,7 @@
     border: 1px solid black;
     padding: 9px 25px;
     background-color: rgb(231, 116, 135);
-    border-radius: 45%;
+    border-radius: 110px;
     width: fit-content;
 }
 
@@ -116,4 +116,10 @@
     text-decoration: none;
     color: rgb(14, 81, 123);
     font-size: x-large;
+}
+
+.searchbar{
+    padding: 7px;
+    padding-right: 200px;
+    border-radius: 13px;
 }

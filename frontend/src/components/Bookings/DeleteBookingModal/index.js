@@ -29,8 +29,8 @@ const DeleteBooking = (id) => {
             </div>
             }
             <div>
-            <button onClick={yesButton}>Yes</button>
-            <button onClick={noButton}>No</button>
+            <button className={'deleteButtonSpot'} onClick={yesButton}>Yes</button>
+            <button className={'deleteButtonSpot'} onClick={noButton}>No</button>
             </div>
         </div>
     )

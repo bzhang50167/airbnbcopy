@@ -6,7 +6,7 @@ import './Navigation.css';
 import { useLoggedin } from '../../context/LoggedIn';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-function Navigation({ isLoaded }){
+function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory()
@@ -22,8 +22,11 @@ function Navigation({ isLoaded }){
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
+      setSearchQuery('')
       handleSearch(e);
+      setSearchQuery('')
     }
+    setSearchQuery('')
   };
 
 
@@ -32,17 +35,18 @@ function Navigation({ isLoaded }){
       <div>
         <NavLink exact to="/">
           <img
-          className='banner'
-          src='https://www.lettingagenttoday.co.uk/upload/STAA-Logo-400x310.jpg'
+            className='banner'
+            src='https://www.lettingagenttoday.co.uk/upload/STAA-Logo-400x310.jpg'
           />
         </NavLink>
       </div>
       <div>
         <input
-        type='search'
-        placeholder='search...'
-        onKeyDown={handleKeyPress}
-        onChange={e => setSearchQuery(e.target.value)}
+          className='searchbar'
+          type='text'
+          placeholder='search...'
+          onKeyDown={handleKeyPress}
+          onChange={e => setSearchQuery(e.target.value)}
         />
       </div>
       {isLoaded && (

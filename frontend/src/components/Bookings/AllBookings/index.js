@@ -29,20 +29,23 @@ const AllBookings = () => {
                                 {booking.Spot.name}
                             </div>
                             <div className="innerdiv2">
-                                <div>
+                                <div className="bookingdates">
                                     {booking.startDate.split('T')[0]} - {booking.endDate.split('T')[0]}
                                 </div>
                                 <div>
                                     <div className="modal-buttons">
-
-                                        <OpenModalMenuItem
-                                            itemText='Update'
-                                            modalComponent={<UpdateBooking spotId={booking.id} initialStartDate={booking.startDate} initialEndDate={booking.endDate} />}
-                                        />
-                                        <OpenModalMenuItem
-                                            itemText='Delete'
-                                            modalComponent={<DeleteBooking id={booking.id} />}
-                                        />
+                                        <button className={'deleteButtonSpot'}>
+                                            <OpenModalMenuItem
+                                                itemText='Update'
+                                                modalComponent={<UpdateBooking spotId={booking.id} initialStartDate={booking.startDate} initialEndDate={booking.endDate} />}
+                                            />
+                                        </button>
+                                        <button className={'deleteButtonSpot'}>
+                                            <OpenModalMenuItem
+                                                itemText='Cancel'
+                                                modalComponent={<DeleteBooking id={booking.id} />}
+                                            />
+                                        </button>
                                     </div>
                                 </div>
                             </div>

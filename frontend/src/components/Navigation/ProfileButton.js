@@ -86,9 +86,9 @@ function ProfileButton({ user }) {
             <div>
               <button className="manageSpot" onClick={manageSpots}>Manage Spots</button>
             </div>
-            <div>
+            {/* <div>
               <button className="manageSpot" onClick={manageReviews}>Manage Reviews</button>
-            </div>
+            </div> */}
             <div>
               <button className="manageSpot" onClick={manageBooking}>Manage Bookings</button>
             </div>

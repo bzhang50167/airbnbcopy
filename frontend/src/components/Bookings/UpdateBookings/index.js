@@ -72,7 +72,7 @@ const UpdateBooking = ({ spotId, initialStartDate, initialEndDate }) => {
                         />
                     </label>
                 </div>
-                <button type="submit">Book</button>
+                <button className={'deleteButtonSpot'} type="submit">Book</button>
             </form>
         </div>
     )
