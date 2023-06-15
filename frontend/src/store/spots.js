@@ -90,21 +90,25 @@ export const getOneSpotThunk = (spotId) => async dispatch => {
 }
 
 export const createSpotThunk = (spot) => async dispatch => {
+    try {
+        const res = await csrfFetch('/api/spots', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(spot)
+        })
 
-    const res = await csrfFetch('/api/spots', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(spot)
-    })
 
-
-    if (res.ok) {
-        const data = await res.json()
-        // console.log(data, 'data ~~~~~~~~~~~~~');
-        dispatch(createSpotAction(data))
-        return data
+        if (res.ok) {
+            const data = await res.json()
+            // console.log(data, 'data ~~~~~~~~~~~~~');
+            dispatch(createSpotAction(data))
+            return data
+        }
+    } catch (error) {
+        const message = await error.json()
+        return(message);
     }
 }
 

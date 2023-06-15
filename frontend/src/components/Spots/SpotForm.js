@@ -24,26 +24,11 @@ const CreateNewSpot = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(() => {
-        const errorObj = {}
-        if (!country) errorObj.country = 'Country is required';
-        if (!address) errorObj.address = 'Address is required';
-        if (!city) errorObj.city = 'City is required';
-        if (!state) errorObj.state = 'State is required';
-        if (!lat) errorObj.lat = 'Latitude is required';
-        if (!lng) errorObj.lng = 'Longitude is required';
-        if (!description) errorObj.description = 'Description needs a minimum of 30 characters';
-        if (!name) errorObj.name = 'Name is required';
-        if (!price) errorObj.price = 'Price is required';
-        // if (!url) errorObj.url = 'Preview image is required';
-        setErrors(errorObj)
-    }, [country, address, city, state, lat, lng, description, name, price])
-
     const errorClassName = 'errors' + (showErrors ? '' : 'hidden')
 
     const OnSubmit = async (e) => {
         e.preventDefault();
-
+        window.scrollTo(0, 0);
         if (Object.values(errors).length > 0) {
             setShowErrors(true)
             return
@@ -63,29 +48,41 @@ const CreateNewSpot = () => {
         }
 
         const newSpot = await dispatch(createSpotThunk(spotInfo))
+        if(newSpot.errors){
+            setErrors(newSpot.errors)
+        } else {
+            const spotId = newSpot.id
 
-        const spotId = newSpot.id
+            dispatch(createImageThunk(spotId, url))
+            if (url2) {
+                dispatch(createNotPreviewImageThunk(spotId, url2))
+            }
+            if (url3) {
+                dispatch(createNotPreviewImageThunk(spotId, url3))
+            }
+            if (url4) {
+                dispatch(createNotPreviewImageThunk(spotId, url4))
+            }
+            if (url5) {
+                dispatch(createNotPreviewImageThunk(spotId, url5))
+            }
 
-        dispatch(createImageThunk(spotId, url))
-        if (url2) {
-            dispatch(createNotPreviewImageThunk(spotId, url2))
+            return history.push(`/spots/${spotId}`)
         }
-        if (url3) {
-            dispatch(createNotPreviewImageThunk(spotId, url3))
-        }
-        if (url4) {
-            dispatch(createNotPreviewImageThunk(spotId, url4))
-        }
-        if (url5) {
-            dispatch(createNotPreviewImageThunk(spotId, url5))
-        }
-
-        return history.push(`/spots/${spotId}`)
     }
 
     return (
         <div className="createSpotFrom">
             <form onSubmit={OnSubmit}>
+                {errors && (
+                    <div className="error-messages">
+                        {Object.values(errors).map((error, index) => (
+                            <div key={index} className="errors">
+                                {error}
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <div>
                     <h2>Create a new Spot</h2>
                     <h3>Where's your place located?</h3>
@@ -95,7 +92,6 @@ const CreateNewSpot = () => {
                     <div>
                         Country
                         {' '}
-                        {errors.country && <span className={errorClassName}>{errors.country}</span>}
                     </div>
                     <input
                         type={'text'}
@@ -108,7 +104,6 @@ const CreateNewSpot = () => {
                     <div>
                         Street Address
                         {' '}
-                        {errors.address && <span className={errorClassName}>{errors.address}</span>}
                     </div>
                     <input
                         type={'text'}
@@ -121,7 +116,6 @@ const CreateNewSpot = () => {
                     <label>
                         <div>
                             City
-                            {errors.city && <span className={errorClassName}>{errors.city}</span>}
                         </div>
                         <input
                             type={'text'}
@@ -135,7 +129,6 @@ const CreateNewSpot = () => {
                     <label>
                         <div className="textRight">
                             State
-                            {errors.state && <span className={errorClassName}>{errors.state}</span>}
                         </div>
                         <input
                             type={'text'}
@@ -151,7 +144,6 @@ const CreateNewSpot = () => {
                         <div>
                             Latitude
                             {' '}
-                            {errors.lat && <span className={errorClassName}>{errors.lat}</span>}
                         </div>
                         <input
                             type={'text'}
@@ -165,7 +157,6 @@ const CreateNewSpot = () => {
                         <div className="textRight">
                             Longitude
                             {' '}
-                            {errors.lng && <span className={errorClassName}>{errors.lng}</span>}
                         </div>
                         <input
                             type={'text'}
@@ -192,7 +183,6 @@ const CreateNewSpot = () => {
                         onChange={e => setDescription(e.target.value)}
                     />
                 </label>
-                {errors.description && <span className={errorClassName}>{errors.description}</span>}
                 <div className="disciptionOfSpot" >
                     Create a title for your spot
                 </div>
@@ -207,7 +197,6 @@ const CreateNewSpot = () => {
                         placeholder={'Name of your spot'}
                     />
                 </label>
-                {errors.name && <span className={errorClassName}>{errors.name}</span>}
                 <div className="disciptionOfSpot">
                     Set a base price for your spot
                 </div>
@@ -222,7 +211,6 @@ const CreateNewSpot = () => {
                         onChange={e => setPrice(e.target.value)}
                     />
                 </label>
-                {errors.price && <span className={errorClassName}>{errors.price}</span>}
                 <div className="disciptionOfSpot">
                     Liven up your spot with photos
                 </div>
