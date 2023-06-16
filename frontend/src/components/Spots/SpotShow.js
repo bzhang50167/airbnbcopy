@@ -109,6 +109,7 @@ const SpotShow = () => {
                                 <button className="reserveButton">
                                     <OpenModalMenuItem
                                         itemText='RESERVE'
+                                        className='button-show'
                                         modalComponent={<CreateBooking spotId={spotId} />}
                                     />
                                 </button>

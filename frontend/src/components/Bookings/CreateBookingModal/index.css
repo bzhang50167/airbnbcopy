@@ -1,0 +1,8 @@
+.createbookings{
+    margin: 20px;
+}
+
+.centerbutton{
+    display: flex;
+    justify-content: center;
+}

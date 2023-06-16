@@ -144,7 +144,7 @@ router.get('/', async (req, res, next) => {
         ...pagination
     });
 
-    const totalCount = spots.count/5;
+    const totalCount = spots.count/10;
     const totalPages = Math.ceil(totalCount / size);
 
     let spotList = [];

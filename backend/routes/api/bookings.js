@@ -3,6 +3,7 @@ const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../d
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -43,7 +44,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const { user } = req;
-
     const { startDate, endDate } = req.body;
 
     const start = new Date(startDate);
@@ -62,11 +62,10 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         })
     }
 
-    console.log(booking);
-
     const allBookings = await Booking.findAll({
         where: {
-            spotId: booking.spotId
+            spotId: booking.spotId,
+            id: { [Op.ne]: booking.id }
         }
     })
 

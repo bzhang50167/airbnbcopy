@@ -67,6 +67,7 @@ export const createBookingThunk = (spotId, info) => async dispatch => {
             dispatch(createBookingAction(data))
         }
     } catch (error) {
+        console.log(error);
         const message = await error.json()
         return(message.errors[0].message);
     }
@@ -109,7 +110,7 @@ const bookingReducer = (state = initalState, action) => {
         }
         case CREATE_BOOKING:{
             const newState = {...state, booking:{}, allBookings:{...state.allBookings}}
-            newState.booking[action.data.booking.id] = action.data
+            newState.booking = action.data
             return newState
         }
         case UPDATE_BOOKING:{

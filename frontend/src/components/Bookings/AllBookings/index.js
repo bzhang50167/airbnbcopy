@@ -12,10 +12,14 @@ const AllBookings = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const bookings = Object.values(bookingsObj)
-    console.log(bookings.length, 'booking length')
     useEffect(() => {
         dispatch(getAllBookingThunk())
     }, [dispatch, bookings.length])
+
+    if(bookings.length === 0){
+        return null
+    }
+
     return (
         <div className="entirepage">
             {bookings.map(booking => {
@@ -30,7 +34,7 @@ const AllBookings = () => {
                             </div>
                             <div className="innerdiv2">
                                 <div className="bookingdates">
-                                    {booking.startDate.split('T')[0]} - {booking.endDate.split('T')[0]}
+                                    {booking?.startDate.split('T')[0]} - {booking?.endDate.split('T')[0]}
                                 </div>
                                 <div>
                                     <div className="modal-buttons">

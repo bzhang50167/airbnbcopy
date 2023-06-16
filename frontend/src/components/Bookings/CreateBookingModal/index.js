@@ -1,69 +1,90 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createBookingThunk } from "../../../store/bookings"
 import { useModal } from "../../../context/Modal"
 import { useHistory } from "react-router-dom"
+import { getOneSpotAction } from "../../../store/spots"
 
 const CreateBooking = (spotId) => {
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
     const [today, setToday] = useState('')
-    const [errors, setError] = useState('')
+    const [errors, setError] = useState([])
     const history = useHistory()
     const dispatch = useDispatch()
     const { closeModal } = useModal()
+    console.log(errors.length,'what errors there are');
+    // const spot = useSelector(state => state.spot.singleSpot)
+    // console.log(spot, 'single spot');
     const SpotId = +spotId.spotId
     useEffect(() => {
         const now = new Date().toISOString().split('T')[0]
+        // dispatch(getOneSpotAction(SpotId))
         setToday(now)
-    })
+    }, [dispatch])
     const submitBooking = async (e) => {
         e.preventDefault()
+        setError([])
+        if(startDate === null || endDate === null){
+            return setError('start date and end date can not be empty')
+        }
         const info = {
             startDate: startDate,
             endDate: endDate
         }
 
         const errorino = await dispatch(createBookingThunk(SpotId, info))
-        if(errorino){
+        console.log(errorino);
+        if (errorino) {
             setError(errorino)
-        } else {
+        } if(errors.length === 0) {
             history.push('/allbookings')
             closeModal()
         }
     }
     return (
         <div>
-            <form onSubmit={submitBooking}>
-                {errors &&
-                <div className="errors">
-                    {errors}
-                </div>
-                }
+            <div className="createbookings">
                 <div>
-                    <label>
-                        Start Date:
-                        <input
-                            type="date"
-                            onChange={e => setStartDate(e.target.value)}
-                            min={today}
-                        />
-                    </label>
+                    Book your stay!
                 </div>
-                <div>
-                    <label>
-                        End Date:
-                        <input
-                            type="date"
-                            onChange={e => setEndDate(e.target.value)}
-                            min={today}
-                        />
-                    </label>
-                </div>
-                <button className={'deleteButtonSpot'}>
-                    Book
-                </button>
-            </form>
+                <form onSubmit={submitBooking}>
+                    {errors &&
+                        <div className="errors">
+                            {errors}
+                        </div>
+                    }
+                    <div className="dates">
+                        <div>
+                            <label>
+                                Start Date:
+                                <input
+                                    type="date"
+                                    onChange={e => setStartDate(e.target.value)}
+                                    min={today}
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                End Date:
+                                <input
+                                    type="date"
+                                    onChange={e => setEndDate(e.target.value)}
+                                    min={today}
+                                />
+                            </label>
+                        </div>
+                    </div>
+                    <div className="centerbutton">
+                        <div className="centerbutton">
+                        <button className={'deleteButtonSpot'}>
+                            Book
+                        </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
