@@ -14,7 +14,7 @@ function ProfileButton({ user }) {
   const history = useHistory()
   const ulRef = useRef();
   const sessionUser = useSelector(state => state.session.user);
-  // console.log(sessionUser);
+  
   const { login, setLogin } = useLoggedin()
 
   const openMenu = () => {
@@ -55,6 +55,7 @@ function ProfileButton({ user }) {
   };
 
   const manageSpots = () => {
+    closeMenu();
     history.push('/spots/current')
   }
 
@@ -63,6 +64,7 @@ function ProfileButton({ user }) {
   }
 
   const manageBooking = () => {
+    closeMenu();
     history.push('/allbookings')
   }
 

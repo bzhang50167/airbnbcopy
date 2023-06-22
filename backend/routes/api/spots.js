@@ -297,9 +297,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     })
 
     allBooking.forEach(booking => {
-        // console.log(booking);
-        // console.log('bookingId',booking.userId);
-        // console.log('userid',user.id);
         if (booking.userId === user.id) {
             const resbody = {
                 User: {
@@ -398,7 +395,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
             message: "Spot couldn't be found"
         })
     }
-    console.log(user);
 
     const existingReview = await Review.findAll({
         where: {
@@ -424,8 +420,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
             stars: stars,
         }
     )
-
-    console.log(newReview), 'is user being passed in';
 
     res.json(newReview);
 })
@@ -471,7 +465,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     }
 
     if (errorResult.errors.length) {
-        console.log(errorResult);
         return res.status(400).json(errorResult)
     }
 
@@ -489,7 +482,6 @@ router.get('/:spotId', async (req, res, next) => {
     const { user } = req
     const spot = await Spot.findByPk(req.params.spotId)
     const users = await User.findByPk(spot.ownerId)
-    console.log(users,'--------------------');
     if(!spot){
         return res.status(404).json({
             message: "Spot couldn't be found"
@@ -502,12 +494,10 @@ router.get('/:spotId', async (req, res, next) => {
     })
     const images = await spot.getSpotImages()
 
-    // console.log(images, 'aljsdlakjdlaskjdlkajsdlkajsdlk');
     let count = 0;
     let sum = 0;
 
     reviews.forEach(review => {
-        // console.log(review, 'reviews ~~~~~~~~~~~~~~~~');
         if (review.stars) {
             sum += review.stars;
             count++
@@ -520,8 +510,6 @@ router.get('/:spotId', async (req, res, next) => {
         spot.count = 0
         spot.avgRating = 0
     }
-    // console.log(spot.count, 'count');
-    // console.log(spot.avgRating, 'sum');
     if(!spot.count){
         spot.count = 0
     }
@@ -543,8 +531,6 @@ router.get('/:spotId', async (req, res, next) => {
     spot.user = users.id;
     spot.first = users.firstName;
     spot.last = users.lastName;
-    // console.log(spot);
-    // console.log(spot.count);/
 
     res.json({
         id: spot.id,
@@ -611,7 +597,6 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     }
 
     const dead = oldSpot.toJSON();
-    console.log(user.id);
     if (user.id === dead.ownerId) {
         await oldSpot.destroy();
 

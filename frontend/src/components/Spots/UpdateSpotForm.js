@@ -25,13 +25,11 @@ const UpdateSpotForm = () =>{
     const dispatch = useDispatch();
     const history = useHistory();
     const spots = useSelector(state => state.spot.singleSpot);
-    console.log(spots);
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId));
     }, [dispatch]);
 
-    // console.log(spots);
     useEffect(() => {
         if(spots !== null){
             if(!country){

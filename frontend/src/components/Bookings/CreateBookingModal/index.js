@@ -4,6 +4,7 @@ import { createBookingThunk } from "../../../store/bookings"
 import { useModal } from "../../../context/Modal"
 import { useHistory } from "react-router-dom"
 import { getOneSpotAction } from "../../../store/spots"
+import './index.css'
 
 const CreateBooking = (spotId) => {
     const [startDate, setStartDate] = useState(null)
@@ -13,9 +14,7 @@ const CreateBooking = (spotId) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const { closeModal } = useModal()
-    console.log(errors.length,'what errors there are');
     // const spot = useSelector(state => state.spot.singleSpot)
-    // console.log(spot, 'single spot');
     const SpotId = +spotId.spotId
     useEffect(() => {
         const now = new Date().toISOString().split('T')[0]
@@ -34,7 +33,6 @@ const CreateBooking = (spotId) => {
         }
 
         const errorino = await dispatch(createBookingThunk(SpotId, info))
-        console.log(errorino);
         if (errorino) {
             setError(errorino)
         } if(errors.length === 0) {
@@ -79,7 +77,7 @@ const CreateBooking = (spotId) => {
                     <div className="centerbutton">
                         <div className="centerbutton">
                         <button className={'deleteButtonSpot'}>
-                            Book
+                            Book Now
                         </button>
                         </div>
                     </div>

@@ -11,6 +11,8 @@ import UpdateSpotForm from "./components/Spots/UpdateSpotForm";
 import ShowAllReview from "./components/ShowAllReviews";
 import AllBookings from "./components/Bookings/AllBookings";
 import SearchList from "./components/Search";
+import Loadingpage from "./components/LoadingPage";
+import ErrorPage from "./components/404Page";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,8 +50,11 @@ function App() {
           <Route path={'/search'}>
             <SearchList />
           </Route>
+          <Route path={'/test'}>
+            <Loadingpage />
+          </Route>
           <Route>
-            Page Not Found
+            <ErrorPage />
           </Route>
         </Switch>}
     </>

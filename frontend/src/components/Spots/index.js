@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { getAllSpotsThunk } from "../../store/spots"
 import './spot.css'
+import Loadingpage from "../LoadingPage"
 
 const SpotList = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,10 @@ const SpotList = () => {
     const handleNextPage = () => {
         setPage(page => page + 1);
     };
+
+    if(!spots){
+        <Loadingpage />
+    }
 
     return (
         <div>

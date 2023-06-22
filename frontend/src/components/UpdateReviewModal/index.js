@@ -7,7 +7,6 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
 
     const reviews = useSelector(state => Object.values(state.review.spot));
     const review = reviews.find(review => review.id === reviewId)
-    // console.log(review, 'hopefully one review');
 
     const [reviewText, setReviewText] = useState('');
     const [stars, setStars] = useState(0);
@@ -19,7 +18,6 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
         setStars(star);
     };
 
-    console.log(review,'what is this');
 
     useEffect(() => {
         if(review !== null){
@@ -40,7 +38,6 @@ const UpdateReviewModal = ({ reviewId, spotName, rerender }) => {
             stars
         }
 
-        // console.log(info,'what am i passing in');
         rerender()
         dispatch(UpdateReviewThunk(reviewId, info)).then(closeModal)
         // return

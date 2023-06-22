@@ -42,7 +42,6 @@ export const updateReviewAction = (data) => {
 }
 
 export const UpdateReviewThunk = (reviewId, info) => async dispatch => {
-    // console.log(reviewId, info);
     const res = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'PUT',
         headers: {
@@ -50,12 +49,10 @@ export const UpdateReviewThunk = (reviewId, info) => async dispatch => {
         },
         body: JSON.stringify(info)
     })
-    // console.log(res,'is my code making it here');
 
     if(res.ok){
         const data = await res.json();
 
-        // console.log(data,'--------------------------');
 
         dispatch(updateReviewAction(data))
     }
@@ -68,8 +65,6 @@ export const GetUserReviewThunk = () => async dispatch => {
         const data = await res.json()
 
         dispatch(getAllUserReviews(data))
-    } else {
-        console.log('not okay');
     }
 }
 
@@ -80,7 +75,6 @@ export const GetAllReviewsFromSpotThunk = (spotId) => async dispatch => {
 
     if(res.ok){
         const data = await res.json();
-        // console.log(data, 'data falksdjlaksdjlaskd');
 
         dispatch(getAllReviewsFromSpotAction(data))
         return data
@@ -134,7 +128,6 @@ const reviewReducer = (state = initalState, action) => {
         }
         case GET_USER_REVIEWS:{
             const newState = {...state, spot:{},user:{}}
-            console.log(action,'action');
             action.data.Reviews.forEach(review => newState.user[review.id] = review)
             return newState
         }

@@ -216,7 +216,9 @@
 }
 
 .priceReviewAndBook {
-    width: fit-content;
+    width: 360px;
+    display: flex;
+    justify-content: center;
     position: relative;
     left: 81.8%;
     border: 2px solid black;
@@ -230,6 +232,11 @@
 
 .buttonshow{
     padding: 8px 80px;
+}
+
+.buttondivbook{
+    display: flex;
+    justify-content: center;
 }
 
 .reserveButton {

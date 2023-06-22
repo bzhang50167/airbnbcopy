@@ -67,7 +67,6 @@ export const createBookingThunk = (spotId, info) => async dispatch => {
             dispatch(createBookingAction(data))
         }
     } catch (error) {
-        console.log(error);
         const message = await error.json()
         return(message.errors[0].message);
     }
@@ -89,12 +88,9 @@ export const deleteBookingThunk = (id) => async dispatch => {
 
 export const getAllBookingThunk = () => async dispatch => {
     const res = await csrfFetch('/api/bookings/current')
-    console.log('in the thunk');
     if(res.ok){
         const data = await res.json()
         dispatch(getAllBookingAction(data))
-    } else {
-        console.log('not okay');
     }
 }
 
@@ -115,12 +111,10 @@ const bookingReducer = (state = initalState, action) => {
         }
         case UPDATE_BOOKING:{
             const newState = {...state, allBookings:{...state.allBookings}}
-            console.log(action);
             return newState
         }
         case DELETE_BOOKING:{
             const newState = {...state}
-            console.log(action,'action');
             delete newState.allBookings[action.id]
             return newState
         }

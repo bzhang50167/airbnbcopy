@@ -26,7 +26,6 @@ const PostReviewModal = ({ spotId, rerender }) => {
         rerender()
         const errorino = await dispatch(CreateAReviewThunk(spotId, fullReview))
         if (errorino) {
-            console.log(errorino);
             setErrors(errorino)
         } else {
             closeModal()

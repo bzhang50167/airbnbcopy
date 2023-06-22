@@ -60,7 +60,6 @@ export const restoreUser = () => async (dispatch) => {
       return response;
     } catch (error) {
       const message = await error.json()
-      console.log(message.errors);
       return(message.errors);
     }
   };

@@ -10,6 +10,7 @@ import ReserveButtonModal from "../ReverseButtonModel";
 import UpdateReviewModal from "../UpdateReviewModal";
 import './spot.css'
 import CreateBooking from "../Bookings/CreateBookingModal";
+import Loadingpage from "../LoadingPage";
 
 const SpotShow = () => {
     const { spotId } = useParams();
@@ -43,7 +44,6 @@ const SpotShow = () => {
     }
     const mainImg = spots.SpotImages.find(spot => spot.preview === true)
     const otherimg = spots.SpotImages.filter(spot => spot.preview === false)
-    // console.log(otherimg);
     const numToMonth = {
         1: 'January',
         2: 'Febuary',
@@ -76,6 +76,10 @@ const SpotShow = () => {
        return await dispatch(getOneSpotThunk(spotId))
     }
 
+    if(!spots || spots.id !== parseInt(spotId)){
+        return <Loadingpage />
+    }
+
     return (
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>
@@ -104,11 +108,11 @@ const SpotShow = () => {
                             <i id="starNearReserve" className="fa-sharp fa-solid fa-star"></i>
                             <span>{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                             {' '}
-                            {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
-                            <div>
+                            {spots.numReviews === 0 ? '' : spots.numReviews === 1 ?  <span> · {spots.numReviews} Review </span> :  <span> · {spots.numReviews} Reviews</span>}
+                            <div className="buttondivbook">
                                 <button className="reserveButton">
                                     <OpenModalMenuItem
-                                        itemText='RESERVE'
+                                        itemText='Book Now'
                                         className='button-show'
                                         modalComponent={<CreateBooking spotId={spotId} />}
                                     />
@@ -124,7 +128,7 @@ const SpotShow = () => {
                     <i className="fa-sharp fa-solid fa-star"></i>
                     <span className="allreviewtitlefont">{spots.avgStarRating === 0 ? 'New' : spots.avgStarRating}</span>
                     {' '}
-                    {spots.numReviews === 0 ? '' : <span> · {spots.numReviews} Reviews</span>}
+                    {spots.numReviews === 0 ? '' : spots.numReviews === 1 ?  <span> · {spots.numReviews} Review </span> :  <span> · {spots.numReviews} Reviews</span>}
                 </div>
             </div>
             <div>

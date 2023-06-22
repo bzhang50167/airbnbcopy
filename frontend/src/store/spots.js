@@ -69,7 +69,6 @@ export const getAllSpotsThunk = (filters, pagination) => async dispatch => {
     });
 
     const url = `/api/spots?${queryParameters.toString()}`;
-    console.log(url)
     const res = await csrfFetch(url);
     if (res.ok) {
         const data = await res.json();
@@ -102,7 +101,6 @@ export const createSpotThunk = (spot) => async dispatch => {
 
         if (res.ok) {
             const data = await res.json()
-            // console.log(data, 'data ~~~~~~~~~~~~~');
             dispatch(createSpotAction(data))
             return data
         }
@@ -156,7 +154,6 @@ export const createNotPreviewImageThunk = (spotId, url) => async dispatch => {
 
 export const getUserSpotsThunk = (spots) => async dispatch => {
 
-    console.log(spots,'get user spots ----------');
 
     const res = await csrfFetch(`/api/spots/current`)
 
@@ -211,11 +208,7 @@ const spotReducer = (state = initalState, action) => {
             return newState
         }
         case GET_SINGLE_SPOT: {
-            // return { ...state, [action.spots.id]: action.spots };
             const newState = { ...state, singleSpot: {} }
-            // console.log(action, 'action---------');
-            // console.log(newState, 'new state -------------');
-            // sdfs
             newState.singleSpot = action.spotId
             return newState
         }
@@ -227,10 +220,6 @@ const spotReducer = (state = initalState, action) => {
         case GET_USERS_SPOT:{
             const newState = {...state, allSpots: {}}
             action.spots.Spots.forEach(spot => newState.allSpots[spot.id] = spot)
-            // newState.allSpots = action.spots.Spots
-            // salkdjlajs
-            console.log(action, 'action---------');
-            console.log(newState, 'new state -------------');
             return newState
         }
         case Delete_SPOT:{

@@ -14,16 +14,18 @@ const SearchList = () => {
         window.scrollTo(0, 0);
     }, [dispatch, location]);
 
-    const filtered = location.state
+    const filtered = location.state.toLowerCase();
 
     const filteredSpots = Object.values(spotsinfo).filter(spot => {
-        const spotNameIncludesFiltered = spot.name.includes(filtered);
-        const spotDescriptionIncludesFiltered = spot.description.includes(filtered);
-        return spotNameIncludesFiltered || spotDescriptionIncludesFiltered;
+        const spotNameIncludesFiltered = spot.name.toLowerCase().includes(filtered);
+        const spotDescriptionIncludesFiltered = spot.description.toLowerCase().includes(filtered);
+        const spotCity = spot.city.toLowerCase().includes(filtered);
+        const spotCountry = spot.country.toLowerCase().includes(filtered);
+        return spotNameIncludesFiltered || spotDescriptionIncludesFiltered || spotCity || spotCountry;
     });
 
     const stingNew = <span className="newReview">New</span>;
-    
+
 
     return (
         <div>

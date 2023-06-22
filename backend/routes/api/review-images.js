@@ -35,11 +35,8 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
         }
     })
 
-    // console.log(image.toJSON().url);
     const forgo = review.toJSON()
-    // console.log(forgo.ReviewImages[0].url);
     if(image.toJSON().url === forgo.ReviewImages[0].url){
-        console.log('hi');
         await image.destroy()
         return res.json({
             message: "Successfully deleted"
