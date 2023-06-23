@@ -21,7 +21,8 @@ const SearchList = () => {
         const spotDescriptionIncludesFiltered = spot.description.toLowerCase().includes(filtered);
         const spotCity = spot.city.toLowerCase().includes(filtered);
         const spotCountry = spot.country.toLowerCase().includes(filtered);
-        return spotNameIncludesFiltered || spotDescriptionIncludesFiltered || spotCity || spotCountry;
+        const spotState = spot.state.toLowerCase().includes(filtered);
+        return spotState || spotNameIncludesFiltered || spotDescriptionIncludesFiltered || spotCity || spotCountry;
     });
 
     const stingNew = <span className="newReview">New</span>;
