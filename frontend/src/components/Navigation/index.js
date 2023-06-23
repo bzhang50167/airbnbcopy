@@ -53,7 +53,7 @@ function Navigation({ isLoaded }) {
         />
       </div>
       <div>
-        <a rel='none' href='https://github.com/bzhang50167' target='_blank'>
+        <a rel='none' href='https://github.com/bzhang50167/airbnbcopy' target='_blank'>
           <img src={image} className='links'/>
         </a>
         {' '}
