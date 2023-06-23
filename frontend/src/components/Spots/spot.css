@@ -1,18 +1,15 @@
 .mainPageSpots {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
-    /* border: 1px solid red; */
 }
 
 .individualSpot {
-    /* border: 3px blue solid; */
     box-sizing: border-box;
     display: grid;
     height: fit-content;
-    width: 20%;
+    width: 22.1%;
     gap: 10px;
     margin: 20px;
     grid-template-columns: 25% 25% 25% 25%;
@@ -29,7 +26,7 @@
 }
 
 .spotImg {
-    border-radius: 7%;
+    border-radius: 10px;
     position: relative;
     width: 100%;
     height: 13em;
@@ -218,7 +215,7 @@
 .priceReviewAndBook {
     width: fit-content;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     position: relative;
     left: 81.8%;
     border: 2px solid black;
@@ -247,7 +244,7 @@
     padding-right: 40px;
     padding-top: 4px;
     padding-bottom: 4px;
-    width: 290px;
+    width: 260px;
 }
 
 .description {

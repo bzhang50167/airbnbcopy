@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import { useLoggedin } from '../../context/LoggedIn';
+import image from '../../images/github-mark.png'
+import image2 from '../../images/LI-In-Bug.png'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Navigation({ isLoaded }) {
@@ -41,6 +42,8 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </div>
       <div>
+      </div>
+      <div>
         <input
           className='searchbar'
           type='text'
@@ -48,6 +51,15 @@ function Navigation({ isLoaded }) {
           onKeyDown={handleKeyPress}
           onChange={e => setSearchQuery(e.target.value)}
         />
+      </div>
+      <div>
+        <a rel='none' href='https://github.com/bzhang50167' target='_blank'>
+          <img src={image} className='links'/>
+        </a>
+        {' '}
+        <a rel='none' href='https://www.linkedin.com/in/bao-heng-zhang-b43731256/' target='_blank'>
+          <img src={image2} className='links'/>
+        </a>
       </div>
       {isLoaded && (
         <div>
