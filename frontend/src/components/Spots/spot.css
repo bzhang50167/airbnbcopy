@@ -2,14 +2,16 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
+    overflow: hidden;
 }
 
 .individualSpot {
     box-sizing: border-box;
     display: grid;
     height: fit-content;
-    width: 22.1%;
+    width: 36vh;
     gap: 10px;
     margin: 20px;
     grid-template-columns: 25% 25% 25% 25%;
