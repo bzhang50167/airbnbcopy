@@ -34,11 +34,13 @@ const SpotList = () => {
     }
 
     const handleLastPage = () =>{
-        setPage(6)
+        setPage(pagination)
     }
     if(!spots){
         <Loadingpage />
     }
+
+    console.log(spots)
 
     return (
         <div>
@@ -46,7 +48,7 @@ const SpotList = () => {
                 {spots.map(spot => (
                     <div key={spot.id} onClick={e => history.push(`/spots/${spot.id}`)} className='individualSpot'>
                         <img className="spotImg" src={spot.previewImage} title={spot.name} />
-                        <div className="spotAddress">{spot.city}{' , '}{spot.state}</div>
+                        <div className="spotAddress">{spot.city}{' , '}{spot.country}</div>
                         <div className="spotAvgRating">
                             <i className="fa-sharp fa-solid fa-star"></i>
                             {' '}
@@ -57,11 +59,11 @@ const SpotList = () => {
                 ))}
             </div>
             <div className="pagination">
-                <button onClick={handleFirstPage}>First</button>
-                <button disabled={page === 1} onClick={handlePrevPage}>Previous</button>
+                <button className={'deleteButtonSpot'} onClick={handleFirstPage}>First</button>
+                <button className={'deleteButtonSpot'} disabled={page === 1} onClick={handlePrevPage}>Previous</button>
                 <span>{`Page ${page} of ${pagination}`}</span>
-                <button disabled={page === pagination} onClick={handleNextPage}>Next</button>
-                <button onClick={handleLastPage}>Last</button>
+                <button className={'deleteButtonSpot'} disabled={page === pagination} onClick={handleNextPage}>Next</button>
+                <button className={'deleteButtonSpot'} onClick={handleLastPage}>Last</button>
             </div>
         </div>
     )

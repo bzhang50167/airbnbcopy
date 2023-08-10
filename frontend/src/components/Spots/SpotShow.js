@@ -83,7 +83,7 @@ const SpotShow = () => {
     return (
         <div className="selectedSpot">
             <div className="singleSpotName">{spots?.name}</div>
-            <div className="singleSpotPlaceDetails">{spots?.city}, {' '}{spots?.state}, {' '}{spots?.country}</div>
+            <div className="singleSpotPlaceDetails">{spots?.city}, {' '}{spots?.country}</div>
             <div class="showSpotImages">
                 <div class="mainImageContainer">
                     <img class="mainSpotImage" src={mainImg.url} />
