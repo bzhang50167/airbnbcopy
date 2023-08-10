@@ -29,6 +29,13 @@ const SpotList = () => {
         setPage(page => page + 1);
     };
 
+    const handleFirstPage = () => {
+        setPage(1)
+    }
+
+    const handleLastPage = () =>{
+        setPage(6)
+    }
     if(!spots){
         <Loadingpage />
     }
@@ -50,9 +57,11 @@ const SpotList = () => {
                 ))}
             </div>
             <div className="pagination">
+                <button onClick={handleFirstPage}>First</button>
                 <button disabled={page === 1} onClick={handlePrevPage}>Previous</button>
                 <span>{`Page ${page} of ${pagination}`}</span>
                 <button disabled={page === pagination} onClick={handleNextPage}>Next</button>
+                <button onClick={handleLastPage}>Last</button>
             </div>
         </div>
     )

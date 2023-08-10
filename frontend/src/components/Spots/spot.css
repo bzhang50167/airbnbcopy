@@ -7,6 +7,12 @@
     overflow: hidden;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .individualSpot {
     box-sizing: border-box;
     display: grid;
